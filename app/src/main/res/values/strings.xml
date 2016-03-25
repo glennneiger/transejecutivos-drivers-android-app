@@ -1,16 +1,62 @@
 <resources>
-    <string name="app_name">TransEjecutivosDrivers</string>
+    <string name="app_name">Transportes Ejecutivos Conductores</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="title_activity_login">Iniciar Sesión</string>
+    <string name="loginImage">Transportes Ejecutivos Driver</string>
+    <string name="prompt_username">Nombre de usuario</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="prompt_login_button">Iniciar Sesión</string>
+    <string name="prompt_login_button_short">Iniciar Sesión</string>
+    <string name="error_empty_username">No has enviado tu nombre de usuario</string>
+    <string name="error_empty_password">No has enviado tu contraseña</string>
+    <string name="error_invalid_login">Usuario o contraseña incorrecta</string>
+
+    <!-- General Strings -->
+    <string name="error_general">Se ha presentado un error, por favor intenta más tarde</string>
+    <string name="no_services">No hay servicios para mostrar</string>
+    <string name="accept_button">Aceptar</string>
+
+    <!-- Main Menu -->
+    <string name="action_logout">Cerrar Sesión</string>
+    <string name="action_profile">Mi Perfil</string>
+
+    <!-- Activity Main-->
+    <string name="title_activity_main">TransEjecutivos Driver</string>
+
+    <!-- Recover Password-->
+    <string name="prompt_recoverpass_button">Recuperar Contraseña</string>
+    <string name="recoverpass_success">Se ha enviado mail a tu correo eléctronico con instrucciones para recuperar tu contraseña</string>
+    <string name="recoverpass_failured">No hay un usuario registrado con el nombre de usuario digitado</string>
+
+    <!-- Services List -->
+    <string name="url_fly">https://www.google.com.co/webhp?sourceid=chromeinstant&amp;ion=1&amp;espv=2&amp;ie=UTF-8#q=</string>
+    <string name="action_new_service">Nuevo Servicio</string>
+
+    <!-- Tabs -->
+    <string name="main_tab">Servicios</string>
+    <string name="filter_tab">Buscar Servicio</string>
+
+    <!-- Profile Activity -->
+    <string name="title_activity_profile">Mi Perfil</string>
+    <string name="prompt_name">Nombre</string>
+    <string name="prompt_lastname">Apellido</string>
+    <string name="prompt_profile_button">Editar Perfil</string>
+    <string name="prompt_email1">Correo Eléctronico</string>
+    <string name="prompt_email2">Correo Eléctronico Alternativo</string>
+    <string name="prompt_phone1">Télefono</string>
+    <string name="prompt_phone2">Télefono Alternativo</string>
+    <string name="error_empty_name">No has enviado tu nombre</string>
+    <string name="error_empty_lastname">No has enviado tu apellido</string>
+    <string name="error_empty_email1">No has enviado tu correo eléctronico</string>
+    <string name="error_empty_phone1">No has enviado tu número de télefono</string>
+    <string name="error_invalid_email">El correo eléctronico enviado es inválido</string>
+    <string name="error_invalid_profile_update">Ha ocurrido un error, por favor intenta más tarde</string>
+    <string name="snackbar_action_back">Regresar</string>
+    <string name="profile_update_success">Se ha actualizado tu perfil exitosamente</string>
+
+    <!-- Dashboard Activity -->
+    <string name="title_activity_dashboard">Transportes Ejecutivos Driver</string>
+    <string name="not_driver">Servicio sin conductor asignado</string>
+    <string name="action_dashboard">Inicio</string>
 </resources>
