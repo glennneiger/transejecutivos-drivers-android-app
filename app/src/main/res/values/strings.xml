@@ -59,4 +59,5 @@
     <string name="title_activity_dashboard">Transportes Ejecutivos Driver</string>
     <string name="not_driver">Servicio sin conductor asignado</string>
     <string name="action_dashboard">Inicio</string>
+    <string name="title_activity_recoverpass">Recuperar Contraseña</string>
 </resources>

@@ -89,7 +89,10 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
         recoverPass.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // Starting RecoverpassActivity
+                Intent i = new Intent(getApplicationContext(), RecoverpassActivity.class);
+                startActivity(i);
+                finish();
             }
         });
 

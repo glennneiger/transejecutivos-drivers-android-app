@@ -3,7 +3,6 @@ package com.development.transejecutivosdrivers.misc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import com.development.transejecutivosdrivers.LoginActivity;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.models.User;
