@@ -4,29 +4,31 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import com.development.transejecutivosdrivers.models.DashboardMenu;
+import com.development.transejecutivosdrivers.R;
+import com.development.transejecutivosdrivers.models.ServiceMenu;
 
 /**
  * Created by william.montiel on 28/03/2016.
  */
-public class ServiceMenuAdapter {
+public class ServiceMenuAdapter extends BaseAdapter {
     private Context context;
 
-    public DashboardMenuAdapter(Context context) {
+    public ServiceMenuAdapter(Context context) {
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return DashboardMenu.ITEMS.length;
+        return ServiceMenu.ITEMS.length;
     }
 
     @Override
-    public DashboardMenu getItem(int position) {
-        return DashboardMenu.ITEMS[position];
+    public ServiceMenu getItem(int position) {
+        return ServiceMenu.ITEMS[position];
     }
 
     @Override
@@ -39,13 +41,13 @@ public class ServiceMenuAdapter {
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.grid_item_menu, viewGroup, false);
+            view = inflater.inflate(R.layout.grid_item_service_menu, viewGroup, false);
         }
 
         ImageView iconImage = (ImageView) view.findViewById(R.id.icon_image);
         TextView iconName = (TextView) view.findViewById(R.id.icon_name);
 
-        final DashboardMenu item = getItem(position);
+        final ServiceMenu item = getItem(position);
         Glide.with(iconImage.getContext())
                 .load(item.getIdDrawable())
                 .into(iconImage);

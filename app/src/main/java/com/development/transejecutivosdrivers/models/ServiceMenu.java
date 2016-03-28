@@ -28,9 +28,9 @@ public class ServiceMenu {
         return id;
     }
 
-    public static DashboardMenu[] ITEMS = {
-            new DashboardMenu(0, "Conducir", R.drawable.profile),
-            new DashboardMenu(1, "Llamar", R.drawable.services),
+    public static ServiceMenu[] ITEMS = {
+            new ServiceMenu(0, "Conducir", R.drawable.drive),
+            new ServiceMenu(1, "Llamar", R.drawable.telephone),
     };
 
     /**
@@ -39,8 +39,8 @@ public class ServiceMenu {
      * @param id identificador
      * @return Coche
      */
-    public static DashboardMenu getItem(int id) {
-        for (DashboardMenu item : ITEMS) {
+    public static ServiceMenu getItem(int id) {
+        for (ServiceMenu item : ITEMS) {
             if (item.getId() == id) {
                 return item;
             }

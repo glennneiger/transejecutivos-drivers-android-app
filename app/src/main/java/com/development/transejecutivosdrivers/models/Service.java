@@ -13,6 +13,7 @@ public class Service {
     public String destiny;
     public String status;
     public String observations;
+    public String cd;
 
     public int getIdService() {
         return idService;
@@ -82,7 +83,17 @@ public class Service {
         return observations;
     }
 
+    public String getCd() {
+        return cd;
+    }
+
+    public void setCd(String cd) {
+        this.cd = cd;
+    }
+
     public void setObservations(String observations) {
         this.observations = observations;
     }
+
+
 }

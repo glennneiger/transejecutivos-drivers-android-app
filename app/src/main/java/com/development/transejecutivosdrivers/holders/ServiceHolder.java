@@ -1,17 +1,21 @@
 package com.development.transejecutivosdrivers.holders;
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import com.development.transejecutivosdrivers.R;
+import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 
 /**
  * Created by william.montiel on 28/03/2016.
  */
-public class ServiceMainHolder extends RecyclerView.ViewHolder {
+public class ServiceHolder extends RecyclerView.ViewHolder {
     Service service;
+    Passenger passenger;
 
     TextView txtview_start_date;
     TextView txtview_reference;
@@ -22,9 +26,14 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
     TextView txtview_status;
     TextView txtview_observations;
 
+    TextView txtview_passenger_name;
+    TextView txtview_passenger_phone;
+    TextView txtview_passenger_email;
+    TextView txtview_passenger_fly;
+
     Context context;
 
-    public ServiceMainHolder(View itemView, Context context) {
+    public ServiceHolder(View itemView, Context context) {
         super(itemView);
         txtview_start_date = (TextView) itemView.findViewById(R.id.txtview_start_date);
         txtview_reference = (TextView) itemView.findViewById(R.id.txtview_reference);
@@ -35,13 +44,14 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
         txtview_status = (TextView) itemView.findViewById(R.id.txtview_status);
         txtview_observations = (TextView) itemView.findViewById(R.id.txtview_observations);
 
+        txtview_passenger_name = (TextView) itemView.findViewById(R.id.txtview_passenger_name);
+        txtview_passenger_phone = (TextView) itemView.findViewById(R.id.txtview_passenger_phone);
+        txtview_passenger_email = (TextView) itemView.findViewById(R.id.txtview_passenger_email);
+        txtview_passenger_fly = (TextView) itemView.findViewById(R.id.txtview_passenger_fly);
+
         this.context = context;
     }
 
-    /**
-     *
-     * @param service
-     */
     public void setService(Service service) {
         this.service = service;
         txtview_start_date.setText(service.getStartDate());
@@ -57,7 +67,14 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
         txtview_observations.setText("Observaciones: " + service.getObservations());
     }
 
-    public View getItemView() {
-        return this.itemView;
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
+        txtview_passenger_name.setText(passenger.getName() + " " + passenger.getLastName());
+        txtview_passenger_phone.setText(passenger.getPhone());
+        txtview_passenger_email.setText(passenger.getEmail());
+
+        if (!TextUtils.isEmpty(passenger.getFly()) && !TextUtils.isEmpty(passenger.getAeroline())) {
+            txtview_passenger_fly.setText(Html.fromHtml("Vuelo: <a href=\"" + this.context.getResources().getString(R.string.url_fly) + passenger.getFly() + "\">" + passenger.getFly() + ", " + passenger.getAeroline() + "</a>"));
+        }
     }
 }
