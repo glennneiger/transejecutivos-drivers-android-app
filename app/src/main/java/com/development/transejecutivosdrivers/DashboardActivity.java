@@ -32,20 +32,18 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
         Intent i;
         switch (item.getId()) {
             case 0:
-                //i = new Intent(getApplicationContext(), ProfileActivity.class);
-                //startActivity(i);
+                i = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(i);
                 break;
 
             case 1:
                 i = new Intent(getApplicationContext(), MainActivity.class);
-                i.putExtra("tab", 0);
                 startActivity(i);
                 break;
 
             case 2:
-                i = new Intent(getApplicationContext(), MainActivity.class);
-                i.putExtra("tab", 1);
-                startActivity(i);
+                //i = new Intent(getApplicationContext(), MainActivity.class);
+                //startActivity(i);
                 break;
 
             case 3:

@@ -170,9 +170,6 @@ public class ProfileActivity extends ActivityBase implements LoaderManager.Loade
         else if (id == R.id.action_profile) {
             return true;
         }
-        else if (id == R.id.action_new_service) {
-            return true;
-        }
         else if (id == R.id.action_dashboard) {
             Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
             startActivity(i);
