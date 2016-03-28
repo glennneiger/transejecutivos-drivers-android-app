@@ -57,24 +57,6 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
         }
 
         txtview_observations.setText("Observaciones: " + service.getObservations());
-
-        validateService();
-    }
-
-    public void validateService() {
-        if (this.service.getStatus().equals("orden")) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this.context);
-            dialog.setMessage("La orden " + this.service.getReference() + ", se encuentra pendiente. Para poder aceptar nuevas ordenes debe completarla");
-            dialog.setPositiveButton("aceptar", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            AlertDialog alert = dialog.create();
-            alert.show();
-        }
     }
 
     public View getItemView() {

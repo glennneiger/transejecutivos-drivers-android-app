@@ -41,7 +41,7 @@ public class ServicesListFragment extends FragmentBase {
 
         progressBar = view.findViewById(R.id.service_progress);
 
-        setupServicesList();
+        searchPendingServices();
 
         return view;
     }

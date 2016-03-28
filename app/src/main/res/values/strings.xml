@@ -60,4 +60,7 @@
     <string name="not_driver">Servicio sin conductor asignado</string>
     <string name="action_dashboard">Inicio</string>
     <string name="title_activity_recoverpass">Recuperar Contraseña</string>
+    <string name="title_activity_service">Orden de Servicio</string>
+    <string name="service_info_title">Datos de la orden</string>
+    <string name="passenger_info_title">Datos del pasajero</string>
 </resources>

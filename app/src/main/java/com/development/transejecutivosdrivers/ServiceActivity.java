@@ -8,14 +8,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.development.transejecutivosdrivers.fragments.ServiceFragment;
 import com.development.transejecutivosdrivers.fragments.ServicesListFragment;
 
-public class MainActivity extends ActivityBase {
-
+public class ServiceActivity extends ActivityBase {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_service);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -26,8 +27,8 @@ public class MainActivity extends ActivityBase {
     protected void setFragment() {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ServicesListFragment servicesListFragment = new ServicesListFragment();
-        fragmentTransaction.add(R.id.fragment_container, servicesListFragment, "Services List Fragment");
+        ServiceFragment serviceFragment = new ServiceFragment();
+        fragmentTransaction.add(R.id.service_fragment_container, serviceFragment, "Services List Fragment");
         fragmentTransaction.commit();
     }
 

@@ -3,7 +3,10 @@ package com.development.transejecutivosdrivers.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import com.development.transejecutivosdrivers.R;
+import com.development.transejecutivosdrivers.ServiceActivity;
 import com.development.transejecutivosdrivers.adapters.ServiceExpandableListAdapter;
 import com.development.transejecutivosdrivers.models.Date;
 import com.development.transejecutivosdrivers.models.Service;
@@ -43,6 +47,50 @@ public class FragmentBase extends Fragment {
         setRetainInstance(true);
 
         return;
+    }
+
+    public void searchPendingServices() {
+        boolean pendings = false;
+
+        Service service = new Service();
+        service.setIdService(1);
+        service.setStartDate(1 + "/03/2016 8:0" + 1);
+        service.setDestiny("Bogotá cll " + 1);
+        service.setSource("Cali cra " + 1);
+        service.setPaxCant(5);
+        service.setPax("");
+        service.setObservations("There's no observations");
+        service.setReference("U56" + 1);
+        service.setStatus("orden");
+
+        if (service != null) {
+            pendings = true;
+        }
+
+        showService(service);
+
+        if (!pendings) {
+            setupServicesList();
+        }
+    }
+
+
+    public void showService(final Service service) {
+        if (service.getStatus().equals("orden")) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+            dialog.setMessage("La orden " + service.getReference() + ", se encuentra pendiente. Para poder aceptar nuevas ordenes debe completarla");
+            dialog.setPositiveButton("Ir", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent i = new Intent(getActivity(), ServiceActivity.class);
+                    i.putExtra("idService", service.getIdService());
+                    startActivity(i);
+                }
+            });
+            AlertDialog alert = dialog.create();
+            alert.show();
+        }
     }
 
 
