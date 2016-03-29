@@ -23,14 +23,12 @@ public class ServiceExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> header; // header titles
     // Child data in format of header title, child title
     private HashMap<String, ArrayList<Service>> child;
-    private int idService;
 
     public ServiceExpandableListAdapter(Context context, List<String> listDataHeader,
-                                        HashMap<String, ArrayList<Service>> listChildData, int idService) {
+                                        HashMap<String, ArrayList<Service>> listChildData) {
         this._context = context;
         this.header = listDataHeader;
         this.child = listChildData;
-        this.idService = idService;
     }
 
     @Override
@@ -60,14 +58,14 @@ public class ServiceExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.service_list, parent, false);
         }
 
-        ServiceMainHolder serviceHolder = new ServiceMainHolder(convertView, this._context);
+        final ServiceMainHolder serviceHolder = new ServiceMainHolder(convertView, this._context);
         serviceHolder.setService(currentService);
 
         serviceHolder.card_view_services_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(_context, ServiceActivity.class);
-                i.putExtra("idService", idService);
+                i.putExtra("idService", serviceHolder.service.getIdService());
                 i.putExtra("tab", 0);
                 _context.startActivity(i);
             }

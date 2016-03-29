@@ -5,10 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by william.montiel on 28/03/2016.
@@ -31,6 +37,9 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
     TextView txtview_passenger_email;
     TextView txtview_passenger_fly;
 
+    Button button_accept;
+    Button button_decline;
+
     Context context;
 
     public ServiceHolder(View itemView, Context context) {
@@ -48,6 +57,9 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
         txtview_passenger_phone = (TextView) itemView.findViewById(R.id.txtview_passenger_phone);
         txtview_passenger_email = (TextView) itemView.findViewById(R.id.txtview_passenger_email);
         txtview_passenger_fly = (TextView) itemView.findViewById(R.id.txtview_passenger_fly);
+
+        button_accept = (Button) itemView.findViewById(R.id.button_accept);
+        button_decline = (Button) itemView.findViewById(R.id.button_decline);
 
         this.context = context;
     }
@@ -75,6 +87,56 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
 
         if (!TextUtils.isEmpty(passenger.getFly()) && !TextUtils.isEmpty(passenger.getAeroline())) {
             txtview_passenger_fly.setText(Html.fromHtml("Vuelo: <a href=\"" + this.context.getResources().getString(R.string.url_fly) + passenger.getFly() + "\">" + passenger.getFly() + ", " + passenger.getAeroline() + "</a>"));
+        }
+
+        hideElements();
+    }
+
+    public void hideElements() {
+        if (!TextUtils.isEmpty(service.getCd())) {
+            button_accept.setVisibility(View.GONE);
+        }
+
+        Date date = new Date();
+        String now = date.getDay() + "/" + date.getMonth() + "/" + date.getYear() + " " + date.getHours() + ":" + date.getMinutes();
+        long millisToAdd = 86_400_000;
+        String startDate = sumTimeToDate(service.getStartDate(), millisToAdd);
+
+        if (validateDates(startDate, now)) {
+            button_accept.setVisibility(View.GONE);
+        }
+    }
+
+    public boolean validateDates(String d1, String d2) {
+        try{
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+            Date date1 = formatter.parse(d1);
+            Date date2 = formatter.parse(d2);
+
+            if (date1.compareTo(date2) < 0) {
+                //date2 is Greater than date1
+                return true;
+            }
+            return false;
+        }
+        catch (ParseException e1){
+            e1.printStackTrace();
+            return false;
+        }
+    }
+
+    public String sumTimeToDate(String date, long time) {
+        try {
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date d = format.parse(date);
+            d.setTime(d.getTime() + time);
+
+            return "" + d;
+        }
+        catch (ParseException e1){
+            e1.printStackTrace();
+            return "";
         }
     }
 }

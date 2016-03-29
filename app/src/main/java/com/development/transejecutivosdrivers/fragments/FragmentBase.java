@@ -231,7 +231,7 @@ public class FragmentBase extends Fragment {
             hashMap.put(header.get(i), services.get(i));
         }
 
-        serviceExpandableListAdapter = new ServiceExpandableListAdapter(getActivity(), header, hashMap, idService);
+        serviceExpandableListAdapter = new ServiceExpandableListAdapter(getActivity(), header, hashMap);
 
         // Setting adpater over expandablelistview
         expandableListView.setAdapter(serviceExpandableListAdapter);

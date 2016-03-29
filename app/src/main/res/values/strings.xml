@@ -68,6 +68,12 @@
     <string name="service_not_found_error">No se encontró el servicio</string>
 
     <!-- Service -->
-    <string name="prompt_login_accept_service">Aceptar</string>
-    <string name="prompt_login_decline_service">Rechazar</string>
+    <string name="prompt_accept_service">Aceptar</string>
+    <string name="prompt_decline_service">Rechazar</string>
+    <string name="prompt_call_passenger">Llamar al pasajero</string>
+    <string name="prompt_on_way">Estoy en camino</string>
+    <string name="prompt_on_source">Estoy en el sitio</string>
+    <string name="prompt_start_service">Empezar ruta</string>
+    <string name="prompt_finish_service">Terminar ruta</string>
+
 </resources>

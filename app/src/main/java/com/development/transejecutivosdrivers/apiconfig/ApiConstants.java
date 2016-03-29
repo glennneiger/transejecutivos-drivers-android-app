@@ -12,7 +12,7 @@ public class ApiConstants {
     public static final String RECOVERPASS = "recoverpassword";
     public static final String UPDATE_PROFILE = "updateprofile";
     public static final String SEARCH_PENDING_SERVICE = "searchpendingservice";
-    public static final String GET_PENDING_SERVICE = "getpendingservice";
+    public static final String GET_PENDING_SERVICE = "getservice";
     public static final String UPDATE_STATUS_SERVICE = "updatestatusservice";
 
     public static final String URL_LOGIN = URL_BASE + "/" + API + "/" + API_VERSION + "/" + LOGIN;

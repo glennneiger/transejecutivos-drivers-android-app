@@ -15,7 +15,7 @@ import com.development.transejecutivosdrivers.models.Service;
  * Created by william.montiel on 28/03/2016.
  */
 public class ServiceMainHolder extends RecyclerView.ViewHolder {
-    Service service;
+    public Service service;
 
     TextView txtview_start_date;
     TextView txtview_reference;
