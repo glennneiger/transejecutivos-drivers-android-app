@@ -1,15 +1,19 @@
 package com.development.transejecutivosdrivers;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.development.transejecutivosdrivers.fragments.ServiceFragment;
+import com.development.transejecutivosdrivers.adapters.TabPagerAdapter;
 
 public class ServiceActivity extends ActivityBase {
+
+    private TabLayout mainTabs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,21 +26,49 @@ public class ServiceActivity extends ActivityBase {
 
         Bundle t = getIntent().getExtras();
         int idService = 0;
+        int tab = 0;
         if (t != null) {
             idService = t.getInt("idService");
+            tab = t.getInt("tab");
         }
 
-        setFragment(idService);
+        setTabs(idService, tab);
     }
 
-    protected void setFragment(int idService) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ServiceFragment serviceFragment = new ServiceFragment();
-        serviceFragment.setUser(user);
-        serviceFragment.setIdService(idService);
-        fragmentTransaction.add(R.id.service_fragment_container, serviceFragment, "Services List Fragment");
-        fragmentTransaction.commit();
+    private void setTabs(int idService, int tab) {
+        mainTabs = (TabLayout) findViewById(R.id.main_tabs);
+
+        mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.main_tab)));
+        mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.filter_tab)));
+
+        mainTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+        mainTabs.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.main_pager);
+        final PagerAdapter adapter = new TabPagerAdapter(getFragmentManager(),mainTabs.getTabCount(), getApplicationContext(), user, idService);
+
+        viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mainTabs));
+
+        mainTabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager.setCurrentItem(tab, false);
     }
 
     @Override

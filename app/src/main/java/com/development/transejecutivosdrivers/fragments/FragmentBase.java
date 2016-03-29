@@ -108,7 +108,6 @@ public class FragmentBase extends Fragment {
     public void validateSearchPendingServiceResponse(String response) {
         showProgress(false, layout, progressBar);
         try {
-            Log.d("RES", response);
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             if (!error) {
@@ -139,6 +138,7 @@ public class FragmentBase extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 Intent i = new Intent(getActivity(), ServiceActivity.class);
                 i.putExtra("idService", idService);
+                i.putExtra("tab", 0);
                 startActivity(i);
             }
         });
@@ -148,35 +148,72 @@ public class FragmentBase extends Fragment {
 
 
     public void setupServicesList() {
-        ArrayList<Date> dates = new ArrayList<>();
-        ArrayList<ArrayList<Service>> services = new ArrayList<ArrayList<Service>>();
+        showProgress(true, layout, progressBar);
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
-        for (int i = 0; i < 5; i++) {
-            int j = 28 + i;
-            Date d = new Date(j + "/03/2016");
-            dates.add(d);
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                ApiConstants.URL_SERVICES_GROUPED,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        processDataForGroup(response);
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        setErrorSnackBar(getResources().getString(R.string.error_general));
+                        showProgress(false, layout, progressBar);
+                    }
+                }) {
 
-            ArrayList<Service> currentServicesArray = new ArrayList<>();
-
-            for (int m = 0; m < 4; m++) {
-                Service service = new Service();
-                service.setIdService(j);
-                service.setStartDate(j + "/03/2016 8:0" + i);
-                service.setDestiny("Bogotá cll " + i);
-                service.setSource("Cali cra " + i);
-                service.setPaxCant(5);
-                service.setPax("");
-                service.setObservations("There's no observations");
-                service.setReference("U56" + i);
-                service.setStatus("orden");
-
-                currentServicesArray.add(service);
+            @Override
+            public Map<String, String> getParams() {
+                Map<String,String> params = new HashMap<String, String>();
+                return params;
             }
 
-            services.add(currentServicesArray);
-        }
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String,String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put("Authorization", user.getApikey());
+                return headers;
+            }
+        };
 
-        setItems(services, dates);
+        requestQueue.add(stringRequest);
+    }
+
+    public void processDataForGroup(String response) {
+        showProgress(false, layout, progressBar);
+        try {
+
+            JSONObject resObj = new JSONObject(response);
+            Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+            if (!error) {
+                JSONArray servicesJsonArray = resObj.getJSONArray(JsonKeys.SERVICES);
+                JSONArray datesJsonArray = resObj.getJSONArray(JsonKeys.DATES);
+                if (servicesJsonArray.length() <= 0) {
+                    setErrorSnackBar(getResources().getString(R.string.no_services));
+                }
+                else {
+                    Deserializer deserializer = new Deserializer();
+                    deserializer.setDatesJsonArray(datesJsonArray);
+                    deserializer.setServicesJsonArray(servicesJsonArray);
+                    deserializer.deserializeGroupedServices();
+
+                    setItems(deserializer.getServicesArray(), deserializer.getDatesArray());
+                }
+            }
+            else {
+                setErrorSnackBar(getResources().getString(R.string.error_general));
+            }
+        }
+        catch (JSONException ex) {
+            ex.printStackTrace();
+        }
     }
 
     // Setting headers and childs to expandable listview
@@ -194,7 +231,7 @@ public class FragmentBase extends Fragment {
             hashMap.put(header.get(i), services.get(i));
         }
 
-        serviceExpandableListAdapter = new ServiceExpandableListAdapter(getActivity(), header, hashMap);
+        serviceExpandableListAdapter = new ServiceExpandableListAdapter(getActivity(), header, hashMap, idService);
 
         // Setting adpater over expandablelistview
         expandableListView.setAdapter(serviceExpandableListAdapter);

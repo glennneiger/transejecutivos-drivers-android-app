@@ -1,10 +1,14 @@
 package com.development.transejecutivosdrivers.holders;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+
+import com.development.transejecutivosdrivers.MainActivity;
 import com.development.transejecutivosdrivers.R;
+import com.development.transejecutivosdrivers.RecoverpassActivity;
 import com.development.transejecutivosdrivers.models.Service;
 
 /**
@@ -22,10 +26,15 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
     TextView txtview_status;
     TextView txtview_observations;
 
-    Context context;
+    public View card_view_services_list;
+
+    final Context context;
 
     public ServiceMainHolder(View itemView, Context context) {
         super(itemView);
+
+        card_view_services_list = itemView.findViewById(R.id.card_view_services_list);
+
         txtview_start_date = (TextView) itemView.findViewById(R.id.txtview_start_date);
         txtview_reference = (TextView) itemView.findViewById(R.id.txtview_reference);
         txtview_destiny = (TextView) itemView.findViewById(R.id.txtview_destiny);

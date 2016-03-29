@@ -34,8 +34,8 @@
     <string name="action_new_service">Nuevo Servicio</string>
 
     <!-- Tabs -->
-    <string name="main_tab">Servicios</string>
-    <string name="filter_tab">Buscar Servicio</string>
+    <string name="main_tab">Servicio</string>
+    <string name="filter_tab">Opciones</string>
 
     <!-- Profile Activity -->
     <string name="title_activity_profile">Mi Perfil</string>
@@ -66,4 +66,8 @@
 
     <!-- Service Pending -->
     <string name="service_not_found_error">No se encontró el servicio</string>
+
+    <!-- Service -->
+    <string name="prompt_login_accept_service">Aceptar</string>
+    <string name="prompt_login_decline_service">Rechazar</string>
 </resources>

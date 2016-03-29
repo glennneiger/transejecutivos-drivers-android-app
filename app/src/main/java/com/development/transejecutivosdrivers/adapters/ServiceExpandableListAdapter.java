@@ -1,13 +1,17 @@
 package com.development.transejecutivosdrivers.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+
+import com.development.transejecutivosdrivers.MainActivity;
 import com.development.transejecutivosdrivers.R;
+import com.development.transejecutivosdrivers.ServiceActivity;
 import com.development.transejecutivosdrivers.holders.ServiceMainHolder;
 import com.development.transejecutivosdrivers.models.Service;
 import java.util.ArrayList;
@@ -19,12 +23,14 @@ public class ServiceExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> header; // header titles
     // Child data in format of header title, child title
     private HashMap<String, ArrayList<Service>> child;
+    private int idService;
 
     public ServiceExpandableListAdapter(Context context, List<String> listDataHeader,
-                                        HashMap<String, ArrayList<Service>> listChildData) {
+                                        HashMap<String, ArrayList<Service>> listChildData, int idService) {
         this._context = context;
         this.header = listDataHeader;
         this.child = listChildData;
+        this.idService = idService;
     }
 
     @Override
@@ -56,6 +62,16 @@ public class ServiceExpandableListAdapter extends BaseExpandableListAdapter {
 
         ServiceMainHolder serviceHolder = new ServiceMainHolder(convertView, this._context);
         serviceHolder.setService(currentService);
+
+        serviceHolder.card_view_services_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(_context, ServiceActivity.class);
+                i.putExtra("idService", idService);
+                i.putExtra("tab", 0);
+                _context.startActivity(i);
+            }
+        });
 
         return serviceHolder.getItemView();
     }

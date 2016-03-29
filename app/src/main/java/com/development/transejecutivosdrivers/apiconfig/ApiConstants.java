@@ -13,6 +13,7 @@ public class ApiConstants {
     public static final String UPDATE_PROFILE = "updateprofile";
     public static final String SEARCH_PENDING_SERVICE = "searchpendingservice";
     public static final String GET_PENDING_SERVICE = "getpendingservice";
+    public static final String UPDATE_STATUS_SERVICE = "updatestatusservice";
 
     public static final String URL_LOGIN = URL_BASE + "/" + API + "/" + API_VERSION + "/" + LOGIN;
     public static final String URL_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SERVICE;
@@ -22,4 +23,5 @@ public class ApiConstants {
     public static final String URL_UPDATE_PROFILE = URL_BASE + "/" + API + "/" + API_VERSION_1 + "/" + UPDATE_PROFILE;
     public static final String URL_SEARCH_PENDING_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SEARCH_PENDING_SERVICE;
     public static final String URL_GET_PENDING_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + GET_PENDING_SERVICE;
+    public static final String URL_UPDATE_STATUS_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + UPDATE_STATUS_SERVICE;
 }
