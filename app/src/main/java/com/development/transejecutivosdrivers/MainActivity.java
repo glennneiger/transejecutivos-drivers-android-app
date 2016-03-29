@@ -27,6 +27,7 @@ public class MainActivity extends ActivityBase {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         ServicesListFragment servicesListFragment = new ServicesListFragment();
+        servicesListFragment.setUser(user);
         fragmentTransaction.add(R.id.fragment_container, servicesListFragment, "Services List Fragment");
         fragmentTransaction.commit();
     }

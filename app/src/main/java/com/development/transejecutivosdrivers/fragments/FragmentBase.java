@@ -10,19 +10,37 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.ServiceActivity;
+import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.adapters.ServiceExpandableListAdapter;
+import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
+import com.development.transejecutivosdrivers.deserializers.Deserializer;
+import com.development.transejecutivosdrivers.deserializers.ServiceDeserializer;
 import com.development.transejecutivosdrivers.models.Date;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FragmentBase extends Fragment {
     protected static ExpandableListView expandableListView;
@@ -31,9 +49,14 @@ public class FragmentBase extends Fragment {
     View progressBar;
     View layout;
     User user;
+    int idService;
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setIdService(int idService) {
+        this.idService = idService;
     }
 
     @Override
@@ -50,47 +73,77 @@ public class FragmentBase extends Fragment {
     }
 
     public void searchPendingServices() {
-        boolean pendings = false;
+        showProgress(true, layout, progressBar);
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
-        Service service = new Service();
-        service.setIdService(1);
-        service.setStartDate(1 + "/03/2016 8:0" + 1);
-        service.setDestiny("Bogotá cll " + 1);
-        service.setSource("Cali cra " + 1);
-        service.setPaxCant(5);
-        service.setPax("");
-        service.setObservations("There's no observations");
-        service.setReference("U56" + 1);
-        service.setStatus("orden");
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                ApiConstants.URL_SEARCH_PENDING_SERVICE,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        validateSearchPendingServiceResponse(response);
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        setErrorSnackBar(getResources().getString(R.string.error_general));
+                        showProgress(false, layout, progressBar);
+                    }
+                }) {
 
-        if (service != null) {
-            pendings = true;
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String,String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put("Authorization", user.getApikey());
+                return headers;
+            }
+        };
+
+        requestQueue.add(stringRequest);
+    }
+
+    public void validateSearchPendingServiceResponse(String response) {
+        showProgress(false, layout, progressBar);
+        try {
+            Log.d("RES", response);
+            JSONObject resObj = new JSONObject(response);
+            Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+            if (!error) {
+                JSONObject service = (JSONObject) resObj.get(JsonKeys.SERVICE);
+                int idService = (int) service.get(JsonKeys.SERVICE_ID);
+                if (idService != 0) {
+                    showService(idService);
+                }
+                else {
+                    setupServicesList();
+                }
+            }
+            else {
+                setErrorSnackBar(getResources().getString(R.string.error_general));
+            }
         }
-
-        showService(service);
-
-        if (!pendings) {
-            setupServicesList();
+        catch (JSONException ex) {
+            ex.printStackTrace();
         }
     }
 
+    public void showService(final int idService) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setMessage("Tiene una orden que se encuentra pendiente. Para poder aceptar nuevas ordenes debe completarla");
+        dialog.setPositiveButton("Completar Orden", new DialogInterface.OnClickListener() {
 
-    public void showService(final Service service) {
-        if (service.getStatus().equals("orden")) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-            dialog.setMessage("La orden " + service.getReference() + ", se encuentra pendiente. Para poder aceptar nuevas ordenes debe completarla");
-            dialog.setPositiveButton("Ir", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent i = new Intent(getActivity(), ServiceActivity.class);
-                    i.putExtra("idService", service.getIdService());
-                    startActivity(i);
-                }
-            });
-            AlertDialog alert = dialog.create();
-            alert.show();
-        }
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i = new Intent(getActivity(), ServiceActivity.class);
+                i.putExtra("idService", idService);
+                startActivity(i);
+            }
+        });
+        AlertDialog alert = dialog.create();
+        alert.show();
     }
 
 

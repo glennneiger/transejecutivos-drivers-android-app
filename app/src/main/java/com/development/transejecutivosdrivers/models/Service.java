@@ -6,6 +6,7 @@ package com.development.transejecutivosdrivers.models;
 public class Service {
     public int idService;
     public String reference;
+    public String date;
     public String startDate;
     public int paxCant;
     public String pax;
@@ -21,6 +22,14 @@ public class Service {
 
     public void setIdService(int idService) {
         this.idService = idService;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getReference() {

@@ -7,9 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.development.transejecutivosdrivers.fragments.ServiceFragment;
-import com.development.transejecutivosdrivers.fragments.ServicesListFragment;
 
 public class ServiceActivity extends ActivityBase {
     @Override
@@ -21,13 +19,22 @@ public class ServiceActivity extends ActivityBase {
         setSupportActionBar(toolbar);
 
         validateSession();
-        setFragment();
+
+        Bundle t = getIntent().getExtras();
+        int idService = 0;
+        if (t != null) {
+            idService = t.getInt("idService");
+        }
+
+        setFragment(idService);
     }
 
-    protected void setFragment() {
+    protected void setFragment(int idService) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         ServiceFragment serviceFragment = new ServiceFragment();
+        serviceFragment.setUser(user);
+        serviceFragment.setIdService(idService);
         fragmentTransaction.add(R.id.service_fragment_container, serviceFragment, "Services List Fragment");
         fragmentTransaction.commit();
     }

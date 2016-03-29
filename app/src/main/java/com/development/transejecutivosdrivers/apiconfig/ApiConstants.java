@@ -11,8 +11,8 @@ public class ApiConstants {
     public static final String SERVICES_GROUPED = "servicesgrouped";
     public static final String RECOVERPASS = "recoverpassword";
     public static final String UPDATE_PROFILE = "updateprofile";
-    public static final String DRIVER_PHOTO = "app/conductores/logos/redimensionar_logo.php?imagen=";
-    public static final String CAR_PHOTO = "app/conductores/logos/redimensionar_logo.php?imagen=";
+    public static final String SEARCH_PENDING_SERVICE = "searchpendingservice";
+    public static final String GET_PENDING_SERVICE = "getpendingservice";
 
     public static final String URL_LOGIN = URL_BASE + "/" + API + "/" + API_VERSION + "/" + LOGIN;
     public static final String URL_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SERVICE;
@@ -20,6 +20,6 @@ public class ApiConstants {
     public static final String URL_SERVICES_GROUPED = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SERVICES_GROUPED;
     public static final String URL_RECOVER_PASSWORD = URL_BASE + "/" + API + "/" + API_VERSION_1 + "/" + RECOVERPASS;
     public static final String URL_UPDATE_PROFILE = URL_BASE + "/" + API + "/" + API_VERSION_1 + "/" + UPDATE_PROFILE;
-    public static final String URL_DRIVER_PHOTO = URL_BASE + "/" + DRIVER_PHOTO;
-    public static final String URL_CAR_PHOTO = URL_BASE + "/" + CAR_PHOTO;
+    public static final String URL_SEARCH_PENDING_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SEARCH_PENDING_SERVICE;
+    public static final String URL_GET_PENDING_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + GET_PENDING_SERVICE;
 }

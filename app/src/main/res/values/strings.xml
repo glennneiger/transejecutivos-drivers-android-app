@@ -63,4 +63,7 @@
     <string name="title_activity_service">Orden de Servicio</string>
     <string name="service_info_title">Datos de la orden</string>
     <string name="passenger_info_title">Datos del pasajero</string>
+
+    <!-- Service Pending -->
+    <string name="service_not_found_error">No se encontró el servicio</string>
 </resources>
