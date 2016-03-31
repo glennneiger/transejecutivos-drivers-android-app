@@ -99,8 +99,15 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
                     <TextView
-                        android:id="@+id/txtview_observations"
+                        android:id="@+id/txtview_fly"
                         android:layout_below="@+id/txtview_pax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+
+                    <TextView
+                        android:id="@+id/txtview_observations"
+                        android:layout_below="@+id/txtview_fly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/activity_horizontal_margin"/>
@@ -150,13 +157,6 @@
                     <TextView
                         android:id="@+id/txtview_passenger_email"
                         android:layout_below="@+id/txtview_passenger_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
-
-                    <TextView
-                        android:id="@+id/txtview_passenger_fly"
-                        android:layout_below="@+id/txtview_passenger_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/activity_horizontal_margin"/>

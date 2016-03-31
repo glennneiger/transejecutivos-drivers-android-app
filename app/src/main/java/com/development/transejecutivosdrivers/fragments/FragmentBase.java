@@ -139,6 +139,7 @@ public class FragmentBase extends Fragment {
                 Intent i = new Intent(getActivity(), ServiceActivity.class);
                 i.putExtra("idService", idService);
                 i.putExtra("tab", 0);
+                i.putExtra("old", 1);
                 startActivity(i);
             }
         });

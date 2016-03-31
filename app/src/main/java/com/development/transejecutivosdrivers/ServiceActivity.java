@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.development.transejecutivosdrivers.adapters.TabPagerAdapter;
@@ -27,19 +28,22 @@ public class ServiceActivity extends ActivityBase {
         Bundle t = getIntent().getExtras();
         int idService = 0;
         int tab = 0;
+        int old = 0;
         if (t != null) {
             idService = t.getInt("idService");
             tab = t.getInt("tab");
+            old = t.getInt("old");
         }
 
-        setTabs(idService, tab);
+        setTabs(idService, tab, old);
     }
 
-    private void setTabs(int idService, int tab) {
+    private void setTabs(int idService, int tab, int old) {
         mainTabs = (TabLayout) findViewById(R.id.main_tabs);
 
         mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.main_tab)));
-        mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.filter_tab)));
+        mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.options_tab)));
+        mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.tracing_tab)));
 
         mainTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         mainTabs.setTabGravity(TabLayout.GRAVITY_FILL);

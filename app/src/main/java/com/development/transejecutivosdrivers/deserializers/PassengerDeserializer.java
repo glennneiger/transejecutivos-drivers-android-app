@@ -24,8 +24,6 @@ public class PassengerDeserializer extends DeserializerValidator{
             String lastName = validateString(JsonKeys.PASSENGER_LASTNAME, jsonObject);
             String phone = validateString(JsonKeys.PASSENGER_PHONE, jsonObject);
             String email = validateString(JsonKeys.PASSENGER_EMAIL, jsonObject);
-            String fly = validateString(JsonKeys.PASSENGER_FLY, jsonObject);
-            String aeroline = validateString(JsonKeys.PASSENGER_AEROLINE, jsonObject);
 
             this.passenger.setIdPassenger(idPassenger);
             this.passenger.setCode(code);
@@ -33,8 +31,6 @@ public class PassengerDeserializer extends DeserializerValidator{
             this.passenger.setLastName(lastName);
             this.passenger.setPhone(phone);
             this.passenger.setEmail(email);
-            this.passenger.setFly(fly);
-            this.passenger.setAeroline(aeroline);
         }
     }
 

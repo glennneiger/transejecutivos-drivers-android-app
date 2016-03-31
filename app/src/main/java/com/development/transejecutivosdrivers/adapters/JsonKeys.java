@@ -45,6 +45,9 @@ public class JsonKeys {
     public static final String SERVICE_STATUS = "status";
     public static final String SERVICE_OBSERVATIONS = "observations";
     public static final String SERVICE_CD = "cd";
+    public static final String SERVICE_FLY = "fly";
+    public static final String SERVICE_AEROLINE = "aeroline";
+    public static final String SERVICE_OLD = "old";
 
     /**
      * Passenger Json Keys
@@ -56,8 +59,6 @@ public class JsonKeys {
     public static final String PASSENGER_COMPANY = "passenger_company";
     public static final String PASSENGER_PHONE = "phone";
     public static final String PASSENGER_EMAIL = "email";
-    public static final String PASSENGER_FLY = "fly";
-    public static final String PASSENGER_AEROLINE = "aeroline";
 
     /**
      * Date Json Keys

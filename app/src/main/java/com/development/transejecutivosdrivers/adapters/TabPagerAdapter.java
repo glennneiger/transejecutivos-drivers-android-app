@@ -7,6 +7,7 @@ import android.support.v13.app.FragmentPagerAdapter;
 
 import com.development.transejecutivosdrivers.fragments.ServiceFragment;
 import com.development.transejecutivosdrivers.fragments.ServiceOptionsFragment;
+import com.development.transejecutivosdrivers.fragments.ServiceTracingFragment;
 import com.development.transejecutivosdrivers.models.User;
 
 /**
@@ -37,6 +38,9 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 ServiceOptionsFragment serviceOptionsFragment = ServiceOptionsFragment.newInstance(this.user, this.idService);
                 return serviceOptionsFragment;
+            case 2:
+                ServiceTracingFragment serviceTracingFragment = ServiceTracingFragment.newInstance(this.user, this.idService);
+                return serviceTracingFragment;
             default:
                 return null;
         }

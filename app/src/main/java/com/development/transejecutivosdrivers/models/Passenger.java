@@ -10,8 +10,6 @@ public class Passenger {
     String lastName;
     String phone;
     String email;
-    String fly;
-    String aeroline;
 
     public int getIdPassenger() {
         return idPassenger;
@@ -51,22 +49,6 @@ public class Passenger {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getFly() {
-        return fly;
-    }
-
-    public void setFly(String fly) {
-        this.fly = fly;
-    }
-
-    public String getAeroline() {
-        return aeroline;
-    }
-
-    public void setAeroline(String aeroline) {
-        this.aeroline = aeroline;
     }
 
     public String getEmail() {

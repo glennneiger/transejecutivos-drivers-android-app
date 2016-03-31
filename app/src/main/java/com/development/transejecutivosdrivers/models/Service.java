@@ -15,6 +15,33 @@ public class Service {
     public String status;
     public String observations;
     public String cd;
+    public int old;
+    String fly;
+    String aeroline;
+
+    public int getOld() {
+        return old;
+    }
+
+    public void setOld(int old) {
+        this.old = old;
+    }
+
+    public String getFly() {
+        return fly;
+    }
+
+    public void setFly(String fly) {
+        this.fly = fly;
+    }
+
+    public String getAeroline() {
+        return aeroline;
+    }
+
+    public void setAeroline(String aeroline) {
+        this.aeroline = aeroline;
+    }
 
     public int getIdService() {
         return idService;

@@ -35,7 +35,8 @@
 
     <!-- Tabs -->
     <string name="main_tab">Servicio</string>
-    <string name="filter_tab">Opciones</string>
+    <string name="options_tab">Opciones</string>
+    <string name="tracing_tab">Seguimiento</string>
 
     <!-- Profile Activity -->
     <string name="title_activity_profile">Mi Perfil</string>
@@ -75,5 +76,8 @@
     <string name="prompt_on_source">Estoy en el sitio</string>
     <string name="prompt_start_service">Empezar ruta</string>
     <string name="prompt_finish_service">Terminar ruta</string>
+
+    <!-- Fragment tracing -->
+    <string name="prompt_tracing">Guardar</string>
 
 </resources>

@@ -30,12 +30,12 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
     TextView txtview_pax_cant;
     TextView txtview_pax;
     TextView txtview_status;
+    TextView txtview_fly;
     TextView txtview_observations;
 
     TextView txtview_passenger_name;
     TextView txtview_passenger_phone;
     TextView txtview_passenger_email;
-    TextView txtview_passenger_fly;
 
     Button button_accept;
     Button button_decline;
@@ -56,7 +56,7 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
         txtview_passenger_name = (TextView) itemView.findViewById(R.id.txtview_passenger_name);
         txtview_passenger_phone = (TextView) itemView.findViewById(R.id.txtview_passenger_phone);
         txtview_passenger_email = (TextView) itemView.findViewById(R.id.txtview_passenger_email);
-        txtview_passenger_fly = (TextView) itemView.findViewById(R.id.txtview_passenger_fly);
+        txtview_fly = (TextView) itemView.findViewById(R.id.txtview_fly);
 
         button_accept = (Button) itemView.findViewById(R.id.button_accept);
         button_decline = (Button) itemView.findViewById(R.id.button_decline);
@@ -76,6 +76,10 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
             txtview_pax.setText("Pasajeros: " + service.getPax());
         }
 
+        if (!TextUtils.isEmpty(service.getFly()) && !TextUtils.isEmpty(service.getAeroline())) {
+            txtview_fly.setText(Html.fromHtml("Vuelo: <a href=\"" + this.context.getResources().getString(R.string.url_fly) + service.getFly() + "\">" + service.getFly() + ", " + service.getAeroline() + "</a>"));
+        }
+
         txtview_observations.setText("Observaciones: " + service.getObservations());
     }
 
@@ -85,25 +89,13 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
         txtview_passenger_phone.setText(passenger.getPhone());
         txtview_passenger_email.setText(passenger.getEmail());
 
-        if (!TextUtils.isEmpty(passenger.getFly()) && !TextUtils.isEmpty(passenger.getAeroline())) {
-            txtview_passenger_fly.setText(Html.fromHtml("Vuelo: <a href=\"" + this.context.getResources().getString(R.string.url_fly) + passenger.getFly() + "\">" + passenger.getFly() + ", " + passenger.getAeroline() + "</a>"));
-        }
-
         hideElements();
     }
 
     public void hideElements() {
-        if (!TextUtils.isEmpty(service.getCd())) {
+        if (service.getOld() == 1) {
             button_accept.setVisibility(View.GONE);
-        }
-
-        Date date = new Date();
-        String now = date.getDay() + "/" + date.getMonth() + "/" + date.getYear() + " " + date.getHours() + ":" + date.getMinutes();
-        long millisToAdd = 86_400_000;
-        String startDate = sumTimeToDate(service.getStartDate(), millisToAdd);
-
-        if (validateDates(startDate, now)) {
-            button_accept.setVisibility(View.GONE);
+            button_decline.setVisibility(View.GONE);
         }
     }
 
