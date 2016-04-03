@@ -5,12 +5,14 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -30,6 +32,7 @@ import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.deserializers.Deserializer;
 import com.development.transejecutivosdrivers.deserializers.ServiceDeserializer;
 import com.development.transejecutivosdrivers.models.Date;
+import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
 
@@ -49,14 +52,24 @@ public class FragmentBase extends Fragment {
     View progressBar;
     View layout;
     User user;
-    int idService;
+    Service service;
+    Passenger passenger;
+    Context context;
 
     public void setUser(User user) {
         this.user = user;
     }
 
-    public void setIdService(int idService) {
-        this.idService = idService;
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
+
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
     }
 
     @Override
@@ -139,7 +152,6 @@ public class FragmentBase extends Fragment {
                 Intent i = new Intent(getActivity(), ServiceActivity.class);
                 i.putExtra("idService", idService);
                 i.putExtra("tab", 0);
-                i.putExtra("old", 1);
                 startActivity(i);
             }
         });
@@ -294,6 +306,54 @@ public class FragmentBase extends Fragment {
         snackBarView.setBackgroundColor(getResources().getColor(R.color.colorError));
         TextView txtv = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
         txtv.setGravity(Gravity.CENTER);
+    }
+
+    public void setSuccesSnackBar(String message) {
+        Snackbar snackbar = Snackbar
+                .make(view, message, Snackbar.LENGTH_LONG);
+
+        snackbar.show();
+
+        View snackBarView = snackbar.getView();
+        snackBarView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+        TextView txtv = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+        txtv.setGravity(Gravity.CENTER);
+    }
+
+    protected void  validateResponse(String response, String btn) {
+        try {
+            JSONObject resObj = new JSONObject(response);
+            Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+            if (!error) {
+                Time today = new Time(Time.getCurrentTimezone());
+                today.setToNow();
+
+                String date = today.monthDay + "/" + (today.month+1) + "/" + today.year + " " + today.format("%k:%M:%S");
+
+                if (btn.equals("b1ha")) {
+                    setSuccesSnackBar(getResources().getString(R.string.on_way_message));
+                    this.service.setB1ha(date);
+                }
+                else if (btn.equals("bls")) {
+                    setSuccesSnackBar(getResources().getString(R.string.on_source_message));
+                    this.service.setBls(date);
+                }
+                else if (btn.equals("pab")) {
+                    setSuccesSnackBar(getResources().getString(R.string.start_service_message));
+                    this.service.setPab(date);
+                }
+                else if (btn.equals("st")) {
+                    setSuccesSnackBar(getResources().getString(R.string.finish_service_message));
+                    this.service.setSt(date);
+                }
+            }
+            else {
+                setErrorSnackBar(getResources().getString(R.string.error_general));
+            }
+        }
+        catch (JSONException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**

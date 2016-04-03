@@ -41,10 +41,11 @@ public class ServiceFragment extends FragmentBase {
 
     }
 
-    public static ServiceFragment newInstance(User user, int idService) {
+    public static ServiceFragment newInstance(User user, Service service, Passenger passenger) {
         ServiceFragment fragment = new ServiceFragment();
         fragment.setUser(user);
-        fragment.setIdService(idService);
+        fragment.setService(service);
+        fragment.setPassenger(passenger);
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -73,17 +74,19 @@ public class ServiceFragment extends FragmentBase {
             }
         });
 
-        getService();
+        ServiceHolder serviceHolder = new ServiceHolder(view, getActivity());
+        serviceHolder.setService(service);
+        serviceHolder.setPassenger(passenger);
 
         return view;
     }
 
     public void updateService(final int status) {
-        final String idService = "" + this.idService;
+        final String idService = "" + this.service.getIdService();
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(
                 Request.Method.PUT,
-                ApiConstants.URL_UPDATE_STATUS_SERVICE,
+                ApiConstants.URL_ACCEPT_SERVICE + "/" + idService,
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -109,7 +112,6 @@ public class ServiceFragment extends FragmentBase {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put(JsonKeys.SERVICE_ID, idService);
                 params.put(JsonKeys.SERVICE_STATUS, "" + status);
 
                 return params;
@@ -127,75 +129,6 @@ public class ServiceFragment extends FragmentBase {
             if (!error) {
                 Intent i = new Intent(getActivity(), MainActivity.class);
                 startActivity(i);
-            }
-            else {
-                setErrorSnackBar(getResources().getString(R.string.error_general));
-            }
-        }
-        catch (JSONException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void getService() {
-        showProgress(true, fragmentContainer, progressBar);
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.GET,
-                ApiConstants.URL_GET_PENDING_SERVICE + "/" + this.idService,
-                new com.android.volley.Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        validatePendingServiceResponse(response);
-                    }
-                },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, fragmentContainer, progressBar);
-                    }
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String,String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/x-www-form-urlencoded");
-                headers.put("Authorization", user.getApikey());
-                return headers;
-            }
-        };
-
-        requestQueue.add(stringRequest);
-    }
-
-    public void validatePendingServiceResponse(String response) {
-        showProgress(false, fragmentContainer, progressBar);
-        try {
-            JSONObject resObj = new JSONObject(response);
-            Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
-            if (!error) {
-                JSONObject data = (JSONObject) resObj.get(JsonKeys.SERVICE);
-                int idService = (int) data.get(JsonKeys.SERVICE_ID);
-                if (idService != 0) {
-                    Deserializer deserializer = new Deserializer();
-                    deserializer.setResponseJSONObject(data);
-                    deserializer.deserializeOnePassengerAndService();
-
-                    Service service = deserializer.getService();
-                    Passenger passenger = deserializer.getPassenger();
-
-                    ServiceHolder serviceHolder = new ServiceHolder(view, getActivity());
-                    serviceHolder.setService(service);
-                    serviceHolder.setPassenger(passenger);
-                }
-                else {
-                    Toast.makeText(getActivity(), R.string.service_not_found_error, Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(getActivity(), MainActivity.class);
-                    startActivity(i);
-                }
             }
             else {
                 setErrorSnackBar(getResources().getString(R.string.error_general));

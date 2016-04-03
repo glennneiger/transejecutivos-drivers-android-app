@@ -48,6 +48,11 @@ public class JsonKeys {
     public static final String SERVICE_FLY = "fly";
     public static final String SERVICE_AEROLINE = "aeroline";
     public static final String SERVICE_OLD = "old";
+    public static final String SERVICE_TRACE_ID = "trace_id";
+    public static final String SERVICE_B1HA = "b1ha";
+    public static final String SERVICE_BLS = "bls";
+    public static final String SERVICE_PAB = "pab";
+    public static final String SERVICE_ST = "st";
 
     /**
      * Passenger Json Keys
@@ -64,4 +69,11 @@ public class JsonKeys {
      * Date Json Keys
      */
     public static final String DATE_DATA = "date";
+
+    /**
+     * Tracing Json Keys
+     */
+    public static final String TRACING_START = "start";
+    public static final String TRACING_END = "end";
+    public static final String TRACING_OBSERVATIONS = "observations";
 }

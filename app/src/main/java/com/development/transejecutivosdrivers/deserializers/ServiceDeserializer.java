@@ -31,9 +31,14 @@ public class ServiceDeserializer extends DeserializerValidator{
             String observations = validateString(JsonKeys.SERVICE_OBSERVATIONS, jsonObject);
             String status = validateString(JsonKeys.SERVICE_STATUS, jsonObject);
             String cd = validateString(JsonKeys.SERVICE_CD, jsonObject);
-            int old = Integer.parseInt(validateString(JsonKeys.SERVICE_OLD, jsonObject));
+            int old = validateInt(JsonKeys.SERVICE_OLD, jsonObject);
             String fly = validateString(JsonKeys.SERVICE_FLY, jsonObject);
             String aeroline = validateString(JsonKeys.SERVICE_AEROLINE, jsonObject);
+            int idTrace = validateInt(JsonKeys.SERVICE_TRACE_ID, jsonObject);
+            String b1ha = validateString(JsonKeys.SERVICE_B1HA, jsonObject);
+            String bls = validateString(JsonKeys.SERVICE_BLS, jsonObject);
+            String pab = validateString(JsonKeys.SERVICE_PAB, jsonObject);
+            String st = validateString(JsonKeys.SERVICE_ST, jsonObject);
 
             this.service.setIdService(idService);
             this.service.setReference(reference);
@@ -50,6 +55,11 @@ public class ServiceDeserializer extends DeserializerValidator{
             this.service.setFly(fly);
             this.service.setAeroline(aeroline);
             this.service.setOld(old);
+            this.service.setIdTrace(idTrace);
+            this.service.setB1ha(b1ha);
+            this.service.setBls(bls);
+            this.service.setPab(pab);
+            this.service.setSt(st);
         }
     }
 

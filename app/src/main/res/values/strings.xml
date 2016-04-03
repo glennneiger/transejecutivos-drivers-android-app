@@ -77,7 +77,14 @@
     <string name="prompt_start_service">Empezar ruta</string>
     <string name="prompt_finish_service">Terminar ruta</string>
 
+    <string name="on_way_message">Se ha actualizado el estado "Estoy en camino"</string>
+    <string name="on_source_message">Se ha actualizado el estado "Estoy en el sitio"</string>
+    <string name="start_service_message">Se ha iniciado el servicio exitosamente</string>
+    <string name="finish_service_message">Se ha finalizado el servicio exitosamente</string>
+
     <!-- Fragment tracing -->
     <string name="prompt_tracing">Guardar</string>
+    <string name="success_tracing_message">Se ha guardado el seguimiento exitosamente</string>
+    <string name="error_tracing_message">Ha ocurrido un error, por favor intente más tarde</string>
 
 </resources>

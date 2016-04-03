@@ -12,8 +12,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <ProgressBar
+        android:id="@+id/service_option_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
 
     <ScrollView
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center">
@@ -33,6 +43,7 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btn_call_passenger"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -52,6 +63,7 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btn_onmyway"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -71,6 +83,7 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btn_on_source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -90,6 +103,7 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btn_start_service"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -109,6 +123,7 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btn_finish_service"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"

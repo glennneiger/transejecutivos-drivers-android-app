@@ -18,6 +18,51 @@ public class Service {
     public int old;
     String fly;
     String aeroline;
+    int idTrace;
+    String b1ha;
+    String bls;
+    String pab;
+    String st;
+
+    public int getIdTrace() {
+        return idTrace;
+    }
+
+    public void setIdTrace(int idTrace) {
+        this.idTrace = idTrace;
+    }
+
+    public String getB1ha() {
+        return b1ha;
+    }
+
+    public void setB1ha(String b1ha) {
+        this.b1ha = b1ha;
+    }
+
+    public String getBls() {
+        return bls;
+    }
+
+    public void setBls(String bls) {
+        this.bls = bls;
+    }
+
+    public String getPab() {
+        return pab;
+    }
+
+    public void setPab(String pab) {
+        this.pab = pab;
+    }
+
+    public String getSt() {
+        return st;
+    }
+
+    public void setSt(String st) {
+        this.st = st;
+    }
 
     public int getOld() {
         return old;

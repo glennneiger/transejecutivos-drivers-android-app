@@ -8,6 +8,8 @@ import android.support.v13.app.FragmentPagerAdapter;
 import com.development.transejecutivosdrivers.fragments.ServiceFragment;
 import com.development.transejecutivosdrivers.fragments.ServiceOptionsFragment;
 import com.development.transejecutivosdrivers.fragments.ServiceTracingFragment;
+import com.development.transejecutivosdrivers.models.Passenger;
+import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
 
 /**
@@ -18,14 +20,16 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     int tabCount;
     Context context;
     User user;
-    int idService;
+    Service service;
+    Passenger passenger;
 
-    public TabPagerAdapter(FragmentManager fm, int numberOfTabs, Context context, User user, int idService) {
+    public TabPagerAdapter(FragmentManager fm, int numberOfTabs, Context context, User user, Service service, Passenger passenger) {
         super(fm);
         this.tabCount = numberOfTabs;
         this.context = context;
         this.user = user;
-        this.idService = idService;
+        this.service = service;
+        this.passenger = passenger;
     }
 
     @Override
@@ -33,13 +37,13 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                ServiceFragment serviceFragment = ServiceFragment.newInstance(this.user, this.idService);
+                ServiceFragment serviceFragment = ServiceFragment.newInstance(this.user, this.service, this.passenger);
                 return serviceFragment;
             case 1:
-                ServiceOptionsFragment serviceOptionsFragment = ServiceOptionsFragment.newInstance(this.user, this.idService);
+                ServiceOptionsFragment serviceOptionsFragment = ServiceOptionsFragment.newInstance(this.user, this.service, this.context);
                 return serviceOptionsFragment;
             case 2:
-                ServiceTracingFragment serviceTracingFragment = ServiceTracingFragment.newInstance(this.user, this.idService);
+                ServiceTracingFragment serviceTracingFragment = ServiceTracingFragment.newInstance(this.user, this.service);
                 return serviceTracingFragment;
             default:
                 return null;

@@ -9,11 +9,38 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.adapters.TabPagerAdapter;
+import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
+import com.development.transejecutivosdrivers.deserializers.Deserializer;
+import com.development.transejecutivosdrivers.holders.ServiceHolder;
+import com.development.transejecutivosdrivers.models.Passenger;
+import com.development.transejecutivosdrivers.models.Service;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServiceActivity extends ActivityBase {
 
     private TabLayout mainTabs;
+    int idService = 0;
+    int tab = 0;
+    Service service;
+    Passenger passenger;
+    View main_pager;
+    View progressBar;
+    View service_activity_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,20 +52,87 @@ public class ServiceActivity extends ActivityBase {
 
         validateSession();
 
+        service_activity_layout = findViewById(R.id.service_activity_layout);
+        main_pager = findViewById(R.id.main_pager);
+        progressBar = findViewById(R.id.service_progress);
+
         Bundle t = getIntent().getExtras();
-        int idService = 0;
-        int tab = 0;
-        int old = 0;
         if (t != null) {
             idService = t.getInt("idService");
             tab = t.getInt("tab");
-            old = t.getInt("old");
         }
 
-        setTabs(idService, tab, old);
+        getService();
     }
 
-    private void setTabs(int idService, int tab, int old) {
+    public void getService() {
+        showProgress(true, main_pager, progressBar);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                ApiConstants.URL_GET_SERVICE + "/" + this.idService,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        validateServiceResponse(response);
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        setErrorSnackBar(service_activity_layout, getResources().getString(R.string.error_general));
+                        showProgress(false, main_pager, progressBar);
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String,String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put("Authorization", user.getApikey());
+                return headers;
+            }
+        };
+
+        requestQueue.add(stringRequest);
+    }
+
+    private void validateServiceResponse(String response) {
+        showProgress(false, main_pager, progressBar);
+        try {
+            JSONObject resObj = new JSONObject(response);
+            Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+            if (!error) {
+                JSONObject data = (JSONObject) resObj.get(JsonKeys.SERVICE);
+                int idService = (int) data.get(JsonKeys.SERVICE_ID);
+                if (idService != 0) {
+                    Deserializer deserializer = new Deserializer();
+                    deserializer.setResponseJSONObject(data);
+                    deserializer.deserializeOnePassengerAndService();
+
+                    service = deserializer.getService();
+                    passenger = deserializer.getPassenger();
+
+                    setTabs();
+                }
+                else {
+                    Toast.makeText(this, R.string.service_not_found_error, Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(this, MainActivity.class);
+                    startActivity(i);
+                }
+            }
+            else {
+                setErrorSnackBar(service_activity_layout, getResources().getString(R.string.error_general));
+            }
+        }
+        catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void setTabs() {
         mainTabs = (TabLayout) findViewById(R.id.main_tabs);
 
         mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.main_tab)));
@@ -49,7 +143,7 @@ public class ServiceActivity extends ActivityBase {
         mainTabs.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.main_pager);
-        final PagerAdapter adapter = new TabPagerAdapter(getFragmentManager(),mainTabs.getTabCount(), getApplicationContext(), user, idService);
+        final PagerAdapter adapter = new TabPagerAdapter(getFragmentManager(),mainTabs.getTabCount(), getApplicationContext(), user, service, passenger);
 
         viewPager.setAdapter(adapter);
 
