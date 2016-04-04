@@ -91,5 +91,7 @@
     <string name="prompt_start_time_service">Hora de Inicio</string>
     <string name="prompt_end_time_service">Hora de Finalización</string>
     <string name="prompt_service_observations">Observaciones</string>
+    <string name="title_activity_searchservice">Buscar Servicio</string>
+    <string name="prompt_search_service_button">Buscar</string>
 
 </resources>

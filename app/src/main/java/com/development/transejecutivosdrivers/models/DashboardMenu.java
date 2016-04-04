@@ -28,8 +28,7 @@ public class DashboardMenu {
             new DashboardMenu(0, "Mi Perfil", R.drawable.profile),
             new DashboardMenu(1, "Ver Servicios", R.drawable.services),
             new DashboardMenu(2, "Buscar Servicio", R.drawable.search),
-            new DashboardMenu(3, "Solicitar Servicio", R.drawable.get_service),
-            new DashboardMenu(4, "Cerrar Sesión", R.drawable.logout),
+            new DashboardMenu(3, "Cerrar Sesión", R.drawable.logout),
     };
 
     /**

@@ -42,14 +42,11 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
                 break;
 
             case 2:
-                //i = new Intent(getApplicationContext(), MainActivity.class);
-                //startActivity(i);
+                i = new Intent(getApplicationContext(), SearchserviceActivity.class);
+                startActivity(i);
                 break;
 
             case 3:
-                break;
-
-            case 4:
                 session.logoutUser();
                 break;
 

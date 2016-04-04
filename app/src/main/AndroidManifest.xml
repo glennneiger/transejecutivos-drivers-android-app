@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -19,16 +20,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.PopupOverlay">
-
-        <receiver android:name="com.development.transejecutivosdrivers.background_services.AlarmReceiver">
+        <receiver android:name=".background_services.AlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name="com.development.transejecutivosdrivers.background_services.PrelocationService"
-            android:exported="false"/>
+            android:name=".background_services.PrelocationService"
+            android:exported="false" />
 
         <activity
             android:name=".LoginActivity"
@@ -56,11 +56,15 @@
         <activity
             android:name=".RecoverpassActivity"
             android:label="@string/title_activity_recoverpass"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ServiceActivity"
             android:label="@string/title_activity_service"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".SearchserviceActivity"
+            android:label="@string/title_activity_searchservice"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

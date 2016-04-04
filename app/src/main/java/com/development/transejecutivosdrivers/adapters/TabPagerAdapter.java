@@ -40,7 +40,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
                 ServiceFragment serviceFragment = ServiceFragment.newInstance(this.user, this.service, this.passenger);
                 return serviceFragment;
             case 1:
-                ServiceOptionsFragment serviceOptionsFragment = ServiceOptionsFragment.newInstance(this.user, this.service, this.context);
+                ServiceOptionsFragment serviceOptionsFragment = ServiceOptionsFragment.newInstance(this.user, this.service, this.passenger, this.context);
                 return serviceOptionsFragment;
             case 2:
                 ServiceTracingFragment serviceTracingFragment = ServiceTracingFragment.newInstance(this.user, this.service);
