@@ -27,7 +27,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
             apikey = t.getString(JsonKeys.USER_APIKEY);
             location = t.getString(JsonKeys.LOCATION);
 
-            if (location.equals(JsonKeys.PRELOCATION)) {
+            if (location != null && location.equals(JsonKeys.PRELOCATION)) {
                 Intent i = new Intent(context, PrelocationService.class);
                 i.putExtra(JsonKeys.SERVICE_ID, idService);
                 i.putExtra(JsonKeys.USER_APIKEY, apikey);
@@ -35,7 +35,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 startWakefulService(context, i);
                 context.startService(i);
             }
-            else if (location.equals(JsonKeys.ONSERVICE)) {
+            else if (location != null && location.equals(JsonKeys.ONSERVICE)) {
                 Intent i = new Intent(context, LocationService.class);
                 i.putExtra(JsonKeys.SERVICE_ID, idService);
                 i.putExtra(JsonKeys.USER_APIKEY, apikey);

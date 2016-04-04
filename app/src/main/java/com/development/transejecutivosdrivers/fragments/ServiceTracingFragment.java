@@ -67,7 +67,11 @@ public class ServiceTracingFragment extends FragmentBase  {
         inputLayoutEnd = (TextInputLayout) view.findViewById(R.id.txt_input_end);
 
         timepicker_start = (TimePicker) view.findViewById(R.id.timepicker_start);
+        timepicker_start.setIs24HourView(true);
+
         timepicker_end = (TimePicker) view.findViewById(R.id.timepicker_end);
+        timepicker_end.setIs24HourView(true);
+
         txtview_observations = (EditText) view.findViewById(R.id.txtview_observations);
 
         setOnClickListeners();
