@@ -86,5 +86,7 @@
     <string name="prompt_tracing">Guardar</string>
     <string name="success_tracing_message">Se ha guardado el seguimiento exitosamente</string>
     <string name="error_tracing_message">Ha ocurrido un error, por favor intente más tarde</string>
+    <string name="device_not_supported">El dispositivo no cuenta con google play services, por favor verifica que este instalado</string>
+    <string name="error_location">Ocurrió un error mientras se guardaba la ubicación actual, TransEjecutivos Driver</string>
 
 </resources>

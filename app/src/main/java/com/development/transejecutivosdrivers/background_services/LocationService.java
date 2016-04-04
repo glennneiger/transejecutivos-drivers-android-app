@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PrelocationService extends IntentServiceBase {
+public class LocationService extends IntentServiceBase {
 
     public void getLocation() {
         try {
@@ -33,7 +33,7 @@ public class PrelocationService extends IntentServiceBase {
 
                     StringRequest stringRequest = new StringRequest(
                             Request.Method.POST,
-                            ApiConstants.URL_SET_PRELOCATION + "/" + idService,
+                            ApiConstants.URL_SET_LOCATION + "/" + idService,
                             new com.android.volley.Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {

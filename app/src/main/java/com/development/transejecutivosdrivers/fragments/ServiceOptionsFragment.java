@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.R;
+import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.background_services.AlarmReceiver;
 import com.development.transejecutivosdrivers.models.Service;
@@ -71,57 +72,12 @@ public class ServiceOptionsFragment extends FragmentBase  {
         return view;
     }
 
-    private void disableButtons() {
-        if (service.getOld() == 1) {
-            btn_onmyway.setEnabled(false);
-            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_on_source.setEnabled(false);
-            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_start_service.setEnabled(false);
-            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_finish_service.setEnabled(false);
-            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        }
-        else if (TextUtils.isEmpty(service.getB1ha())) {
-            btn_on_source.setEnabled(false);
-            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_start_service.setEnabled(false);
-            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_finish_service.setEnabled(false);
-            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        }
-        else if (TextUtils.isEmpty(service.getBls())) {
-            btn_onmyway.setEnabled(false);
-            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_start_service.setEnabled(false);
-            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_finish_service.setEnabled(false);
-            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        }
-        else if (TextUtils.isEmpty(service.getPab())) {
-            btn_on_source.setEnabled(false);
-            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_onmyway.setEnabled(false);
-            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_finish_service.setEnabled(false);
-            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        }
-        else if (TextUtils.isEmpty(service.getSt())) {
-            btn_on_source.setEnabled(false);
-            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_onmyway.setEnabled(false);
-            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_start_service.setEnabled(false);
-            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        }
-    }
-
     private void setOnClickListeners() {
         btn_onmyway.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 confirmService();
-                //scheduleAlarm();
+                scheduleAlarm(JsonKeys.PRELOCATION);
             }
         });
 
@@ -129,7 +85,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             @Override
             public void onClick(View v) {
                 setOnSource();
-                //scheduleAlarm();
+                cancelAlarm();
             }
         });
 
@@ -137,7 +93,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             @Override
             public void onClick(View v) {
                 startService();
-                //scheduleAlarm();
+                scheduleAlarm(JsonKeys.ONSERVICE);
             }
         });
 
@@ -145,7 +101,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             @Override
             public void onClick(View v) {
                 finishService();
-                //scheduleAlarm();
+                cancelAlarm();
             }
         });
 
@@ -299,25 +255,78 @@ public class ServiceOptionsFragment extends FragmentBase  {
         requestQueue.add(stringRequest);
     }
 
-    private void scheduleAlarm() {
+
+    private void disableButtons() {
+        if (service.getOld() == 1) {
+            btn_onmyway.setEnabled(false);
+            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_on_source.setEnabled(false);
+            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_start_service.setEnabled(false);
+            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_finish_service.setEnabled(false);
+            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+        else if (TextUtils.isEmpty(service.getB1ha())) {
+            btn_on_source.setEnabled(false);
+            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_start_service.setEnabled(false);
+            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_finish_service.setEnabled(false);
+            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+        else if (TextUtils.isEmpty(service.getBls())) {
+            btn_onmyway.setEnabled(false);
+            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_start_service.setEnabled(false);
+            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_finish_service.setEnabled(false);
+            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+        else if (TextUtils.isEmpty(service.getPab())) {
+            btn_on_source.setEnabled(false);
+            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_onmyway.setEnabled(false);
+            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_finish_service.setEnabled(false);
+            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+        else if (TextUtils.isEmpty(service.getSt())) {
+            btn_on_source.setEnabled(false);
+            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_onmyway.setEnabled(false);
+            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_start_service.setEnabled(false);
+            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+    }
+
+    private void scheduleAlarm(String location) {
         // Construct an intent that will execute the AlarmReceiver
         Intent intent = new Intent(this.context, AlarmReceiver.class);
+
+        intent.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
+        intent.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
+        intent.putExtra(JsonKeys.LOCATION, location);
+
         // Create a PendingIntent to be triggered when the alarm goes off
         final PendingIntent pIntent = PendingIntent.getBroadcast(getActivity(), AlarmReceiver.REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         // Setup periodic alarm every 5 seconds
 
         long firstMillis = 2000; // alarm is set right away
         AlarmManager alarm = (AlarmManager) this.context.getSystemService(this.context.ALARM_SERVICE);
-        // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
-        // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, AlarmManager.INTERVAL_HALF_HOUR, pIntent);
+
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, firstMillis, pIntent);
     }
 
     public void cancelAlarm() {
         Intent intent = new Intent(this.context, AlarmReceiver.class);
+
         final PendingIntent pIntent = PendingIntent.getBroadcast(this.context, AlarmReceiver.REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         AlarmManager alarm = (AlarmManager) this.context.getSystemService(Context.ALARM_SERVICE);
         alarm.cancel(pIntent);
     }
