@@ -17,7 +17,6 @@ public class ApiConstants {
     public static final String SET_ON_SOURCE = "setonsource";
     public static final String START_SERVICE = "startservice";
     public static final String SET_LOCATION = "setlocation";
-    public static final String SET_OBSERVATIONS = "setobservations";
     public static final String FINISH_SERVICE = "finishservice";
     public static final String SET_PRELOCATION = "setprelocation";
 
@@ -34,6 +33,5 @@ public class ApiConstants {
     public static final String URL_START_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + START_SERVICE;
     public static final String URL_SET_LOCATION = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SET_LOCATION;
     public static final String URL_FINISH_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + FINISH_SERVICE;
-    public static final String URL_SET_OBSERVATIONS = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SET_OBSERVATIONS;
     public static final String URL_SET_PRELOCATION = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SET_PRELOCATION;
 }

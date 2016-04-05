@@ -85,7 +85,6 @@
                 android:background="@color/colorPrimary"
                 android:textColor="@color/colorPrimaryTextLight" />
 
-
             <LinearLayout
                 android:id="@+id/finish_form"
                 android:visibility="gone"
@@ -100,7 +99,6 @@
                     android:text="@string/prompt_service_observations"
                     android:gravity="center"
                     android:layout_gravity="center_horizontal" />
-
 
                 <LinearLayout
                     android:layout_width="match_parent"

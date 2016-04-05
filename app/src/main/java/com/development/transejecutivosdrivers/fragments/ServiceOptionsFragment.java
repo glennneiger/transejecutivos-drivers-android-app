@@ -129,7 +129,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             @Override
             public void onClick(View v) {
                 cancelAlarm();
-                finishService();
+                showFinishForm();
             }
         });
 
@@ -246,77 +246,21 @@ public class ServiceOptionsFragment extends FragmentBase  {
         requestQueue.add(stringRequest);
     }
 
-    private void finishService() {
-        button_finish_tracing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFinishForm();
-            }
-        });
-    }
-
     private void showFinishForm() {
         buttons_container.setVisibility(View.GONE);
         finish_form.setVisibility(View.VISIBLE);
         button_finish_tracing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveObsevations();
+                finishService();
             }
         });
     }
 
-    private void saveObsevations() {
+    private void finishService() {
+        showProgress(true, buttons_container, progressBar);
+
         final String observations = txtview_observations.getText().toString();
-
-        showProgress(true, buttons_container, progressBar);
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                ApiConstants.URL_SET_OBSERVATIONS + "/" + this.service.getIdService(),
-                new com.android.volley.Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        showProgress(false, buttons_container, progressBar);
-                        buttons_container.setVisibility(View.VISIBLE);
-                        finish_form.setVisibility(View.GONE);
-                        setFinishService();
-                    }
-                },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, buttons_container, progressBar);
-                    }
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String,String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/x-www-form-urlencoded");
-                headers.put("Authorization", user.getApikey());
-                return headers;
-            }
-
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put(JsonKeys.SERVICE_OBSERVATIONS, observations);
-
-                return params;
-            }
-        };
-
-        requestQueue.add(stringRequest);
-
-    }
-
-    private void setFinishService() {
-        showProgress(true, buttons_container, progressBar);
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
@@ -347,6 +291,16 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 headers.put("Authorization", user.getApikey());
                 return headers;
             }
+
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put(JsonKeys.SERVICE_OBSERVATIONS, observations);
+
+                return params;
+            }
+
         };
 
         requestQueue.add(stringRequest);
