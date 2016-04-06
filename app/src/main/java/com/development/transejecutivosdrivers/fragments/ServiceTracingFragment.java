@@ -80,7 +80,7 @@ public class ServiceTracingFragment extends FragmentBase  {
     }
 
     private void setOnClickListeners() {
-        if (this.service.getIdTrace() == 0) {
+        if (this.service.getIdTrace() == 0 && this.service.getOld() == 1) {
             button_tracing.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

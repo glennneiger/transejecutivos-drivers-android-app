@@ -27,13 +27,23 @@ public class PrelocationService extends IntentServiceBase {
 
                 final String latitude = "" + mLastLocation.getLatitude();
                 final String longitude = "" + mLastLocation.getLongitude();
+                String url = "";
+
+                if (location != null && location.equals(JsonKeys.PRELOCATION)) {
+                    url = ApiConstants.URL_SET_PRELOCATION;
+                }
+                else if (location != null && location.equals(JsonKeys.ONSERVICE)) {
+                    url = ApiConstants.URL_SET_LOCATION;
+                }
+
+                Log.d("PRELOCATION", url);
 
                 if (this.isDataComplete) {
                     RequestQueue requestQueue = Volley.newRequestQueue(this.context);
 
                     StringRequest stringRequest = new StringRequest(
                             Request.Method.POST,
-                            ApiConstants.URL_SET_PRELOCATION + "/" + idService,
+                            url + "/" + idService,
                             new com.android.volley.Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {

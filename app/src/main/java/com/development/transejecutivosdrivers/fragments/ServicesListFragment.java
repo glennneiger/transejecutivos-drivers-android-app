@@ -26,6 +26,11 @@ public class ServicesListFragment extends FragmentBase {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        searchPendingServices();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

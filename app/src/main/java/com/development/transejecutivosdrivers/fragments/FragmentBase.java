@@ -3,8 +3,11 @@ package com.development.transejecutivosdrivers.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +32,7 @@ import com.development.transejecutivosdrivers.ServiceActivity;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.adapters.ServiceExpandableListAdapter;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
+import com.development.transejecutivosdrivers.background_services.AlarmReceiver;
 import com.development.transejecutivosdrivers.deserializers.Deserializer;
 import com.development.transejecutivosdrivers.deserializers.ServiceDeserializer;
 import com.development.transejecutivosdrivers.models.Date;
@@ -126,8 +130,9 @@ public class FragmentBase extends Fragment {
             if (!error) {
                 JSONObject service = (JSONObject) resObj.get(JsonKeys.SERVICE);
                 int idService = (int) service.get(JsonKeys.SERVICE_ID);
+                int old = (int) service.get(JsonKeys.SERVICE_OLD);
                 if (idService != 0) {
-                    showService(idService);
+                    showService(idService, old);
                 }
                 else {
                     setupServicesList();
@@ -142,16 +147,29 @@ public class FragmentBase extends Fragment {
         }
     }
 
-    public void showService(final int idService) {
+    public void showService(final int idService, final int old) {
+        String msg = "";
+        String button_prompt = "";
+
+        if (old == 1) {
+            msg = getResources().getString(R.string.old_service_message);
+            button_prompt = getResources().getString(R.string.button_old_service_modal_prompt);
+        }
+        else {
+            msg = getResources().getString(R.string.new_service_message);
+            button_prompt = getResources().getString(R.string.button_new_service_modal_prompt);
+        }
+
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setMessage("Tiene una orden que se encuentra pendiente. Para poder aceptar nuevas ordenes debe completarla");
-        dialog.setPositiveButton("Completar Orden", new DialogInterface.OnClickListener() {
+        dialog.setMessage(msg);
+        dialog.setPositiveButton(button_prompt, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent i = new Intent(getActivity(), ServiceActivity.class);
                 i.putExtra("idService", idService);
                 i.putExtra("tab", 0);
+                i.putExtra("old", old);
                 startActivity(i);
             }
         });
@@ -321,6 +339,7 @@ public class FragmentBase extends Fragment {
     }
 
     protected void  validateResponse(String response, String btn) {
+        Log.d("START SERVICE", response);
         try {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
@@ -333,6 +352,7 @@ public class FragmentBase extends Fragment {
                 if (btn.equals("b1ha")) {
                     setSuccesSnackBar(getResources().getString(R.string.on_way_message));
                     this.service.setB1ha(date);
+                    scheduleAlarm(JsonKeys.PRELOCATION);
                 }
                 else if (btn.equals("bls")) {
                     setSuccesSnackBar(getResources().getString(R.string.on_source_message));
@@ -341,19 +361,58 @@ public class FragmentBase extends Fragment {
                 else if (btn.equals("pab")) {
                     setSuccesSnackBar(getResources().getString(R.string.start_service_message));
                     this.service.setPab(date);
+                    scheduleAlarm(JsonKeys.ONSERVICE);
                 }
                 else if (btn.equals("st")) {
                     setSuccesSnackBar(getResources().getString(R.string.finish_service_message));
                     this.service.setSt(date);
                 }
+                reload();
             }
             else {
+                cancelAlarm();
                 setErrorSnackBar(getResources().getString(R.string.error_general));
             }
         }
         catch (JSONException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void reload() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+    }
+
+    private void scheduleAlarm(String location) {
+        Log.d("ALARM", location);
+        // Construct an intent that will execute the AlarmReceiver
+        Intent intent = new Intent(this.context, AlarmReceiver.class);
+
+        intent.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
+        intent.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
+        intent.putExtra(JsonKeys.LOCATION, location);
+
+        // Create a PendingIntent to be triggered when the alarm goes off
+        final PendingIntent pIntent = PendingIntent.getBroadcast(getActivity(), AlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Setup periodic alarm every 10 seconds
+
+        long firstMillis = 10000; // alarm is set right away
+        AlarmManager alarm = (AlarmManager) this.context.getSystemService(this.context.ALARM_SERVICE);
+
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, firstMillis, pIntent);
+    }
+
+    public void cancelAlarm() {
+        Intent intent = new Intent(this.context, AlarmReceiver.class);
+
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this.context, AlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarm = (AlarmManager) this.context.getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pIntent);
     }
 
     /**

@@ -97,6 +97,11 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
             button_accept.setVisibility(View.GONE);
             button_decline.setVisibility(View.GONE);
         }
+
+        if (!TextUtils.isEmpty(service.getCd())) {
+            button_accept.setVisibility(View.GONE);
+            button_decline.setVisibility(View.GONE);
+        }
     }
 
     public boolean validateDates(String d1, String d2) {

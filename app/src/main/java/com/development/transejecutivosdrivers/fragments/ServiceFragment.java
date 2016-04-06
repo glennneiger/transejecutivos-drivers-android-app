@@ -90,7 +90,7 @@ public class ServiceFragment extends FragmentBase {
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        validateUpdateServiceResponse(response);
+                        validateUpdateServiceResponse(response, status);
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {
@@ -121,12 +121,19 @@ public class ServiceFragment extends FragmentBase {
         requestQueue.add(stringRequest);
     }
 
-    public void validateUpdateServiceResponse(String response) {
+    public void validateUpdateServiceResponse(String response, int status) {
         showProgress(false, fragmentContainer, progressBar);
         try {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             if (!error) {
+                if (status == 0) {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.service_decline_message), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.service_accept_message), Toast.LENGTH_SHORT).show();
+                }
+
                 Intent i = new Intent(getActivity(), MainActivity.class);
                 startActivity(i);
             }

@@ -34,10 +34,11 @@ public abstract class IntentServiceBase extends IntentService implements
     protected Context context;
     protected int idService;
     protected String apikey;
+    protected String location;
     protected boolean isDataComplete = false;
 
     public IntentServiceBase() {
-        super("PrelocationService");
+        super("IntentServiceBase");
     }
 
     @Override
@@ -45,6 +46,8 @@ public abstract class IntentServiceBase extends IntentService implements
         super.onCreate(); // if you override onCreate(), make sure to call super().
         // If a Context object is needed, call getApplicationContext() here.
         this.context = getApplicationContext();
+
+        Log.d("LOCATION SERVICE", "ON CREATE");
 
         if (checkPlayServices()) {
             buildGoogleApiClient();
@@ -72,12 +75,16 @@ public abstract class IntentServiceBase extends IntentService implements
     @Override
     protected void onHandleIntent(Intent intent) {
         WakefulBroadcastReceiver.completeWakefulIntent(intent);
-        Log.i("PrelocationService", "Service running");
+        Log.i("IntentServiceBase", "Service running");
+
+        Log.d("RECEIVE", "ONHANDLE");
 
         Bundle t = intent.getExtras();
         if (t != null) {
             idService = t.getInt(JsonKeys.SERVICE_ID);
             apikey = t.getString(JsonKeys.USER_APIKEY);
+            location = t.getString(JsonKeys.LOCATION);
+
             this.isDataComplete = true;
         }
     }
@@ -153,8 +160,6 @@ public abstract class IntentServiceBase extends IntentService implements
     public void onLocationChanged(Location location) {
         // Assign the new location
         mLastLocation = location;
-        // Displaying the new location on UI
-        getLocation();
     }
 
     public abstract void getLocation();

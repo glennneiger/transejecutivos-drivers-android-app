@@ -103,4 +103,10 @@
     <string name="error_reset_password">No se pudo cambiar la contraseña, por favor intenta más tarde</string>
     <string name="success_reset_password">Se ha cambiado la contraseña exitosamente, por favor inicie sesión</string>
     <string name="prompt_reset_password_button">Cambiar Contraseña</string>
+    <string name="service_decline_message">Ha rechazado el servicio exitosamente</string>
+    <string name="service_accept_message">Ha aceptado el servicio exitosamente</string>
+    <string name="old_service_message">Tiene una orden que se encuentra pendiente por completar, para aceptar nuevas ordenes no debe tener ninguna pendiente</string>
+    <string name="new_service_message">Tiene una orden para aceptar o rechazar</string>
+    <string name="button_old_service_modal_prompt">Completar Orden</string>
+    <string name="button_new_service_modal_prompt">Ver Orden</string>
 </resources>

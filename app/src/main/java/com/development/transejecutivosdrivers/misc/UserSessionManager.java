@@ -24,7 +24,7 @@ public class UserSessionManager {
     int PRIVATE_MODE = 0;
 
     // Sharedpref file name
-    private static final String PREFER_NAME = "TransEjecutivosPref";
+    private static final String PREFER_NAME = "TransEjecutivosDriversPref";
 
     // All Shared Preferences Keys
     private static final String IS_USER_LOGIN = "IsUserLoggedIn";

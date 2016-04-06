@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
         btn_start_service = (Button) view.findViewById(R.id.btn_start_service);
         btn_finish_service = (Button) view.findViewById(R.id.btn_finish_service);
 
-        button_finish_tracing = (Button) view.findViewById(R.id.button_finish_tracing);
+        button_finish_tracing = (Button) view.findViewById(R.id.button_tracing);
         txtview_observations = (EditText) view.findViewById(R.id.txtview_observations);
 
         setOnClickListeners();
@@ -105,15 +106,14 @@ public class ServiceOptionsFragment extends FragmentBase  {
             @Override
             public void onClick(View v) {
                 confirmService();
-                scheduleAlarm(JsonKeys.PRELOCATION);
             }
         });
 
         btn_on_source.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setOnSource();
                 cancelAlarm();
+                setOnSource();
             }
         });
 
@@ -121,7 +121,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
             @Override
             public void onClick(View v) {
                 startService();
-                scheduleAlarm(JsonKeys.ONSERVICE);
             }
         });
 
@@ -148,7 +147,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     public void onResponse(String response) {
                         showProgress(false, buttons_container, progressBar);
                         validateResponse(response, "b1ha");
-                        setOnClickListeners();
                         disableButtons();
                     }
                 },
@@ -157,6 +155,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     public void onErrorResponse(VolleyError error) {
                         setErrorSnackBar(getResources().getString(R.string.error_general));
                         showProgress(false, buttons_container, progressBar);
+                        cancelAlarm();
                     }
                 }) {
 
@@ -185,7 +184,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     public void onResponse(String response) {
                         showProgress(false, buttons_container, progressBar);
                         validateResponse(response, "bls");
-                        setOnClickListeners();
                         disableButtons();
                     }
                 },
@@ -222,7 +220,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     public void onResponse(String response) {
                         showProgress(false, buttons_container, progressBar);
                         validateResponse(response, "pab");
-                        setOnClickListeners();
                         disableButtons();
                     }
                 },
@@ -272,7 +269,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     public void onResponse(String response) {
                         showProgress(false, buttons_container, progressBar);
                         validateResponse(response, "st");
-                        setOnClickListeners();
                         disableButtons();
                     }
                 },
@@ -308,7 +304,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
 
     private void disableButtons() {
-        if (service.getOld() == 1) {
+        if (service.getOld() == 1 || TextUtils.isEmpty(service.getCd())) {
             btn_onmyway.setEnabled(false);
             btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_on_source.setEnabled(false);
@@ -350,35 +346,15 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_start_service.setEnabled(false);
             btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
-    }
-
-    private void scheduleAlarm(String location) {
-        // Construct an intent that will execute the AlarmReceiver
-        Intent intent = new Intent(this.context, AlarmReceiver.class);
-
-        intent.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
-        intent.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
-        intent.putExtra(JsonKeys.LOCATION, location);
-
-        // Create a PendingIntent to be triggered when the alarm goes off
-        final PendingIntent pIntent = PendingIntent.getBroadcast(getActivity(), AlarmReceiver.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // Setup periodic alarm every 5 seconds
-
-        long firstMillis = 2000; // alarm is set right away
-        AlarmManager alarm = (AlarmManager) this.context.getSystemService(this.context.ALARM_SERVICE);
-
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, firstMillis, pIntent);
-    }
-
-    public void cancelAlarm() {
-        Intent intent = new Intent(this.context, AlarmReceiver.class);
-
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this.context, AlarmReceiver.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarm = (AlarmManager) this.context.getSystemService(Context.ALARM_SERVICE);
-        alarm.cancel(pIntent);
+        else {
+            btn_on_source.setEnabled(false);
+            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_onmyway.setEnabled(false);
+            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_start_service.setEnabled(false);
+            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_finish_service.setEnabled(false);
+            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
     }
 }

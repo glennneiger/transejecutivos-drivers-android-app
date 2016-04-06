@@ -23,26 +23,15 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle t = intent.getExtras();
         if (t != null) {
-            idService = t.getInt(JsonKeys.SERVICE_ID);
-            apikey = t.getString(JsonKeys.USER_APIKEY);
-            location = t.getString(JsonKeys.LOCATION);
+            Intent i = new Intent(context, PrelocationService.class);
 
-            if (location != null && location.equals(JsonKeys.PRELOCATION)) {
-                Intent i = new Intent(context, PrelocationService.class);
-                i.putExtra(JsonKeys.SERVICE_ID, idService);
-                i.putExtra(JsonKeys.USER_APIKEY, apikey);
+            i.putExtra(JsonKeys.SERVICE_ID, t.getInt(JsonKeys.SERVICE_ID));
+            i.putExtra(JsonKeys.USER_APIKEY, t.getString(JsonKeys.USER_APIKEY));
+            i.putExtra(JsonKeys.LOCATION, t.getString(JsonKeys.LOCATION));
 
-                startWakefulService(context, i);
-                context.startService(i);
-            }
-            else if (location != null && location.equals(JsonKeys.ONSERVICE)) {
-                Intent i = new Intent(context, LocationService.class);
-                i.putExtra(JsonKeys.SERVICE_ID, idService);
-                i.putExtra(JsonKeys.USER_APIKEY, apikey);
+            startWakefulService(context, i);
 
-                startWakefulService(context, i);
-                context.startService(i);
-            }
+            context.startService(i);
         }
     }
 }
