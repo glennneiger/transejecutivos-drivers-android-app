@@ -61,9 +61,13 @@
             android:name=".ServiceActivity"
             android:label="@string/title_activity_service"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".SearchserviceActivity"
+        <activity
+            android:name=".SearchserviceActivity"
             android:label="@string/title_activity_searchservice"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".ResetpassActivity"
+            android:label="@string/title_activity_resetpass"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

@@ -93,5 +93,14 @@
     <string name="prompt_service_observations">Observaciones</string>
     <string name="title_activity_searchservice">Buscar Servicio</string>
     <string name="prompt_search_service_button">Buscar</string>
-
+    <string name="title_activity_resetpass">Cambiar Contraseña</string>
+    <string name="prompt_password2">Repita la nueva contraseña</string>
+    <string name="prompt_password1">Nueva Contraseña</string>
+    <string name="reset_password_description">Por ser un nuevo usuario, le invitamos a cambiar la contraseña con el siguiente formulario</string>
+    <string name="error_empty_password1">La nueva contraseña no puede ser vacía</string>
+    <string name="error_empty_password2">Debes repetir la contraseña</string>
+    <string name="error_not_equals_passwords">Las contraseñas no coinciden</string>
+    <string name="error_reset_password">No se pudo cambiar la contraseña, por favor intenta más tarde</string>
+    <string name="success_reset_password">Se ha cambiado la contraseña exitosamente, por favor inicie sesión</string>
+    <string name="prompt_reset_password_button">Cambiar Contraseña</string>
 </resources>

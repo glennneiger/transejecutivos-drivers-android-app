@@ -224,30 +224,41 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
                 JSONObject resObj = new JSONObject(response);
                 Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
                 if (!error) {
-                    User user = new User();
-                    int idUser = (int) resObj.get(JsonKeys.USER_ID);
-                    user.setIdUser(idUser);
-                    user.setUsername(resObj.getString(JsonKeys.USER_USERNAME));
-                    user.setName(resObj.getString(JsonKeys.USER_NAME));
-                    user.setLastName(resObj.getString(JsonKeys.USER_LASTNAME));
-                    user.setEmail1(resObj.getString(JsonKeys.USER_EMAIL1));
-                    user.setEmail2(resObj.getString(JsonKeys.USER_EMAIL2));
-                    user.setPhone1(resObj.getString(JsonKeys.USER_PHONE1));
-                    user.setPhone2(resObj.getString(JsonKeys.USER_PHONE2));
-                    user.setApikey(resObj.getString(JsonKeys.USER_APIKEY));
-                    user.setCode(resObj.getString(JsonKeys.USER_CODE));
+                    int first_time = (int) resObj.get(JsonKeys.USER_FIRSTIME);
 
-                    session.createUserLoginSession(user);
+                    if (first_time == 1) {
+                        Intent i = new Intent(getApplicationContext(), ResetpassActivity.class);
+                        i.putExtra(JsonKeys.USER_USERNAME, resObj.getString(JsonKeys.USER_USERNAME));
+                        startActivity(i);
+                    }
+                    else {
+                        User user = new User();
+                        int idUser = (int) resObj.get(JsonKeys.USER_ID);
+                        user.setIdUser(idUser);
+                        user.setUsername(resObj.getString(JsonKeys.USER_USERNAME));
+                        user.setName(resObj.getString(JsonKeys.USER_NAME));
+                        user.setLastName(resObj.getString(JsonKeys.USER_LASTNAME));
+                        user.setEmail1(resObj.getString(JsonKeys.USER_EMAIL1));
+                        user.setEmail2(resObj.getString(JsonKeys.USER_EMAIL2));
+                        user.setPhone1(resObj.getString(JsonKeys.USER_PHONE1));
+                        user.setPhone2(resObj.getString(JsonKeys.USER_PHONE2));
+                        user.setApikey(resObj.getString(JsonKeys.USER_APIKEY));
+                        user.setCode(resObj.getString(JsonKeys.USER_CODE));
 
-                    onPostExecute(true);
+                        session.createUserLoginSession(user);
 
-                    // Starting MainActivity
-                    Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        onPostExecute(true);
 
-                    // Add new Flag to start new Activity
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(i);
+                        // Starting MainActivity
+                        Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                        // Add new Flag to start new Activity
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
+                    }
+
+                    showProgress(false, mLoginFormView, mProgressView);
 
                     finish();
                 }
@@ -264,7 +275,7 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
         @Override
         protected void onPostExecute(Boolean success) {
             mAuthTask = null;
-            showProgress(false, mLoginFormView, mProgressView);
+
             super.onPostExecute(success);
         }
 

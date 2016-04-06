@@ -20,6 +20,8 @@ public class JsonKeys {
     public static final String USER_CODE = "code";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
+    public static final String USER_FIRSTIME = "first_time";
+
 
     /**
      * General Json Keys
