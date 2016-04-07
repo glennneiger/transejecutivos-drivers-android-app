@@ -148,21 +148,10 @@ public class FragmentBase extends Fragment {
     }
 
     public void showService(final int idService, final int old) {
-        String msg = "";
-        String button_prompt = "";
-
-        if (old == 1) {
-            msg = getResources().getString(R.string.old_service_message);
-            button_prompt = getResources().getString(R.string.button_old_service_modal_prompt);
-        }
-        else {
-            msg = getResources().getString(R.string.new_service_message);
-            button_prompt = getResources().getString(R.string.button_new_service_modal_prompt);
-        }
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setMessage(msg);
-        dialog.setPositiveButton(button_prompt, new DialogInterface.OnClickListener() {
+        dialog.setMessage(getResources().getString(R.string.service_message));
+        dialog.setPositiveButton(getResources().getString(R.string.button_service_modal_prompt), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -259,7 +248,7 @@ public class FragmentBase extends Fragment {
         // Adding headers to list
         for (int i = 0; i < dates.size(); i++) {
             header.add(dates.get(i).getDate());
-            hashMap.put(header.get(i), services.get(i));
+            hashMap.put(dates.get(i).getDate(), services.get(i));
         }
 
         serviceExpandableListAdapter = new ServiceExpandableListAdapter(getActivity(), header, hashMap);

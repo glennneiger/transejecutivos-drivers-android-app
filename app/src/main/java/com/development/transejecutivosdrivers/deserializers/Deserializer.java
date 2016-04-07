@@ -1,5 +1,7 @@
 package com.development.transejecutivosdrivers.deserializers;
 
+import android.util.Log;
+
 import com.development.transejecutivosdrivers.models.Date;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
@@ -64,14 +66,18 @@ public class Deserializer extends DeserializerValidator {
                 ArrayList<Service> currentServicesArray = new ArrayList<>();
 
                 for (int j = 0; j < services.length(); j++) {
+
+
                     JSONObject jsonServiceObject = (JSONObject) services.get(j);
 
                     ServiceDeserializer serviceDeserializer = new ServiceDeserializer();
                     serviceDeserializer.setJsonObject(jsonServiceObject);
                     serviceDeserializer.deserialize();
                     currentServicesArray.add(serviceDeserializer.getService());
-                    this.services.add(currentServicesArray);
+
                 }
+
+                this.services.add(currentServicesArray);
             }
         }
         catch(JSONException ex) {
