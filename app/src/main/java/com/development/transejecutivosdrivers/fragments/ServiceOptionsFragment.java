@@ -320,7 +320,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_finish_service.setEnabled(false);
             btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
-        else if (TextUtils.isEmpty(service.getB1ha())) {
+        else if (TextUtils.isEmpty(service.getB1ha()) && service.getB1haStatus() == 1) {
             btn_on_source.setEnabled(false);
             btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_start_service.setEnabled(false);

@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,6 +50,7 @@ import java.util.Map;
 public class ServiceTracingFragment extends FragmentBase  {
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
+    private int PICK_IMAGE_REQUEST = 1;
 
     View formContainer;
     View progressBar;
@@ -60,6 +63,8 @@ public class ServiceTracingFragment extends FragmentBase  {
     ImageView imageView;
     Button button_take_photo;
     String image;
+
+    Bitmap bitmap;
 
     public ServiceTracingFragment() {
 
@@ -108,25 +113,30 @@ public class ServiceTracingFragment extends FragmentBase  {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-
                 Bitmap bmp = (Bitmap) data.getExtras().get("data");
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
                 bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
 
-                // convert byte array to Bitmap
-
-                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0,
-                        byteArray.length);
-
                 image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                // convert byte array to Bitmap
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
                 imageView.setImageBitmap(bitmap);
 
                 button_tracing.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
     }
 
     private void setOnClickListeners() {
@@ -211,7 +221,8 @@ public class ServiceTracingFragment extends FragmentBase  {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             if (!error) {
-                setSuccesSnackBar(getResources().getString(R.string.success_tracing_message));
+                Toast.makeText(this.context, getString(R.string.success_tracing_message), Toast.LENGTH_SHORT).show();
+                //setSuccesSnackBar(getResources().getString(R.string.success_tracing_message));
                 Intent i = new Intent(getActivity(), MainActivity.class);
                 startActivity(i);
             }

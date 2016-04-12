@@ -55,6 +55,7 @@ public class JsonKeys {
     public static final String SERVICE_BLS = "bls";
     public static final String SERVICE_PAB = "pab";
     public static final String SERVICE_ST = "st";
+    public static final String SERVICE_B1HA_STATUS = "b1haStatus";
 
     /**
      * Passenger Json Keys

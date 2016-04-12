@@ -39,6 +39,7 @@ public class ServiceDeserializer extends DeserializerValidator{
             String bls = validateString(JsonKeys.SERVICE_BLS, jsonObject);
             String pab = validateString(JsonKeys.SERVICE_PAB, jsonObject);
             String st = validateString(JsonKeys.SERVICE_ST, jsonObject);
+            int b1haStatus = validateInt(JsonKeys.SERVICE_B1HA_STATUS, jsonObject);
 
             this.service.setIdService(idService);
             this.service.setReference(reference);
@@ -60,6 +61,7 @@ public class ServiceDeserializer extends DeserializerValidator{
             this.service.setBls(bls);
             this.service.setPab(pab);
             this.service.setSt(st);
+            this.service.setB1haStatus(b1haStatus);
         }
     }
 
