@@ -109,6 +109,29 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgview_photo" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_take_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:elevation="10dp"
+                android:text="@string/prompt_take_photo"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryTextLight" />
+
             <Button
                 android:id="@+id/button_finish_tracing"
                 android:layout_width="match_parent"
@@ -117,7 +140,8 @@
                 android:elevation="10dp"
                 android:text="@string/prompt_tracing"
                 android:background="@color/colorPrimary"
-                android:textColor="@color/colorPrimaryTextLight" />
+                android:textColor="@color/colorPrimaryTextLight"
+                android:visibility="gone"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

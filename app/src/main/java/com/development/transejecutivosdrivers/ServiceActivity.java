@@ -67,6 +67,12 @@ public class ServiceActivity extends ActivityBase {
         getService();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isLocationServiceEnabled();
+    }
+
     public void getService() {
         showProgress(true, main_pager, progressBar);
 

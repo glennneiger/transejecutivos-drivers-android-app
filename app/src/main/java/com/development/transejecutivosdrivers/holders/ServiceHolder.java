@@ -103,37 +103,4 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
             button_decline.setVisibility(View.GONE);
         }
     }
-
-    public boolean validateDates(String d1, String d2) {
-        try{
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
-            Date date1 = formatter.parse(d1);
-            Date date2 = formatter.parse(d2);
-
-            if (date1.compareTo(date2) < 0) {
-                //date2 is Greater than date1
-                return true;
-            }
-            return false;
-        }
-        catch (ParseException e1){
-            e1.printStackTrace();
-            return false;
-        }
-    }
-
-    public String sumTimeToDate(String date, long time) {
-        try {
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            Date d = format.parse(date);
-            d.setTime(d.getTime() + time);
-
-            return "" + d;
-        }
-        catch (ParseException e1){
-            e1.printStackTrace();
-            return "";
-        }
-    }
 }

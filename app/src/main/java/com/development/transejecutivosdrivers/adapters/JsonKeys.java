@@ -78,6 +78,7 @@ public class JsonKeys {
     public static final String TRACING_START = "start";
     public static final String TRACING_END = "end";
     public static final String TRACING_OBSERVATIONS = "observations";
+    public static final String TRACING_IMAGE = "image";
 
     /**
      * Location

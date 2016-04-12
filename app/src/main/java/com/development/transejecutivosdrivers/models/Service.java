@@ -23,6 +23,15 @@ public class Service {
     String bls;
     String pab;
     String st;
+    int b1haStatus;
+
+    public int getB1haStatus() {
+        return b1haStatus;
+    }
+
+    public void setB1haStatus(int b1haStatus) {
+        this.b1haStatus = b1haStatus;
+    }
 
     public int getIdTrace() {
         return idTrace;

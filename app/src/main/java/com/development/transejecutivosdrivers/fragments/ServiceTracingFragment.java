@@ -1,13 +1,21 @@
 package com.development.transejecutivosdrivers.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 
 import com.android.volley.Request;
@@ -26,6 +34,11 @@ import com.development.transejecutivosdrivers.models.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +46,9 @@ import java.util.Map;
  * Created by william.montiel on 31/03/2016.
  */
 public class ServiceTracingFragment extends FragmentBase  {
+
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
+
     View formContainer;
     View progressBar;
     Button button_tracing;
@@ -41,6 +57,9 @@ public class ServiceTracingFragment extends FragmentBase  {
     TimePicker timepicker_start;
     TimePicker timepicker_end;
     EditText txtview_observations;
+    ImageView imageView;
+    Button button_take_photo;
+    String image;
 
     public ServiceTracingFragment() {
 
@@ -74,12 +93,51 @@ public class ServiceTracingFragment extends FragmentBase  {
 
         txtview_observations = (EditText) view.findViewById(R.id.txtview_observations);
 
+        imageView = (ImageView) view.findViewById(R.id.imgview_photo);
+
+        button_take_photo = (Button) view.findViewById(R.id.button_take_photo);
+
+
         setOnClickListeners();
 
         return view;
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                Bitmap bmp = (Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                // convert byte array to Bitmap
+
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0,
+                        byteArray.length);
+
+                image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                imageView.setImageBitmap(bitmap);
+
+                button_tracing.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     private void setOnClickListeners() {
+        button_take_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+            }
+        });
+
         if (this.service.getIdTrace() == 0 && this.service.getOld() == 1) {
             button_tracing.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,6 +197,7 @@ public class ServiceTracingFragment extends FragmentBase  {
                 params.put(JsonKeys.TRACING_START, start);
                 params.put(JsonKeys.TRACING_END, end);
                 params.put(JsonKeys.TRACING_OBSERVATIONS, observations);
+                params.put(JsonKeys.TRACING_IMAGE, image);
 
                 return params;
             }

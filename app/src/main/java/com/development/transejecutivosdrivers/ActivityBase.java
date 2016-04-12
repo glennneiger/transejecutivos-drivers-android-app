@@ -3,8 +3,13 @@ package com.development.transejecutivosdrivers;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -42,7 +47,9 @@ public class ActivityBase extends AppCompatActivity {
                 .setAction(getResources().getString(R.string.snackbar_action_back), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        backToDashboard();
+                        Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
+                        startActivity(i);
+                        finish();
                     }
                 });
 
@@ -55,14 +62,47 @@ public class ActivityBase extends AppCompatActivity {
 
     }
 
-    public void backToDashboard() {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // Add new Flag to start new Activity
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(i);
-        finish();
+
+    public void isLocationServiceEnabled(){
+        Context context = getApplicationContext();
+        LocationManager locationManager = null;
+        boolean gps_enabled = false, network_enabled = false;
+
+        if(locationManager == null) {
+            locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        }
+
+        try{
+            gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }
+        catch(Exception ex){
+            //do nothing...
+        }
+
+        try{
+            network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        }
+        catch(Exception ex){
+            //do nothing...
+        }
+
+        if (!gps_enabled || !network_enabled) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage("Debes activar los servicios de ubicación");
+            dialog.setPositiveButton("Activar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+                }
+            });
+
+            AlertDialog alert = dialog.create();
+            alert.show();
+
+        }
+
     }
 
     public void validateSession() {

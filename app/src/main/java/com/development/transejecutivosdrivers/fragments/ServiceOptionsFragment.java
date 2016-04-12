@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,11 @@ import com.development.transejecutivosdrivers.background_services.AlarmReceiver;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -249,7 +255,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
         button_finish_tracing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishService();
+                //finishService();
             }
         });
     }
@@ -355,6 +361,37 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_finish_service.setEnabled(false);
             btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+    }
+
+    public String subtractHourToStartDate(String date) {
+        String[] time = date.split(" ");
+        String[] parts = time[1].split(":");
+
+        int hour = Integer.parseInt(parts[0]) - 1;
+
+        String d = time[0] + " " + hour + ":" + parts[1];
+
+        return d;
+    }
+
+    public boolean validateDates(String d1, String d2, String d3) {
+        try{
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+            Date date1 = formatter.parse(d1);
+            Date date2 = formatter.parse(d2);
+            Date date3 = formatter.parse(d3);
+
+            if (date1.compareTo(date2) > 0 && date1.compareTo(date3) < 0) {
+                //date1 is Greater than date2 AND date1 is Less than date3
+                return true;
+            }
+            return false;
+        }
+        catch (ParseException e1){
+            e1.printStackTrace();
+            return false;
         }
     }
 }

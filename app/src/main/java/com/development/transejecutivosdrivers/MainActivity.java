@@ -23,6 +23,12 @@ public class MainActivity extends ActivityBase {
         setFragment();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isLocationServiceEnabled();
+    }
+
     protected void setFragment() {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

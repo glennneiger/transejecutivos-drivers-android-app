@@ -164,11 +164,6 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
 
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
-
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
