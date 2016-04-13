@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Transportes Ejecutivos Conductores</string>
+    <string name="app_name">TransEjecutivos Drivers</string>
 
     <!-- Strings related to login -->
     <string name="title_activity_login">Iniciar Sesión</string>
@@ -13,7 +13,7 @@
     <string name="error_invalid_login">Usuario o contraseña incorrecta</string>
 
     <!-- General Strings -->
-    <string name="error_general">Se ha presentado un error, por favor intenta más tarde</string>
+    <string name="error_general">Se ha presentado un error, es probable que se haya perdido la conexión a internet momentaneamente, por favor intenta de nuevo</string>
     <string name="no_services">No hay servicios para mostrar</string>
     <string name="accept_button">Aceptar</string>
 
@@ -57,7 +57,7 @@
     <string name="profile_update_success">Se ha actualizado tu perfil exitosamente</string>
 
     <!-- Dashboard Activity -->
-    <string name="title_activity_dashboard">Transportes Ejecutivos Driver</string>
+    <string name="title_activity_dashboard">TransEjecutivos Driver</string>
     <string name="not_driver">Servicio sin conductor asignado</string>
     <string name="action_dashboard">Inicio</string>
     <string name="title_activity_recoverpass">Recuperar Contraseña</string>

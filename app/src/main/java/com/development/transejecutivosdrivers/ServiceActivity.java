@@ -35,7 +35,7 @@ public class ServiceActivity extends ActivityBase {
 
     private TabLayout mainTabs;
     int idService = 0;
-    int tab = 0;
+    int tab = 1;
     int old = 0;
     Service service;
     Passenger passenger;
@@ -71,6 +71,13 @@ public class ServiceActivity extends ActivityBase {
     protected void onStart() {
         super.onStart();
         isLocationServiceEnabled();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //finish();
+        //startActivity(getIntent());
     }
 
     public void getService() {
@@ -144,14 +151,13 @@ public class ServiceActivity extends ActivityBase {
         mainTabs = (TabLayout) findViewById(R.id.main_tabs);
 
         mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.main_tab)));
-
-        //if (old == 1 ) {
-            mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.options_tab)));
-            mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.tracing_tab)));
-        //}
+        mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.options_tab)));
+        mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.tracing_tab)));
 
         mainTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         mainTabs.setTabGravity(TabLayout.GRAVITY_FILL);
+
+
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.main_pager);
         final PagerAdapter adapter = new TabPagerAdapter(getFragmentManager(),mainTabs.getTabCount(), getApplicationContext(), user, service, passenger);

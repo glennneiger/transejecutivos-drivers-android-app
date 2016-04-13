@@ -369,28 +369,19 @@ public class FragmentBase extends Fragment {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             if (!error) {
-                Time today = new Time(Time.getCurrentTimezone());
-                today.setToNow();
-
-                String date = today.monthDay + "/" + (today.month+1) + "/" + today.year + " " + today.format("%k:%M:%S");
-
                 if (btn.equals("b1ha")) {
                     setSuccesSnackBar(getResources().getString(R.string.on_way_message));
-                    this.service.setB1ha(date);
                     scheduleAlarm(JsonKeys.PRELOCATION);
                 }
                 else if (btn.equals("bls")) {
                     setSuccesSnackBar(getResources().getString(R.string.on_source_message));
-                    this.service.setBls(date);
                 }
                 else if (btn.equals("pab")) {
                     setSuccesSnackBar(getResources().getString(R.string.start_service_message));
-                    this.service.setPab(date);
                     scheduleAlarm(JsonKeys.ONSERVICE);
                 }
                 else if (btn.equals("st")) {
                     setSuccesSnackBar(getResources().getString(R.string.finish_service_message));
-                    this.service.setSt(date);
                 }
                 reload();
             }
@@ -406,8 +397,10 @@ public class FragmentBase extends Fragment {
     }
 
     private void reload() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
+        //FragmentTransaction ft = getFragmentManager().beginTransaction();
+        //ft.detach(this).attach(this).commit();
+        getActivity().finish();
+        getActivity().startActivity(getActivity().getIntent());
     }
 
     private void scheduleAlarm(String location) {
