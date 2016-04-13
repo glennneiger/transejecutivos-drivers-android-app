@@ -1,10 +1,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -15,7 +14,9 @@
     <ProgressBar
         android:id="@+id/tracing_progress"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_gravity="center"
+        android:layout_gravity="center_vertical"
+        android:layout_centerInParent="true"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -23,19 +24,19 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:paddingTop="300dp"
             android:fitsSystemWindows="true"
             android:id="@+id/tracing_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -43,6 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/prompt_start_time_service"
+                android:textSize="18dp"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal" />
 
@@ -55,7 +57,7 @@
 
                 <TimePicker
                     android:id="@+id/timepicker_start"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:timePickerMode="spinner"/>
@@ -68,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/prompt_end_time_service"
                 android:gravity="center"
+                android:textSize="18dp"
                 android:layout_gravity="center_horizontal" />
 
 
@@ -80,7 +83,7 @@
 
                 <TimePicker
                     android:id="@+id/timepicker_end"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:timePickerMode="spinner"/>
@@ -92,6 +95,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/prompt_service_observations"
                 android:gravity="center"
+                android:textSize="18dp"
                 android:layout_gravity="center_horizontal" />
 
 

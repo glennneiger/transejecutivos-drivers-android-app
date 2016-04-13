@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,7 +49,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
     Button btn_on_source;
     Button btn_start_service;
     Button btn_finish_service;
-    Button button_finish_tracing;
     EditText txtview_observations;
 
     public ServiceOptionsFragment() {
@@ -84,8 +84,10 @@ public class ServiceOptionsFragment extends FragmentBase  {
         btn_start_service = (Button) view.findViewById(R.id.btn_start_service);
         btn_finish_service = (Button) view.findViewById(R.id.btn_finish_service);
 
-        button_finish_tracing = (Button) view.findViewById(R.id.button_tracing);
+        button_finish_tracing = (Button) view.findViewById(R.id.button_finish_tracing);
+        button_take_photo = (Button) view.findViewById(R.id.button_take_photo);
         txtview_observations = (EditText) view.findViewById(R.id.txtview_observations);
+        imageView = (ImageView) view.findViewById(R.id.imgview_photo);
 
         setOnClickListeners();
         disableButtons();
@@ -252,10 +254,19 @@ public class ServiceOptionsFragment extends FragmentBase  {
     private void showFinishForm() {
         buttons_container.setVisibility(View.GONE);
         finish_form.setVisibility(View.VISIBLE);
+
+        button_take_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+            }
+        });
+
         button_finish_tracing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //finishService();
+                finishService();
             }
         });
     }
@@ -373,25 +384,5 @@ public class ServiceOptionsFragment extends FragmentBase  {
         String d = time[0] + " " + hour + ":" + parts[1];
 
         return d;
-    }
-
-    public boolean validateDates(String d1, String d2, String d3) {
-        try{
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
-            Date date1 = formatter.parse(d1);
-            Date date2 = formatter.parse(d2);
-            Date date3 = formatter.parse(d3);
-
-            if (date1.compareTo(date2) > 0 && date1.compareTo(date3) < 0) {
-                //date1 is Greater than date2 AND date1 is Less than date3
-                return true;
-            }
-            return false;
-        }
-        catch (ParseException e1){
-            e1.printStackTrace();
-            return false;
-        }
     }
 }

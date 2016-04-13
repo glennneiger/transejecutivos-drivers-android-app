@@ -3,6 +3,7 @@ package com.development.transejecutivosdrivers.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -11,15 +12,20 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.text.format.Time;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -44,6 +50,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,9 +59,16 @@ import java.util.Map;
 public class FragmentBase extends Fragment {
     protected static ExpandableListView expandableListView;
     protected static ServiceExpandableListAdapter serviceExpandableListAdapter;
+    protected static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
     View view;
     View progressBar;
     View layout;
+
+    ImageView imageView;
+    Button button_take_photo;
+    Button button_finish_tracing;
+    String image;
+
     User user;
     Service service;
     Passenger passenger;
@@ -327,8 +341,30 @@ public class FragmentBase extends Fragment {
         txtv.setGravity(Gravity.CENTER);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bitmap bmp = (Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+                byte[] byteArray = stream.toByteArray();
+
+                // convert byte array to Bitmap
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+                image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                imageView.setImageBitmap(bitmap);
+
+                button_finish_tracing.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     protected void  validateResponse(String response, String btn) {
-        Log.d("START SERVICE", response);
         try {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
@@ -360,7 +396,8 @@ public class FragmentBase extends Fragment {
             }
             else {
                 cancelAlarm();
-                setErrorSnackBar(getResources().getString(R.string.error_general));
+                String msg = resObj.getString(JsonKeys.MESSAGE);
+                setErrorSnackBar(msg);
             }
         }
         catch (JSONException ex) {
@@ -374,7 +411,6 @@ public class FragmentBase extends Fragment {
     }
 
     private void scheduleAlarm(String location) {
-        Log.d("ALARM", location);
         // Construct an intent that will execute the AlarmReceiver
         Intent intent = new Intent(this.context, AlarmReceiver.class);
 

@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
 import android.util.Base64;
@@ -19,28 +17,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.development.transejecutivosdrivers.DashboardActivity;
 import com.development.transejecutivosdrivers.MainActivity;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,22 +39,14 @@ import java.util.Map;
  */
 public class ServiceTracingFragment extends FragmentBase  {
 
-    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
-    private int PICK_IMAGE_REQUEST = 1;
-
     View formContainer;
     View progressBar;
-    Button button_tracing;
     TextInputLayout inputLayoutStart;
     TextInputLayout inputLayoutEnd;
     TimePicker timepicker_start;
     TimePicker timepicker_end;
     EditText txtview_observations;
-    ImageView imageView;
-    Button button_take_photo;
-    String image;
 
-    Bitmap bitmap;
 
     public ServiceTracingFragment() {
 
@@ -82,7 +64,7 @@ public class ServiceTracingFragment extends FragmentBase  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.service_tracing_fragment, container, false);
-        button_tracing = (Button) view.findViewById(R.id.button_finish_tracing);
+        button_finish_tracing = (Button) view.findViewById(R.id.button_finish_tracing);
 
         formContainer = view.findViewById(R.id.tracing_form);
         progressBar = view.findViewById(R.id.tracing_progress);
@@ -108,29 +90,6 @@ public class ServiceTracingFragment extends FragmentBase  {
         return view;
     }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Bitmap bmp = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-                bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                image = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-                // convert byte array to Bitmap
-                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-                imageView.setImageBitmap(bitmap);
-
-                button_tracing.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
     public String getStringImage(Bitmap bmp){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -149,7 +108,7 @@ public class ServiceTracingFragment extends FragmentBase  {
         });
 
         if (this.service.getIdTrace() == 0 && this.service.getOld() == 1) {
-            button_tracing.setOnClickListener(new View.OnClickListener() {
+            button_finish_tracing.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     setTracing();
@@ -157,8 +116,8 @@ public class ServiceTracingFragment extends FragmentBase  {
             });
         }
         else {
-            button_tracing.setEnabled(false);
-            button_tracing.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            button_finish_tracing.setEnabled(false);
+            button_finish_tracing.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
     }
 
@@ -221,13 +180,14 @@ public class ServiceTracingFragment extends FragmentBase  {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             if (!error) {
-                Toast.makeText(this.context, getString(R.string.success_tracing_message), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.success_tracing_message), Toast.LENGTH_SHORT).show();
                 //setSuccesSnackBar(getResources().getString(R.string.success_tracing_message));
                 Intent i = new Intent(getActivity(), MainActivity.class);
                 startActivity(i);
             }
             else {
-                setErrorSnackBar(getResources().getString(R.string.error_tracing_message));
+                String msg = resObj.getString(JsonKeys.MESSAGE);
+                setErrorSnackBar(msg);
             }
         }
         catch (JSONException ex) {
