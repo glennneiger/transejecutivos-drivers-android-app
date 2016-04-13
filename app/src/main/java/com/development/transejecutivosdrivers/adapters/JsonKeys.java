@@ -21,6 +21,7 @@ public class JsonKeys {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String USER_FIRSTIME = "first_time";
+    public static final String USER_NOTIFICATIONS = "notifications";
 
 
     /**
