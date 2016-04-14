@@ -41,6 +41,12 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         DashboardMenu item = (DashboardMenu) parent.getItemAtPosition(position);
         Intent i;

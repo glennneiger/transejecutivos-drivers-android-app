@@ -16,6 +16,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.MainActivity;
 import com.development.transejecutivosdrivers.R;
+import com.development.transejecutivosdrivers.ServiceActivity;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.deserializers.Deserializer;
@@ -80,6 +81,8 @@ public class ServiceFragment extends FragmentBase {
     @Override
     public void onStart() {
         super.onStart();
+        ServiceActivity serviceActivity = (ServiceActivity) getActivity();
+        setService(serviceActivity.getServiceData());
         ServiceHolder serviceHolder = new ServiceHolder(view, getActivity());
         serviceHolder.setService(service);
         serviceHolder.setPassenger(passenger);

@@ -104,6 +104,7 @@ public class FragmentBase extends Fragment {
     }
 
     public void searchPendingServices() {
+        Log.d("LALA", "Searching services");
         showProgress(true, layout, progressBar);
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
@@ -113,12 +114,14 @@ public class FragmentBase extends Fragment {
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("LALA", response);
                         validateSearchPendingServiceResponse(response);
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Log.d("LALA", "error");
                         setErrorSnackBar(getResources().getString(R.string.error_general));
                         showProgress(false, layout, progressBar);
                     }
@@ -144,9 +147,8 @@ public class FragmentBase extends Fragment {
             if (!error) {
                 JSONObject service = (JSONObject) resObj.get(JsonKeys.SERVICE);
                 int idService = (int) service.get(JsonKeys.SERVICE_ID);
-                int old = (int) service.get(JsonKeys.SERVICE_OLD);
                 if (idService != 0) {
-                    showService(idService, old);
+                    showService(idService);
                 }
                 else {
                     setupServicesList();
@@ -161,7 +163,7 @@ public class FragmentBase extends Fragment {
         }
     }
 
-    public void showService(final int idService, final int old) {
+    public void showService(final int idService) {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setMessage(getResources().getString(R.string.service_message));
@@ -180,6 +182,7 @@ public class FragmentBase extends Fragment {
 
 
     public void setupServicesList() {
+        Log.d("LALA", "SETTING LISTS");
         showProgress(true, layout, progressBar);
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 

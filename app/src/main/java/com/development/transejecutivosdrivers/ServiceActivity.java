@@ -34,6 +34,9 @@ import java.util.Map;
 public class ServiceActivity extends ActivityBase {
 
     private TabLayout mainTabs;
+    private ViewPager viewPager;
+    private PagerAdapter adapter;
+
     int idService = 0;
     Service service;
     Passenger passenger;
@@ -66,9 +69,12 @@ public class ServiceActivity extends ActivityBase {
     protected void onStart() {
         super.onStart();
         isLocationServiceEnabled();
-
         destroyTabs();
         getService();
+    }
+
+    public Service getServiceData() {
+        return service;
     }
 
     public void getService() {
@@ -152,8 +158,8 @@ public class ServiceActivity extends ActivityBase {
             mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.options_tab)));
         }
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.main_pager);
-        final PagerAdapter adapter = new TabPagerAdapter(getFragmentManager(),mainTabs.getTabCount(), getApplicationContext(), user, service, passenger);
+        viewPager = (ViewPager) findViewById(R.id.main_pager);
+        adapter = new TabPagerAdapter(getFragmentManager(),mainTabs.getTabCount(), getApplicationContext(), user, service, passenger);
 
         viewPager.setAdapter(adapter);
 
@@ -162,6 +168,7 @@ public class ServiceActivity extends ActivityBase {
         mainTabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                adapter.notifyDataSetChanged();
                 viewPager.setCurrentItem(tab.getPosition());
             }
 

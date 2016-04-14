@@ -105,7 +105,7 @@
     <string name="prompt_reset_password_button">Cambiar Contraseña</string>
     <string name="service_decline_message">Ha rechazado el servicio exitosamente</string>
     <string name="service_accept_message">Ha aceptado el servicio exitosamente</string>
-    <string name="service_message">Tiene una orden por completar, para aceptar nuevas ordenes no debe tener ninguna pendiente</string>
+    <string name="service_message">Tiene una orden sin segumiento, por favor completar</string>
     <string name="button_service_modal_prompt">Ver Orden</string>
     <string name="prompt_take_photo">Tomar Foto</string>
 </resources>

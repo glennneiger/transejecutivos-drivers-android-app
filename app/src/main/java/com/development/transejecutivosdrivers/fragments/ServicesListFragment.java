@@ -25,13 +25,6 @@ public class ServicesListFragment extends FragmentBase {
         return fragment;
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        searchPendingServices();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.service_list_fragment, container, false);
@@ -46,8 +39,12 @@ public class ServicesListFragment extends FragmentBase {
 
         progressBar = view.findViewById(R.id.service_progress);
 
-        searchPendingServices();
-
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        searchPendingServices();
     }
 }

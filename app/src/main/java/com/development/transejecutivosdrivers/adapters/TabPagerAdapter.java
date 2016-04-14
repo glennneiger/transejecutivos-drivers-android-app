@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.development.transejecutivosdrivers.fragments.ServiceFragment;
 import com.development.transejecutivosdrivers.fragments.ServiceOptionsFragment;
@@ -30,8 +31,6 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
         this.user = user;
         this.service = service;
         this.passenger = passenger;
-
-        notifyDataSetChanged();
     }
 
     @Override
@@ -39,6 +38,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
+                Log.d("TABPAGER", this.service.getStartDate());
                 ServiceFragment serviceFragment = ServiceFragment.newInstance(this.user, this.service, this.passenger);
                 return serviceFragment;
             case 1:
@@ -60,4 +60,6 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return tabCount;
     }
+
+
 }

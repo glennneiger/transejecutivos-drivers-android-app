@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.MainActivity;
 import com.development.transejecutivosdrivers.R;
+import com.development.transejecutivosdrivers.ServiceActivity;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.models.Service;
@@ -84,13 +85,16 @@ public class ServiceTracingFragment extends FragmentBase  {
 
         button_take_photo = (Button) view.findViewById(R.id.button_take_photo);
 
+        setOnClickListeners();
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        setOnClickListeners();
+        //ServiceActivity serviceActivity = (ServiceActivity) getActivity();
+        //setService(serviceActivity.getServiceData());
     }
 
     public String getStringImage(Bitmap bmp){
