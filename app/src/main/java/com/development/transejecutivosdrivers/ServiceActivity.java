@@ -35,8 +35,6 @@ public class ServiceActivity extends ActivityBase {
 
     private TabLayout mainTabs;
     int idService = 0;
-    int tab = 1;
-    int old = 0;
     Service service;
     Passenger passenger;
     View main_pager;
@@ -56,28 +54,21 @@ public class ServiceActivity extends ActivityBase {
         service_activity_layout = findViewById(R.id.service_activity_layout);
         main_pager = findViewById(R.id.main_pager);
         progressBar = findViewById(R.id.service_progress);
+        mainTabs = (TabLayout) findViewById(R.id.main_tabs);
 
         Bundle t = getIntent().getExtras();
         if (t != null) {
-            idService = t.getInt("idService");
-            tab = t.getInt("tab");
-            old = t.getInt("old");
+            idService = t.getInt(JsonKeys.SERVICE_ID);
         }
-
-        getService();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         isLocationServiceEnabled();
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //finish();
-        //startActivity(getIntent());
+        destroyTabs();
+        getService();
     }
 
     public void getService() {
@@ -147,17 +138,19 @@ public class ServiceActivity extends ActivityBase {
         }
     }
 
+    private void destroyTabs() {
+        mainTabs.removeAllTabs();
+    }
+
     private void setTabs() {
-        mainTabs = (TabLayout) findViewById(R.id.main_tabs);
-
         mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.main_tab)));
-        mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.options_tab)));
-        mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.tracing_tab)));
 
-        mainTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
-        mainTabs.setTabGravity(TabLayout.GRAVITY_FILL);
-
-
+        if (service.getOld() == 1) {
+            mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.tracing_tab)));
+        }
+        else {
+            mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.options_tab)));
+        }
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.main_pager);
         final PagerAdapter adapter = new TabPagerAdapter(getFragmentManager(),mainTabs.getTabCount(), getApplicationContext(), user, service, passenger);
@@ -183,7 +176,7 @@ public class ServiceActivity extends ActivityBase {
             }
         });
 
-        viewPager.setCurrentItem(tab, false);
+        viewPager.setCurrentItem(1, false);
     }
 
     @Override

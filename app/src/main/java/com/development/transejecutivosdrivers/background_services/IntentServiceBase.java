@@ -47,8 +47,6 @@ public abstract class IntentServiceBase extends IntentService implements
         // If a Context object is needed, call getApplicationContext() here.
         this.context = getApplicationContext();
 
-        Log.d("LOCATION SERVICE", "ON CREATE");
-
         if (checkPlayServices()) {
             buildGoogleApiClient();
             createLocationRequest();
@@ -75,9 +73,6 @@ public abstract class IntentServiceBase extends IntentService implements
     @Override
     protected void onHandleIntent(Intent intent) {
         WakefulBroadcastReceiver.completeWakefulIntent(intent);
-        Log.i("IntentServiceBase", "Service running");
-
-        Log.d("RECEIVE", "ONHANDLE");
 
         Bundle t = intent.getExtras();
         if (t != null) {
@@ -125,7 +120,7 @@ public abstract class IntentServiceBase extends IntentService implements
      * */
     protected void startLocationUpdates() {
         try {
-            if (mGoogleApiClient.isConnected()) {
+            if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
             }
         }
@@ -168,7 +163,7 @@ public abstract class IntentServiceBase extends IntentService implements
         // Once connected with google api, get the location
         getLocation();
 
-        if (mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             startLocationUpdates();
         }
     }

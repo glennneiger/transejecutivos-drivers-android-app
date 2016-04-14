@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,9 +79,15 @@ public class ServiceOptionsFragment extends FragmentBase  {
         txtview_observations = (EditText) view.findViewById(R.id.txtview_observations);
         imageView = (ImageView) view.findViewById(R.id.imgview_photo);
 
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         setOnClickListeners();
         disableButtons();
-        return view;
     }
 
     private void setOnClickListeners() {

@@ -30,6 +30,8 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
         this.user = user;
         this.service = service;
         this.passenger = passenger;
+
+        notifyDataSetChanged();
     }
 
     @Override
@@ -40,11 +42,15 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
                 ServiceFragment serviceFragment = ServiceFragment.newInstance(this.user, this.service, this.passenger);
                 return serviceFragment;
             case 1:
-                ServiceOptionsFragment serviceOptionsFragment = ServiceOptionsFragment.newInstance(this.user, this.service, this.passenger, this.context);
-                return serviceOptionsFragment;
-            case 2:
-                ServiceTracingFragment serviceTracingFragment = ServiceTracingFragment.newInstance(this.user, this.service);
-                return serviceTracingFragment;
+                if (this.service.getOld() == 1) {
+                    ServiceTracingFragment fragment = ServiceTracingFragment.newInstance(this.user, this.service);
+                    return fragment;
+                }
+                else {
+                    ServiceOptionsFragment fragment = ServiceOptionsFragment.newInstance(this.user, this.service, this.passenger, this.context);
+                    return fragment;
+                }
+
             default:
                 return null;
         }

@@ -170,9 +170,7 @@ public class FragmentBase extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent i = new Intent(getActivity(), ServiceActivity.class);
-                i.putExtra("idService", idService);
-                i.putExtra("tab", 0);
-                i.putExtra("old", old);
+                i.putExtra(JsonKeys.SERVICE_ID, idService);
                 startActivity(i);
             }
         });
@@ -396,7 +394,12 @@ public class FragmentBase extends Fragment {
         }
     }
 
-    private void reload() {
+    protected void refreshFragment() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+    }
+
+    protected void reload() {
         //FragmentTransaction ft = getFragmentManager().beginTransaction();
         //ft.detach(this).attach(this).commit();
         getActivity().finish();

@@ -65,9 +65,7 @@ public class ServiceExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(_context, ServiceActivity.class);
-                i.putExtra("idService", serviceHolder.service.getIdService());
-                i.putExtra("tab", 0);
-                i.putExtra("old", 1);
+                i.putExtra(JsonKeys.SERVICE_ID, serviceHolder.service.getIdService());
                 _context.startActivity(i);
             }
         });

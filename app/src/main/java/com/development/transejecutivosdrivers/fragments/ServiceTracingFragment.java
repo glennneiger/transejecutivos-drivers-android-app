@@ -84,10 +84,13 @@ public class ServiceTracingFragment extends FragmentBase  {
 
         button_take_photo = (Button) view.findViewById(R.id.button_take_photo);
 
-
-        setOnClickListeners();
-
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setOnClickListeners();
     }
 
     public String getStringImage(Bitmap bmp){

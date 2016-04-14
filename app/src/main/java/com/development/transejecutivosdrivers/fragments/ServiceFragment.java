@@ -74,11 +74,15 @@ public class ServiceFragment extends FragmentBase {
             }
         });
 
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         ServiceHolder serviceHolder = new ServiceHolder(view, getActivity());
         serviceHolder.setService(service);
         serviceHolder.setPassenger(passenger);
-
-        return view;
     }
 
     public void updateService(final int status) {
