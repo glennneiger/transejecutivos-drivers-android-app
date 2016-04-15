@@ -85,7 +85,7 @@
     <!-- Fragment tracing -->
     <string name="prompt_tracing">Guardar</string>
     <string name="success_tracing_message">Se ha guardado el seguimiento exitosamente</string>
-    <string name="error_tracing_message">Ha ocurrido un error, por favor intente más tarde</string>
+    <string name="error_tracing_message">Ha ocurrido un error, por favor de nuevo</string>
     <string name="device_not_supported">El dispositivo no cuenta con google play services, por favor verifica que este instalado</string>
     <string name="error_location">Ocurrió un error mientras se guardaba la ubicación actual, TransEjecutivos Driver</string>
     <string name="prompt_start_time_service">Hora de Inicio</string>
@@ -97,7 +97,7 @@
     <string name="prompt_password2">Repita la nueva contraseña</string>
     <string name="prompt_password1">Nueva Contraseña</string>
     <string name="reset_password_description">Por ser un nuevo usuario, le invitamos a cambiar la contraseña con el siguiente formulario</string>
-    <string name="error_empty_password1">La nueva contraseña no puede ser vacía</string>
+    <string name="error_empty_password1">La nueva contraseña no puede estar vacía</string>
     <string name="error_empty_password2">Debes repetir la contraseña</string>
     <string name="error_not_equals_passwords">Las contraseñas no coinciden</string>
     <string name="error_reset_password">No se pudo cambiar la contraseña, por favor intenta más tarde</string>

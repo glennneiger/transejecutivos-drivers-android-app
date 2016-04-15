@@ -141,19 +141,19 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
     }
 
-    private void confirmService() {
+    private void setServiceStatus(final String url, final String status) {
         showProgress(true, buttons_container, progressBar);
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
-                ApiConstants.URL_CONFIRM_SERVICE + "/" + this.service.getIdService(),
+                url,
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         showProgress(false, buttons_container, progressBar);
-                        validateResponse(response, "b1ha");
+                        validateResponse(response, status);
                         disableButtons();
                     }
                 },
@@ -178,76 +178,17 @@ public class ServiceOptionsFragment extends FragmentBase  {
         requestQueue.add(stringRequest);
     }
 
+
+    private void confirmService() {
+        setServiceStatus(ApiConstants.URL_CONFIRM_SERVICE + "/" + this.service.getIdService(), "b1ha");
+    }
+
     private void setOnSource() {
-        showProgress(true, buttons_container, progressBar);
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                ApiConstants.URL_SET_ON_SOURCE + "/" + this.service.getIdService(),
-                new com.android.volley.Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        showProgress(false, buttons_container, progressBar);
-                        validateResponse(response, "bls");
-                        disableButtons();
-                    }
-                },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, buttons_container, progressBar);
-                    }
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String,String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/x-www-form-urlencoded");
-                headers.put("Authorization", user.getApikey());
-                return headers;
-            }
-        };
-
-        requestQueue.add(stringRequest);
+        setServiceStatus(ApiConstants.URL_SET_ON_SOURCE + "/" + this.service.getIdService(), "bls");
     }
 
     private void startService() {
-        showProgress(true, buttons_container, progressBar);
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                ApiConstants.URL_START_SERVICE + "/" + this.service.getIdService(),
-                new com.android.volley.Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        showProgress(false, buttons_container, progressBar);
-                        validateResponse(response, "pab");
-                        disableButtons();
-                    }
-                },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, buttons_container, progressBar);
-                    }
-                }) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String,String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/x-www-form-urlencoded");
-                headers.put("Authorization", user.getApikey());
-                return headers;
-            }
-        };
-
-        requestQueue.add(stringRequest);
+        setServiceStatus(ApiConstants.URL_START_SERVICE + "/" + this.service.getIdService(), "pab");
     }
 
     private void showFinishForm() {

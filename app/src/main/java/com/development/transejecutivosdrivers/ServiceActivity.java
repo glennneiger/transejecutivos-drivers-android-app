@@ -35,7 +35,7 @@ public class ServiceActivity extends ActivityBase {
 
     private TabLayout mainTabs;
     private ViewPager viewPager;
-    private PagerAdapter adapter;
+    private PagerAdapter adapter = null;
 
     int idService = 0;
     Service service;
@@ -69,7 +69,6 @@ public class ServiceActivity extends ActivityBase {
     protected void onStart() {
         super.onStart();
         isLocationServiceEnabled();
-        destroyTabs();
         getService();
     }
 
@@ -80,6 +79,15 @@ public class ServiceActivity extends ActivityBase {
     public void getService() {
         showProgress(true, main_pager, progressBar);
 
+        final boolean refresh;
+
+        if (adapter != null) {
+            refresh = true;
+        }
+        else {
+            refresh = false;
+        }
+
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         StringRequest stringRequest = new StringRequest(
@@ -88,7 +96,7 @@ public class ServiceActivity extends ActivityBase {
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        validateServiceResponse(response);
+                        validateServiceResponse(response, refresh);
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {
@@ -111,7 +119,7 @@ public class ServiceActivity extends ActivityBase {
         requestQueue.add(stringRequest);
     }
 
-    private void validateServiceResponse(String response) {
+    private void validateServiceResponse(String response, boolean refresh) {
         showProgress(false, main_pager, progressBar);
         try {
             JSONObject resObj = new JSONObject(response);
@@ -127,7 +135,9 @@ public class ServiceActivity extends ActivityBase {
                     service = deserializer.getService();
                     passenger = deserializer.getPassenger();
 
-                    setTabs();
+                    if (!refresh) {
+                        setTabs();
+                    }
                 }
                 else {
                     Toast.makeText(this, R.string.service_not_found_error, Toast.LENGTH_LONG).show();
