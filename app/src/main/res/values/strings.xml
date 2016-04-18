@@ -108,4 +108,6 @@
     <string name="service_message">Tiene una orden sin segumiento, por favor completar</string>
     <string name="button_service_modal_prompt">Ver Orden</string>
     <string name="prompt_take_photo">Tomar Foto</string>
+    <string name="prompt_service_observations_details">Recuerda que las observaciones, no son obligatorias, puedes dejar el campo en blanco</string>
+    <string name="prompt_service_image">Recuerda que tomar la foto es opcional</string>
 </resources>

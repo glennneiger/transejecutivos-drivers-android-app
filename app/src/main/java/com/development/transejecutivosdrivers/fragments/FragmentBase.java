@@ -22,7 +22,6 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.adapters.ServiceExpandableListAdapter;
@@ -30,8 +29,7 @@ import com.development.transejecutivosdrivers.background_services.AlarmReceiver;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 
 public class FragmentBase extends Fragment {
@@ -45,7 +43,7 @@ public class FragmentBase extends Fragment {
     ImageView imageView;
     Button button_take_photo;
     Button button_finish_tracing;
-    String image;
+    String image = "";
 
     User user;
     Service service;
@@ -81,6 +79,29 @@ public class FragmentBase extends Fragment {
         return;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bitmap bmp = (Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+                byte[] byteArray = stream.toByteArray();
+
+                // convert byte array to Bitmap
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+                image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                imageView.setImageBitmap(bitmap);
+
+                button_finish_tracing.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     public void setErrorSnackBar(String message) {
         Snackbar snackbar = Snackbar
                 .make(view, message, Snackbar.LENGTH_LONG);
@@ -105,64 +126,6 @@ public class FragmentBase extends Fragment {
         txtv.setGravity(Gravity.CENTER);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Bitmap bmp = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-                bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-
-                byte[] byteArray = stream.toByteArray();
-
-                // convert byte array to Bitmap
-                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-                image = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-                imageView.setImageBitmap(bitmap);
-
-                button_finish_tracing.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    protected void  validateResponse(String response, String btn) {
-        try {
-            JSONObject resObj = new JSONObject(response);
-            Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
-            if (!error) {
-                if (btn.equals("b1ha")) {
-                    Toast.makeText(this.context, getResources().getString(R.string.on_way_message), Toast.LENGTH_SHORT).show();
-                    //setSuccesSnackBar(getResources().getString(R.string.on_way_message));
-                    scheduleAlarm(JsonKeys.PRELOCATION);
-                }
-                else if (btn.equals("bls")) {
-                    Toast.makeText(this.context, getResources().getString(R.string.on_source_message), Toast.LENGTH_LONG).show();
-                    //setSuccesSnackBar(getResources().getString(R.string.on_source_message));
-                }
-                else if (btn.equals("pab")) {
-                    Toast.makeText(this.context, getResources().getString(R.string.start_service_message), Toast.LENGTH_LONG).show();
-                    //setSuccesSnackBar(getResources().getString(R.string.start_service_message));
-                    scheduleAlarm(JsonKeys.ONSERVICE);
-                } else if (btn.equals("st")) {
-                    Toast.makeText(this.context, getResources().getString(R.string.finish_service_message), Toast.LENGTH_LONG).show();
-                    //setSuccesSnackBar(getResources().getString(R.string.finish_service_message));
-                }
-                reload();
-            }
-            else {
-                cancelAlarm();
-                String msg = resObj.getString(JsonKeys.MESSAGE);
-                setErrorSnackBar(msg);
-            }
-        }
-        catch (JSONException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     protected void refreshFragment() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
@@ -175,7 +138,7 @@ public class FragmentBase extends Fragment {
         getActivity().startActivity(getActivity().getIntent());
     }
 
-    private void scheduleAlarm(String location) {
+    protected void scheduleAlarm(String location) {
         // Construct an intent that will execute the AlarmReceiver
         Intent intent = new Intent(this.context, AlarmReceiver.class);
 

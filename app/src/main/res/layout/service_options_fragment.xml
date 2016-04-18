@@ -95,6 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
@@ -104,12 +105,34 @@
             android:gravity="center"
             android:layout_gravity="center_horizontal" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textSize="18dp"
+            android:text="@string/prompt_service_observations_details"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal" />
+
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:id="@+id/txtview_observations"
             android:layout_gravity="center_horizontal" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="18dp"
+            android:text="@string/prompt_service_image"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal" />
+
 
         <ImageView
             android:layout_width="match_parent"
@@ -128,7 +151,6 @@
 
         <Button
             android:id="@+id/button_finish_tracing"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

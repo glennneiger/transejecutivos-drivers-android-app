@@ -1,11 +1,15 @@
 package com.development.transejecutivosdrivers.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +17,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -25,6 +32,8 @@ import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,7 +88,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
         button_take_photo = (Button) view.findViewById(R.id.button_take_photo);
         txtview_observations = (EditText) view.findViewById(R.id.txtview_observations);
         imageView = (ImageView) view.findViewById(R.id.imgview_photo);
-
 
         return view;
     }
@@ -212,7 +220,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
     }
 
     private void finishService() {
-        showProgress(true, buttons_container, progressBar);
+        showProgress(true, finish_form, progressBar);
 
         final String observations = txtview_observations.getText().toString();
 
@@ -224,7 +232,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        showProgress(false, buttons_container, progressBar);
+                        showProgress(false, finish_form, progressBar);
                         finish_form.setVisibility(View.GONE);
                         validateResponse(response, "st");
                         disableButtons();
@@ -234,7 +242,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, buttons_container, progressBar);
+                        showProgress(false, finish_form, progressBar);
                     }
                 }) {
 
@@ -251,15 +259,59 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put(JsonKeys.SERVICE_OBSERVATIONS, observations);
+                params.put(JsonKeys.TRACING_IMAGE, image);
 
                 return params;
             }
 
         };
 
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
         requestQueue.add(stringRequest);
     }
 
+    protected void  validateResponse(String response, String btn) {
+        try {
+            JSONObject resObj = new JSONObject(response);
+            Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+            String msg = resObj.getString(JsonKeys.MESSAGE);
+            if (!error) {
+                Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show();
+
+                if (btn.equals("b1ha")) {
+                    scheduleAlarm(JsonKeys.PRELOCATION);
+                }
+                else if (btn.equals("pab")) {
+                    scheduleAlarm(JsonKeys.ONSERVICE);
+                }
+
+                reload();
+            }
+            else {
+                cancelAlarm();
+                setErrorSnackBar(msg);
+            }
+        }
+        catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     private void disableButtons() {
         if (service.getOld() == 1 || TextUtils.isEmpty(service.getCd())) {

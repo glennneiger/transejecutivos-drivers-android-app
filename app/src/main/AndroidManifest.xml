@@ -62,6 +62,7 @@
         <activity
             android:name=".ServiceActivity"
             android:label="@string/title_activity_service"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SearchserviceActivity"

@@ -73,7 +73,7 @@ public class ServiceActivity extends ActivityBase {
     }
 
     public Service getServiceData() {
-        return service;
+        return this.service;
     }
 
     public void getService() {
@@ -134,7 +134,6 @@ public class ServiceActivity extends ActivityBase {
 
                     service = deserializer.getService();
                     passenger = deserializer.getPassenger();
-
                     if (!refresh) {
                         setTabs();
                     }
@@ -152,10 +151,6 @@ public class ServiceActivity extends ActivityBase {
         catch (JSONException ex) {
             ex.printStackTrace();
         }
-    }
-
-    private void destroyTabs() {
-        mainTabs.removeAllTabs();
     }
 
     private void setTabs() {
@@ -178,7 +173,6 @@ public class ServiceActivity extends ActivityBase {
         mainTabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                adapter.notifyDataSetChanged();
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
