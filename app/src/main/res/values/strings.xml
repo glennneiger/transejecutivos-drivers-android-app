@@ -88,8 +88,8 @@
     <string name="error_tracing_message">Ha ocurrido un error, por favor de nuevo</string>
     <string name="device_not_supported">El dispositivo no cuenta con google play services, por favor verifica que este instalado</string>
     <string name="error_location">Ocurrió un error mientras se guardaba la ubicación actual, TransEjecutivos Driver</string>
-    <string name="prompt_start_time_service">Hora de Inicio</string>
-    <string name="prompt_end_time_service">Hora de Finalización</string>
+    <string name="prompt_start_time_service">Configurar Hora de Inicio</string>
+    <string name="prompt_end_time_service">Configurar Hora de Finalización</string>
     <string name="prompt_service_observations">Observaciones</string>
     <string name="title_activity_searchservice">Buscar Servicio</string>
     <string name="prompt_search_service_button">Buscar</string>
@@ -110,4 +110,8 @@
     <string name="prompt_take_photo">Tomar Foto</string>
     <string name="prompt_service_observations_details">Recuerda que las observaciones, no son obligatorias, puedes dejar el campo en blanco</string>
     <string name="prompt_service_image">Recuerda que tomar la foto es opcional</string>
+    <string name="prompt_end_time_service_value">Hora de Fin: Indefinida</string>
+    <string name="prompt_start_time_service_value">Hora de Inicio: Indefinida</string>
+    <string name="prompt_app_version">1.8 beta</string>
+    <string name="prompt_service_refence">Servicio Indefinido</string>
 </resources>

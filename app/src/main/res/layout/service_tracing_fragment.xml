@@ -41,10 +41,44 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <TextView
+                android:id="@+id/txtview_service_reference"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_service_refence"
+                android:textSize="25dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+
+            <TextView
+                android:id="@+id/txtview_start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_start_time_service_value"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                android:id="@+id/txtview_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_end_time_service_value"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginBottom="35dp"/>
+
+            <TextView
+                android:id="@+id/prompt_start_time_service"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/prompt_start_time_service"
-                android:textSize="18dp"
+                android:textSize="15dp"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal" />
 
@@ -66,11 +100,12 @@
 
 
             <TextView
+                android:id="@+id/prompt_end_time_service"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/prompt_end_time_service"
                 android:gravity="center"
-                android:textSize="18dp"
+                android:textSize="15dp"
                 android:layout_gravity="center_horizontal" />
 
 

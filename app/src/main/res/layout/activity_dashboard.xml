@@ -24,6 +24,11 @@
             android:src="@drawable/vertical_logo"
             android:layout_gravity="center_horizontal" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_app_version" />
+
     </LinearLayout>
 
     <LinearLayout

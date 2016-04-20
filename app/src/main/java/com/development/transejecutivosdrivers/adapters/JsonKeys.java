@@ -41,6 +41,8 @@ public class JsonKeys {
     public static final String SERVICE_REFERENCE = "ref";
     public static final String SERVICE_CREATE_DATE = "date";
     public static final String SERVICE_START_DATE = "start_date";
+    public static final String SERVICE_START_TIME = "start_time";
+    public static final String SERVICE_END_TIME = "end_time";
     public static final String SERVICE_PAX_CANT = "pax_cant";
     public static final String SERVICE_PAX = "pax";
     public static final String SERVICE_SOURCE = "source";

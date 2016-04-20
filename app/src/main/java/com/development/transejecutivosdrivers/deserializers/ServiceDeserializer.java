@@ -24,6 +24,9 @@ public class ServiceDeserializer extends DeserializerValidator{
             String reference = validateString(JsonKeys.SERVICE_REFERENCE, jsonObject);
             String createDate = validateString(JsonKeys.SERVICE_CREATE_DATE, jsonObject);
             String startDate = validateString(JsonKeys.SERVICE_START_DATE, jsonObject);
+            String startTime = validateString(JsonKeys.SERVICE_START_TIME, jsonObject);
+            String endTime = validateString(JsonKeys.SERVICE_END_TIME, jsonObject);
+
             String paxCant = validateString(JsonKeys.SERVICE_PAX_CANT, jsonObject);
             String pax = validateString(JsonKeys.SERVICE_PAX, jsonObject);
             String source = validateString(JsonKeys.SERVICE_SOURCE, jsonObject);
@@ -53,6 +56,10 @@ public class ServiceDeserializer extends DeserializerValidator{
             this.service.setStatus(status);
             this.service.setCd(cd);
             this.service.setStartDate(startDate);
+
+            this.service.setStartTime(startTime);
+            this.service.setEndTime(endTime);
+
             this.service.setFly(fly);
             this.service.setAeroline(aeroline);
             this.service.setOld(old);

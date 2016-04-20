@@ -8,6 +8,8 @@ public class Service {
     public String reference;
     public String date;
     public String startDate;
+    public String startTime;
+    public String endTime;
     public int paxCant;
     public String pax;
     public String source;
@@ -24,6 +26,22 @@ public class Service {
     String pab;
     String st;
     int b1haStatus;
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 
     public int getB1haStatus() {
         return b1haStatus;

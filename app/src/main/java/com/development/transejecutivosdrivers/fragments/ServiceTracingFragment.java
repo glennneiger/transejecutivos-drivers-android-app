@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,10 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -48,6 +51,15 @@ public class ServiceTracingFragment extends FragmentBase  {
     TimePicker timepicker_end;
     EditText txtview_observations;
 
+    TextView txtview_start_time;
+    TextView txtview_end_time;
+    TextView txtview_service_reference;
+
+    TextView prompt_start_time_service;
+    TextView prompt_end_time_service;
+
+    String start = "";
+    String end = "";
 
     public ServiceTracingFragment() {
 
@@ -69,6 +81,13 @@ public class ServiceTracingFragment extends FragmentBase  {
 
         formContainer = view.findViewById(R.id.tracing_form);
         progressBar = view.findViewById(R.id.tracing_progress);
+
+        txtview_start_time = (TextView) view.findViewById(R.id.txtview_start_time);
+        txtview_end_time = (TextView) view.findViewById(R.id.txtview_end_time);
+        txtview_service_reference = (TextView) view.findViewById(R.id.txtview_service_reference);
+
+        prompt_start_time_service = (TextView) view.findViewById(R.id.prompt_start_time_service);
+        prompt_end_time_service = (TextView) view.findViewById(R.id.prompt_end_time_service);
 
         inputLayoutStart = (TextInputLayout) view.findViewById(R.id.txt_input_start);
         inputLayoutEnd = (TextInputLayout) view.findViewById(R.id.txt_input_end);
@@ -93,6 +112,7 @@ public class ServiceTracingFragment extends FragmentBase  {
         super.onStart();
         ServiceActivity serviceActivity = (ServiceActivity) getActivity();
         setService(serviceActivity.getServiceData());
+        setDataOnView();
         setOnClickListeners();
     }
 
@@ -104,6 +124,24 @@ public class ServiceTracingFragment extends FragmentBase  {
         return encodedImage;
     }
 
+    private void setDataOnView() {
+        if (!TextUtils.isEmpty(this.service.getReference())) {
+            txtview_service_reference.setText("Referencia: " + this.service.getReference());
+        }
+
+        if (!TextUtils.isEmpty(this.service.getStartTime())) {
+            txtview_start_time.setText("Hora de Inicio: " + this.service.getStartTime());
+            timepicker_start.setVisibility(View.GONE);
+            prompt_start_time_service.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(this.service.getEndTime())) {
+            txtview_end_time.setText("Hora de Fin: " + this.service.getEndTime());
+            timepicker_start.setVisibility(View.GONE);
+            prompt_end_time_service.setVisibility(View.GONE);
+        }
+    }
+
     private void setOnClickListeners() {
         button_take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +151,7 @@ public class ServiceTracingFragment extends FragmentBase  {
             }
         });
 
-        if (this.service.getIdTrace() == 0 && this.service.getOld() == 1) {
+        if ((this.service.getIdTrace() == 0 || TextUtils.isEmpty(this.service.getStartTime()) || TextUtils.isEmpty(this.service.getEndTime()))&& this.service.getOld() == 1) {
             button_finish_tracing.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -129,13 +167,21 @@ public class ServiceTracingFragment extends FragmentBase  {
 
     private void setTracing() {
         showProgress(true, formContainer, progressBar);
+
+        Log.d("lala", "dfrfv");
         // Reset errors.
         inputLayoutStart.setError(null);
         inputLayoutEnd.setError(null);
 
         // Store values at the time of the login attempt.
-        final String start = timepicker_start.getCurrentHour() + ":" + timepicker_start.getCurrentMinute();
-        final String end = timepicker_end.getCurrentHour() + ":" + timepicker_end.getCurrentMinute();
+        if (TextUtils.isEmpty(this.service.getStartTime())) {
+            start = timepicker_start.getCurrentHour() + ":" + timepicker_start.getCurrentMinute();
+        }
+
+        if (TextUtils.isEmpty(this.service.getEndTime())) {
+            end = timepicker_end.getCurrentHour() + ":" + timepicker_end.getCurrentMinute();
+        }
+
         final String observations = txtview_observations.getText().toString();
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -146,6 +192,7 @@ public class ServiceTracingFragment extends FragmentBase  {
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("Response", response);
                         validateTracingResponse(response);
                     }
                 },
@@ -178,10 +225,30 @@ public class ServiceTracingFragment extends FragmentBase  {
             }
         };
 
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
         requestQueue.add(stringRequest);
     }
 
     public void validateTracingResponse(String response) {
+        Log.d("lala", response);
+
+        showProgress(false, formContainer, progressBar);
         try {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
