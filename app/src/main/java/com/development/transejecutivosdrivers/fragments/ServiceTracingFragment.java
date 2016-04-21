@@ -168,7 +168,6 @@ public class ServiceTracingFragment extends FragmentBase  {
     private void setTracing() {
         showProgress(true, formContainer, progressBar);
 
-        Log.d("lala", "dfrfv");
         // Reset errors.
         inputLayoutStart.setError(null);
         inputLayoutEnd.setError(null);
@@ -192,7 +191,6 @@ public class ServiceTracingFragment extends FragmentBase  {
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Response", response);
                         validateTracingResponse(response);
                     }
                 },
