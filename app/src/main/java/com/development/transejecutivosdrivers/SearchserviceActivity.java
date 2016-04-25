@@ -67,6 +67,7 @@ public class SearchserviceActivity extends ActivityBase {
         Button btn_search_service = (Button) findViewById(R.id.btn_search_service);
         search_service_progress = findViewById(R.id.search_service_progress);
         search_service_form = findViewById(R.id.search_service_form);
+        search_service_activity = findViewById(R.id.search_service_activity);
 
         btn_search_service.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +173,7 @@ public class SearchserviceActivity extends ActivityBase {
             hashMap.put(dates.get(i).getDate(), services.get(i));
         }
 
-        serviceExpandableListAdapter = new ServiceExpandableListAdapter(getApplication(), header, hashMap);
+        serviceExpandableListAdapter = new ServiceExpandableListAdapter(getApplicationContext(), header, hashMap);
 
         // Setting adpater over expandablelistview
         expandableListView.setAdapter(serviceExpandableListAdapter);
@@ -222,18 +223,6 @@ public class SearchserviceActivity extends ActivityBase {
                 return false;
             }
         });
-    }
-
-    protected void setFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ServicesListFragment servicesListFragment = new ServicesListFragment();
-        servicesListFragment.setUser(user);
-        fragmentTransaction.add(R.id.fragment_container, servicesListFragment, "Services List Fragment");
-        fragmentTransaction.commit();
-
-        fragmentTransaction.add(R.id.fragment_container, servicesListFragment);
-        fragmentTransaction.commit();
     }
 
     @Override
