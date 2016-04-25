@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by william.montiel on 28/03/2016.
@@ -37,6 +39,7 @@ import java.util.Map;
 public class ServiceFragment extends FragmentBase {
     View fragmentContainer;
     View progressBar;
+    boolean for_search = false;
 
     public ServiceFragment() {
 
@@ -50,6 +53,10 @@ public class ServiceFragment extends FragmentBase {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setForSearch(boolean s) {
+        this.for_search = s;
     }
 
     @Override
@@ -81,8 +88,11 @@ public class ServiceFragment extends FragmentBase {
     @Override
     public void onStart() {
         super.onStart();
-        ServiceActivity serviceActivity = (ServiceActivity) getActivity();
-        setService(serviceActivity.getServiceData());
+        if (!for_search) {
+            ServiceActivity serviceActivity = (ServiceActivity) getActivity();
+            setService(serviceActivity.getServiceData());
+        }
+
         ServiceHolder serviceHolder = new ServiceHolder(view, getActivity());
         serviceHolder.setService(service);
         serviceHolder.setPassenger(passenger);
@@ -124,6 +134,11 @@ public class ServiceFragment extends FragmentBase {
                 return params;
             }
         };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                (int) TimeUnit.SECONDS.toMillis(10),//time out in 10second
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(stringRequest);
     }

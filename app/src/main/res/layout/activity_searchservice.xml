@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/search_service_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.development.transejecutivosdrivers.SearchserviceActivity">
@@ -22,7 +24,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <ProgressBar
-        android:id="@+id/login_progress"
+        android:id="@+id/search_service_progress"
         style="?android:attr/progressBarStyleLarge"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
@@ -37,7 +39,7 @@
         android:layout_gravity="center">
 
         <LinearLayout
-            android:id="@+id/username_login_form"
+            android:id="@+id/search_service_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -56,7 +58,7 @@
                 android:layout_gravity="center|top" />
 
             <Button
-                android:id="@+id/button_login"
+                android:id="@+id/btn_search_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -64,6 +66,14 @@
                 android:text="@string/prompt_search_service_button"
                 android:background="@color/colorPrimary"
                 android:textColor="@color/colorPrimaryTextLight" />
+
+            <ExpandableListView
+                android:id="@+id/service_expandable_listview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/colorPrimary"
+                android:dividerHeight="1dp" >
+            </ExpandableListView>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

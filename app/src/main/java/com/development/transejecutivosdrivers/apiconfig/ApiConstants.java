@@ -20,6 +20,7 @@ public class ApiConstants {
     public static final String FINISH_SERVICE = "finishservice";
     public static final String SET_PRELOCATION = "setprelocation";
     public static final String RESET_PASSWORD = "resetpassword";
+    public static final String SEARCH_SERVICE = "searchservice";
 
     public static final String URL_LOGIN = URL_BASE + "/" + API + "/" + API_VERSION + "/" + LOGIN;
     public static final String URL_SERVICES_GROUPED = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SERVICES_GROUPED;
@@ -36,4 +37,5 @@ public class ApiConstants {
     public static final String URL_FINISH_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + FINISH_SERVICE;
     public static final String URL_SET_PRELOCATION = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SET_PRELOCATION;
     public static final String URL_RESET_PASSWORD = URL_BASE + "/" + API + "/" + API_VERSION_1 + "/" + RESET_PASSWORD;
+    public static final String URL_SEARCH_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SEARCH_SERVICE;
 }

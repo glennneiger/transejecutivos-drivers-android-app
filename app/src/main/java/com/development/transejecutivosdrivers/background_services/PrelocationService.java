@@ -2,6 +2,8 @@ package com.development.transejecutivosdrivers.background_services;
 
 import android.util.Log;
 import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -13,6 +15,7 @@ import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.google.android.gms.location.LocationServices;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 public class PrelocationService extends IntentServiceBase {
@@ -22,9 +25,6 @@ public class PrelocationService extends IntentServiceBase {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
             if (mLastLocation != null) {
-                Log.d("Lat", "" + mLastLocation.getLatitude());
-                Log.d("Lon", "" + mLastLocation.getLongitude());
-
                 final String latitude = "" + mLastLocation.getLatitude();
                 final String longitude = "" + mLastLocation.getLongitude();
                 String url = "";
@@ -35,8 +35,6 @@ public class PrelocationService extends IntentServiceBase {
                 else if (location != null && location.equals(JsonKeys.ONSERVICE)) {
                     url = ApiConstants.URL_SET_LOCATION;
                 }
-
-                Log.d("PRELOCATION", url);
 
                 if (this.isDataComplete) {
                     RequestQueue requestQueue = Volley.newRequestQueue(this.context);
@@ -76,6 +74,11 @@ public class PrelocationService extends IntentServiceBase {
                             return params;
                         }
                     };
+
+                    stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                            (int) TimeUnit.SECONDS.toMillis(10),//time out in 10second
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
                     requestQueue.add(stringRequest);
                 }
