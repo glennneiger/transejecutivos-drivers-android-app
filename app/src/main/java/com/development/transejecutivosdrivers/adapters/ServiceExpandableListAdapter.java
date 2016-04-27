@@ -3,6 +3,7 @@ package com.development.transejecutivosdrivers.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ public class ServiceExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(_context, ServiceActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra(JsonKeys.SERVICE_ID, serviceHolder.service.getIdService());
                 _context.startActivity(i);
             }

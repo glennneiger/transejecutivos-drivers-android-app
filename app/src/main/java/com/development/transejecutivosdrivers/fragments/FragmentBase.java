@@ -150,9 +150,9 @@ public class FragmentBase extends Fragment {
         final PendingIntent pIntent = PendingIntent.getBroadcast(getActivity(), AlarmReceiver.REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // Setup periodic alarm every 10 seconds
+        // Setup periodic alarm every 120 seconds
 
-        long firstMillis = 10000; // alarm is set right away
+        long firstMillis = 120000; // alarm is set right away
         AlarmManager alarm = (AlarmManager) this.context.getSystemService(this.context.ALARM_SERVICE);
 
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, firstMillis, pIntent);

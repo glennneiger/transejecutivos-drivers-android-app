@@ -112,6 +112,6 @@
     <string name="prompt_service_image">Recuerda que tomar la foto es opcional</string>
     <string name="prompt_end_time_service_value">Hora de Fin: Indefinida</string>
     <string name="prompt_start_time_service_value">Hora de Inicio: Indefinida</string>
-    <string name="prompt_app_version">1.10 beta</string>
+    <string name="prompt_app_version">1.10.1 beta</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
 </resources>

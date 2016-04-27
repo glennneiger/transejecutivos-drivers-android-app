@@ -24,8 +24,8 @@
     </android.support.design.widget.AppBarLayout>
 
     <ProgressBar
-        android:id="@+id/search_service_progress"
         style="?android:attr/progressBarStyleLarge"
+        android:id="@+id/search_service_progress"
         android:layout_gravity="center"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
@@ -34,10 +34,14 @@
         android:visibility="gone"/>
 
     <ScrollView
-        android:id="@+id/login_form"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:scrollbars = "vertical"
+        android:scrollbarStyle="insideInset"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:id="@+id/login_form">
 
         <LinearLayout
             android:id="@+id/search_service_form"
@@ -72,11 +76,11 @@
             <ExpandableListView
                 android:id="@+id/service_expandable_listview"
                 android:layout_width="fill_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:divider="@color/colorPrimary"
                 android:layout_marginTop="10dp"
-                android:dividerHeight="1dp"
-                android:layout_weight="1.65">
+                android:dividerHeight="1dp">
+
             </ExpandableListView>
 
         </LinearLayout>

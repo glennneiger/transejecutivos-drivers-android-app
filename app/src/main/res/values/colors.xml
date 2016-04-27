@@ -12,4 +12,6 @@
     <color name="colorBackground">#C6C9CC</color>
     <color name="colorError">#8F4430</color>
     <color name="shadow">#ddd</color>
+    <color name="green">#B2B072</color>
+    <color name="blue">#2C7699</color>
 </resources>

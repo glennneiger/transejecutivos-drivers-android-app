@@ -19,12 +19,15 @@
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:visibility="gone"/>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:scrollbars = "vertical"
+        android:scrollbarStyle="insideInset"
         android:layout_gravity="center">
 
         <LinearLayout
@@ -39,18 +42,14 @@
 
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/txtview_service_info_title"
                     android:hint="@string/service_info_title"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -65,6 +64,7 @@
 
                     <TextView
                         android:id="@+id/txtview_reference"
+                        android:textColor="@color/green"
                         android:layout_below="@+id/txtview_start_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -107,6 +107,7 @@
 
                     <TextView
                         android:id="@+id/txtview_observations"
+                        android:textColor="@color/colorError"
                         android:layout_below="@+id/txtview_fly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -123,18 +124,14 @@
 
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/txtview_passenger_info_title"
                     android:hint="@string/passenger_info_title"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -149,6 +146,7 @@
 
                     <TextView
                         android:id="@+id/txtview_passenger_phone"
+                        android:textColor="@color/blue"
                         android:layout_below="@+id/txtview_passenger_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -161,11 +159,18 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
+                    <ImageView
+                        android:id="@+id/imgview_call"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/txtview_passenger_email"
+                        android:src="@android:drawable/sym_action_call"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
             </RelativeLayout>
 
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:fitsSystemWindows="true"
                 android:layout_width="match_parent"

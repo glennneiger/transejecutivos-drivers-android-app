@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -173,7 +174,8 @@ public class SearchserviceActivity extends ActivityBase {
             hashMap.put(dates.get(i).getDate(), services.get(i));
         }
 
-        serviceExpandableListAdapter = new ServiceExpandableListAdapter(getApplicationContext(), header, hashMap);
+
+        serviceExpandableListAdapter = new ServiceExpandableListAdapter(getApplication(), header, hashMap);
 
         // Setting adpater over expandablelistview
         expandableListView.setAdapter(serviceExpandableListAdapter);
