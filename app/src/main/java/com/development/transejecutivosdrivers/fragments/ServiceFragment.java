@@ -1,12 +1,15 @@
 package com.development.transejecutivosdrivers.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -40,6 +43,7 @@ public class ServiceFragment extends FragmentBase {
     View fragmentContainer;
     View progressBar;
     boolean for_search = false;
+    ImageView imgview_call;
 
     public ServiceFragment() {
 
@@ -65,6 +69,22 @@ public class ServiceFragment extends FragmentBase {
 
         fragmentContainer = view.findViewById(R.id.service_container);
         progressBar = view.findViewById(R.id.service_progress);
+        imgview_call = (ImageView) view.findViewById(R.id.imgview_call);
+
+        imgview_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] tels = passenger.getPhone().split(",");
+                String tel1 = tels[0];
+                String tel2 = tels[1];
+
+                if (!TextUtils.isEmpty(tel1)) {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + tel1));
+                    startActivity(callIntent);
+                }
+            }
+        });
 
         Button button_accept = (Button) view.findViewById(R.id.button_accept);
         button_accept.setOnClickListener(new View.OnClickListener() {

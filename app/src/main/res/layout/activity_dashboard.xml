@@ -24,11 +24,6 @@
             android:src="@drawable/vertical_logo"
             android:layout_gravity="center_horizontal" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/prompt_app_version" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -38,6 +33,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="120dp"
         android:gravity="center"
+        android:orientation="vertical"
         android:layout_gravity="center">
 
         <GridView
@@ -52,5 +48,12 @@
             android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_app_version" />
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
