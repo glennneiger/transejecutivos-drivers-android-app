@@ -176,8 +176,7 @@ public class ServiceFragment extends FragmentBase {
                     Toast.makeText(getActivity(), getResources().getString(R.string.service_accept_message), Toast.LENGTH_SHORT).show();
                 }
 
-                Intent i = new Intent(getActivity(), MainActivity.class);
-                startActivity(i);
+                reload();
             }
             else {
                 setErrorSnackBar(getResources().getString(R.string.error_general));

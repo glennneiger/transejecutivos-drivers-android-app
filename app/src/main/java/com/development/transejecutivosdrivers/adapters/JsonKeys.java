@@ -67,7 +67,7 @@ public class JsonKeys {
     public static final String PASSENGER_CODE = "passenger_code";
     public static final String PASSENGER_NAME = "passenger_name";
     public static final String PASSENGER_LASTNAME = "passenger_lastname";
-    public static final String PASSENGER_COMPANY = "passenger_company";
+    public static final String PASSENGER_COMPANY = "company";
     public static final String PASSENGER_PHONE = "phone";
     public static final String PASSENGER_EMAIL = "email";
 

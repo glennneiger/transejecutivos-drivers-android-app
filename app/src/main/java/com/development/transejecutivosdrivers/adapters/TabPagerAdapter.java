@@ -38,7 +38,6 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                Log.d("TABPAGER", this.service.getStartDate());
                 ServiceFragment serviceFragment = ServiceFragment.newInstance(this.user, this.service, this.passenger);
                 return serviceFragment;
             case 1:

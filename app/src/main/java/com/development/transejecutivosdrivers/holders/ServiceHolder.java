@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
     TextView txtview_passenger_name;
     TextView txtview_passenger_phone;
     TextView txtview_passenger_email;
+    TextView txtview_passenger_company;
 
     Button button_accept;
     Button button_decline;
@@ -54,6 +56,7 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
         txtview_observations = (TextView) itemView.findViewById(R.id.txtview_observations);
 
         txtview_passenger_name = (TextView) itemView.findViewById(R.id.txtview_passenger_name);
+        txtview_passenger_company = (TextView) itemView.findViewById(R.id.txtview_passenger_company);
         txtview_passenger_phone = (TextView) itemView.findViewById(R.id.txtview_passenger_phone);
         txtview_passenger_email = (TextView) itemView.findViewById(R.id.txtview_passenger_email);
         txtview_fly = (TextView) itemView.findViewById(R.id.txtview_fly);
@@ -86,6 +89,7 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
     public void setPassenger(Passenger passenger) {
         this.passenger = passenger;
         txtview_passenger_name.setText(passenger.getName() + " " + passenger.getLastName());
+        txtview_passenger_company.setText(passenger.getCompany());
         txtview_passenger_phone.setText(passenger.getPhone());
         txtview_passenger_email.setText(passenger.getEmail());
 

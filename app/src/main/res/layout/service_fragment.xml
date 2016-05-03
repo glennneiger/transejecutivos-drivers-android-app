@@ -142,9 +142,17 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
                     <TextView
+                        android:id="@+id/txtview_passenger_company"
+                        android:textColor="@color/green"
+                        android:layout_below="@+id/txtview_passenger_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+
+                    <TextView
                         android:id="@+id/txtview_passenger_phone"
                         android:textColor="@color/blue"
-                        android:layout_below="@+id/txtview_passenger_name"
+                        android:layout_below="@+id/txtview_passenger_company"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/activity_horizontal_margin"/>

@@ -194,7 +194,7 @@ public class ServiceActivity extends ActivityBase {
             }
         });
 
-        viewPager.setCurrentItem(1, false);
+        viewPager.setCurrentItem(0, false);
     }
 
     @Override
