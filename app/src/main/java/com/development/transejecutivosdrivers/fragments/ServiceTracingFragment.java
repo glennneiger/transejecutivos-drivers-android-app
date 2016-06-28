@@ -117,14 +117,6 @@ public class ServiceTracingFragment extends FragmentBase  {
         setOnClickListeners();
     }
 
-    public String getStringImage(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return encodedImage;
-    }
-
     private void setDataOnView() {
         if (!TextUtils.isEmpty(this.service.getReference())) {
             txtview_service_reference.setText("Referencia: " + this.service.getReference());

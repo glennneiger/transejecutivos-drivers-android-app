@@ -113,14 +113,16 @@ public class FragmentBase extends Fragment {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
 
+                // Resize the bitmap to 150x100 (width x height)
+                Bitmap finalBitmap = Bitmap.createScaledBitmap(takenImage, 1080, 720, true);
+
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-                takenImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                finalBitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
 
                 byte[] byteArray = stream.toByteArray();
 
                 image = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
 
                 // Resize the bitmap to 150x100 (width x height)
                 Bitmap bMapScaled = Bitmap.createScaledBitmap(takenImage, 300, 200, true);
@@ -161,32 +163,6 @@ public class FragmentBase extends Fragment {
         String state = Environment.getExternalStorageState();
         return state.equals(Environment.MEDIA_MOUNTED);
     }
-
-    /*
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-
-                Bitmap bmp = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-                bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-
-                byte[] byteArray = stream.toByteArray();
-
-                // convert byte array to Bitmap
-                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-                image = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-                imageView.setImageBitmap(bitmap);
-
-                button_finish_tracing.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-    */
 
     public void setErrorSnackBar(String message) {
         Snackbar snackbar = Snackbar
@@ -238,7 +214,7 @@ public class FragmentBase extends Fragment {
 
         // Setup periodic alarm every 60 seconds
 
-        long firstMillis = 60000; // alarm is set right away
+        long firstMillis = 5000; // alarm is set right away
         AlarmManager alarm = (AlarmManager) this.context.getSystemService(this.context.ALARM_SERVICE);
 
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, firstMillis, pIntent);
