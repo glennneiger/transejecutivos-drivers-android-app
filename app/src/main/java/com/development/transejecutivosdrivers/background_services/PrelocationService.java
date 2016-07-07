@@ -75,9 +75,8 @@ public class PrelocationService extends IntentServiceBase {
                         }
                     };
 
-                    stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                            (int) TimeUnit.SECONDS.toMillis(10),//time out in 10second
-                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
+                    stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
                     requestQueue.add(stringRequest);

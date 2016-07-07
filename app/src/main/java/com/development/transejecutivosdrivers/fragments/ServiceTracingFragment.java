@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.RetryPolicy;
@@ -215,6 +217,11 @@ public class ServiceTracingFragment extends FragmentBase  {
             }
         };
 
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        /*
         stringRequest.setRetryPolicy(new RetryPolicy() {
             @Override
             public int getCurrentTimeout() {
@@ -231,13 +238,12 @@ public class ServiceTracingFragment extends FragmentBase  {
 
             }
         });
+        */
 
         requestQueue.add(stringRequest);
     }
 
     public void validateTracingResponse(String response) {
-        Log.d("lala", response);
-
         showProgress(false, formContainer, progressBar);
         try {
             JSONObject resObj = new JSONObject(response);
