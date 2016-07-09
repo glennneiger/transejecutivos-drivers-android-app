@@ -122,7 +122,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
         btn_on_source.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancelAlarm();
                 setOnSource();
             }
         });
@@ -137,7 +136,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
         btn_finish_service.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancelAlarm();
                 showFinishForm();
             }
         });
@@ -296,7 +294,11 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     scheduleAlarm(JsonKeys.PRELOCATION);
                 }
                 else if (btn.equals("pab")) {
+                    cancelAlarm();
                     scheduleAlarm(JsonKeys.ONSERVICE);
+                }
+                else if (btn.equals("st")) {
+                    cancelAlarm();
                 }
 
                 reload();
@@ -374,16 +376,5 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_finish_service.setEnabled(false);
             btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
-    }
-
-    public String subtractHourToStartDate(String date) {
-        String[] time = date.split(" ");
-        String[] parts = time[1].split(":");
-
-        int hour = Integer.parseInt(parts[0]) - 1;
-
-        String d = time[0] + " " + hour + ":" + parts[1];
-
-        return d;
     }
 }

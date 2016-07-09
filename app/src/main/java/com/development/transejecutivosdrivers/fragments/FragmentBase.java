@@ -40,6 +40,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class FragmentBase extends Fragment {
+    long ALARM_START = 1;
+    long ALARM_REPEAT = 5000;
+
     protected static ExpandableListView expandableListView;
     protected static ServiceExpandableListAdapter serviceExpandableListAdapter;
 
@@ -188,14 +191,7 @@ public class FragmentBase extends Fragment {
         txtv.setGravity(Gravity.CENTER);
     }
 
-    protected void refreshFragment() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
-    }
-
     protected void reload() {
-        //FragmentTransaction ft = getFragmentManager().beginTransaction();
-        //ft.detach(this).attach(this).commit();
         getActivity().finish();
         getActivity().startActivity(getActivity().getIntent());
     }
@@ -212,12 +208,9 @@ public class FragmentBase extends Fragment {
         final PendingIntent pIntent = PendingIntent.getBroadcast(getActivity(), AlarmReceiver.REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // Setup periodic alarm every 60 seconds
-
-        long firstMillis = 5000; // alarm is set right away
         AlarmManager alarm = (AlarmManager) this.context.getSystemService(this.context.ALARM_SERVICE);
 
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, firstMillis, pIntent);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, ALARM_START, ALARM_REPEAT, pIntent);
     }
 
     public void cancelAlarm() {
@@ -227,7 +220,9 @@ public class FragmentBase extends Fragment {
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarm = (AlarmManager) this.context.getSystemService(Context.ALARM_SERVICE);
-        alarm.cancel(pIntent);
+        if (alarm != null) {
+            alarm.cancel(pIntent);
+        }
     }
 
     /**

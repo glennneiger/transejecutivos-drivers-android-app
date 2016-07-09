@@ -13,7 +13,7 @@
     <string name="error_invalid_login">Usuario o contraseña incorrecta</string>
 
     <!-- General Strings -->
-    <string name="error_general">Se ha presentado un error, es probable que se haya perdido la conexión a internet momentaneamente, por favor intenta de nuevo</string>
+    <string name="error_general">Se perdió la conexión a internet momentaneamente, por favor intenta de nuevo</string>
     <string name="no_services">No hay servicios para mostrar</string>
     <string name="accept_button">Aceptar</string>
 
@@ -70,6 +70,7 @@
 
     <!-- Service -->
     <string name="prompt_accept_service">Aceptar</string>
+    <string name="prompt_call_passenger_service">Llamar a pasajero</string>
     <string name="prompt_decline_service">Rechazar</string>
     <string name="prompt_call_passenger">Llamar al pasajero</string>
     <string name="prompt_on_way">Estoy en camino</string>
@@ -84,12 +85,12 @@
 
     <!-- Fragment tracing -->
     <string name="prompt_tracing">Guardar</string>
+    <string name="prompt_end_service">Finalizar Servicio</string>
     <string name="success_tracing_message">Se ha guardado el seguimiento exitosamente</string>
     <string name="error_tracing_message">Ha ocurrido un error, por favor de nuevo</string>
     <string name="device_not_supported">El dispositivo no cuenta con google play services, por favor verifica que este instalado</string>
     <string name="error_location">Ocurrió un error mientras se guardaba la ubicación actual, TransEjecutivos Driver</string>
-    <string name="prompt_start_time_service">Configurar Hora de Inicio</string>
-    <string name="prompt_end_time_service">Configurar Hora de Finalización</string>
+
     <string name="prompt_service_observations">Observaciones</string>
     <string name="title_activity_searchservice">Buscar Servicio</string>
     <string name="prompt_search_service_button">Buscar</string>
@@ -107,11 +108,22 @@
     <string name="service_accept_message">Ha aceptado el servicio exitosamente</string>
     <string name="service_message">Tiene una orden sin segumiento, por favor completar</string>
     <string name="button_service_modal_prompt">Ver Orden</string>
+    <string name="prompt_set_start_time">Establecer hora de inicio</string>
+    <string name="prompt_set_end_time">Establecer hora de fin</string>
     <string name="prompt_take_photo">Tomar Foto</string>
-    <string name="prompt_service_observations_details">Recuerda que las observaciones, no son obligatorias, puedes dejar el campo en blanco</string>
+
+    <string name="prompt_set_time_instructions">1. Una vez hayas establecido la hora de inicio, de fin o ambas, deberas tomar la foto y presionar el botón guardar.</string>
+    <string name="prompt_service_instruction1">1. Escribe tus observaciones encima de la línea, puedes dejar el campo en blanco si no tienes ninguna.</string>
+    <string name="prompt_service_instruction2">2. Debes tomar la foto del servicio para poder continuar. </string>
+
     <string name="prompt_service_image">Recuerda que tomar la foto es opcional</string>
-    <string name="prompt_end_time_service_value">Hora de Fin: Indefinida</string>
-    <string name="prompt_start_time_service_value">Hora de Inicio: Indefinida</string>
-    <string name="prompt_app_version">Version 1.1.1</string>
+
+    <string name="prompt_start_time_service">Hora de Inicio</string>
+    <string name="prompt_end_time_service">Hora de Fin</string>
+
+    <string name="prompt_start_time_service_value">Establecer</string>
+    <string name="prompt_end_time_service_value">Establecer</string>
+
+    <string name="prompt_app_version">Version 1.1.2</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
 </resources>

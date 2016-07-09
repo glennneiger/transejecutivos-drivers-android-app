@@ -43,7 +43,7 @@ public class ServiceFragment extends FragmentBase {
     View fragmentContainer;
     View progressBar;
     boolean for_search = false;
-    ImageView imgview_call;
+    Button button_call_passenger;
 
     public ServiceFragment() {
 
@@ -59,19 +59,15 @@ public class ServiceFragment extends FragmentBase {
         return fragment;
     }
 
-    public void setForSearch(boolean s) {
-        this.for_search = s;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.service_fragment, container, false);
 
         fragmentContainer = view.findViewById(R.id.service_container);
         progressBar = view.findViewById(R.id.service_progress);
-        imgview_call = (ImageView) view.findViewById(R.id.imgview_call);
+        button_call_passenger = (Button) view.findViewById(R.id.button_call_passenger);
 
-        imgview_call.setOnClickListener(new View.OnClickListener() {
+        button_call_passenger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String[] tels = passenger.getPhone().split(",");

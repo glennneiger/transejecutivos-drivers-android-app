@@ -1,16 +1,9 @@
 package com.development.transejecutivosdrivers.fragments;
 
-import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -37,7 +28,8 @@ import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.ByteArrayOutputStream;
+
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,18 +40,18 @@ public class ServiceTracingFragment extends FragmentBase  {
 
     View formContainer;
     View progressBar;
-    TextInputLayout inputLayoutStart;
-    TextInputLayout inputLayoutEnd;
-    TimePicker timepicker_start;
-    TimePicker timepicker_end;
     EditText txtview_observations;
 
     TextView txtview_start_time;
     TextView txtview_end_time;
     TextView txtview_service_reference;
 
-    TextView prompt_start_time_service;
-    TextView prompt_end_time_service;
+    TextView set_time_instructions;
+    TextView service_instruction1;
+    TextView service_instruction2;
+
+    Button button_set_start_time;
+    Button button_set_end_time;
 
     String start = "";
     String end = "";
@@ -89,17 +81,13 @@ public class ServiceTracingFragment extends FragmentBase  {
         txtview_end_time = (TextView) view.findViewById(R.id.txtview_end_time);
         txtview_service_reference = (TextView) view.findViewById(R.id.txtview_service_reference);
 
-        prompt_start_time_service = (TextView) view.findViewById(R.id.prompt_start_time_service);
-        prompt_end_time_service = (TextView) view.findViewById(R.id.prompt_end_time_service);
+        set_time_instructions = (TextView) view.findViewById(R.id.set_time_instructions);
+        service_instruction1 = (TextView) view.findViewById(R.id.service_instruction1);
+        service_instruction2 = (TextView) view.findViewById(R.id.service_instruction2);
 
-        inputLayoutStart = (TextInputLayout) view.findViewById(R.id.txt_input_start);
-        inputLayoutEnd = (TextInputLayout) view.findViewById(R.id.txt_input_end);
 
-        timepicker_start = (TimePicker) view.findViewById(R.id.timepicker_start);
-        timepicker_start.setIs24HourView(true);
-
-        timepicker_end = (TimePicker) view.findViewById(R.id.timepicker_end);
-        timepicker_end.setIs24HourView(true);
+        button_set_start_time = (Button) view.findViewById(R.id.button_set_start_time);
+        button_set_end_time = (Button) view.findViewById(R.id.button_set_end_time);
 
         txtview_observations = (EditText) view.findViewById(R.id.txtview_observations);
 
@@ -121,23 +109,60 @@ public class ServiceTracingFragment extends FragmentBase  {
 
     private void setDataOnView() {
         if (!TextUtils.isEmpty(this.service.getReference())) {
-            txtview_service_reference.setText("Referencia: " + this.service.getReference());
+            txtview_service_reference.setText(this.service.getReference());
         }
 
         if (!TextUtils.isEmpty(this.service.getStartTime())) {
-            txtview_start_time.setText("Hora de Inicio: " + this.service.getStartTime());
-            timepicker_start.setVisibility(View.GONE);
-            prompt_start_time_service.setVisibility(View.GONE);
+            txtview_start_time.setText(this.service.getStartTime());
+            button_set_start_time.setVisibility(View.GONE);
         }
 
         if (!TextUtils.isEmpty(this.service.getEndTime())) {
-            txtview_end_time.setText("Hora de Fin: " + this.service.getEndTime());
-            timepicker_start.setVisibility(View.GONE);
-            prompt_end_time_service.setVisibility(View.GONE);
+            txtview_end_time.setText(this.service.getEndTime());
+            button_set_end_time.setVisibility(View.GONE);
         }
     }
 
     private void setOnClickListeners() {
+        final FragmentBase f = this;
+        button_set_start_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mHour = c.get(Calendar.HOUR);
+                int mMinute = c.get(Calendar.MINUTE);
+
+                TimePickerDialog tpd = new TimePickerDialog(f.getActivity(), 2,  new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        txtview_start_time.setText(formatTime(hourOfDay) + ":" + formatTime(minute));
+                        showTakePhotoButton();
+                    }
+                }, mHour, mMinute, true);
+
+                tpd.show();
+            }
+        });
+
+        button_set_end_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mHour = c.get(Calendar.HOUR_OF_DAY);
+                int mMinute = c.get(Calendar.MINUTE);
+
+                TimePickerDialog tpd = new TimePickerDialog(f.getActivity(), 2,  new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        txtview_end_time.setText(formatTime(hourOfDay) + ":" + formatTime(minute));
+                        showTakePhotoButton();
+                    }
+                }, mHour, mMinute, true);
+
+                tpd.show();
+            }
+        });
+
         button_take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,21 +184,34 @@ public class ServiceTracingFragment extends FragmentBase  {
         }
     }
 
+    private String formatTime(int number) {
+        String h;
+        if (number < 10) {
+            h = "0" + number;
+        }
+        else {
+            h = "" + number;
+        }
+
+        return h;
+    }
+
+    private void showTakePhotoButton() {
+        //if (!TextUtils.isEmpty(txtview_start_time.getText()) && !TextUtils.isEmpty(txtview_end_time.getText())) {
+        if (!txtview_start_time.getText().equals("Establecer") && !txtview_end_time.getText().equals("Establecer")) {
+            set_time_instructions.setVisibility(View.GONE);
+            service_instruction1.setVisibility(View.VISIBLE);
+            service_instruction2.setVisibility(View.VISIBLE);
+            txtview_observations.setVisibility(View.VISIBLE);
+            button_take_photo.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void setTracing() {
         showProgress(true, formContainer, progressBar);
 
-        // Reset errors.
-        inputLayoutStart.setError(null);
-        inputLayoutEnd.setError(null);
-
-        // Store values at the time of the login attempt.
-        if (TextUtils.isEmpty(this.service.getStartTime())) {
-            start = timepicker_start.getCurrentHour() + ":" + timepicker_start.getCurrentMinute();
-        }
-
-        if (TextUtils.isEmpty(this.service.getEndTime())) {
-            end = timepicker_end.getCurrentHour() + ":" + timepicker_end.getCurrentMinute();
-        }
+        start = (String) txtview_start_time.getText();
+        end = (String) txtview_end_time.getText();
 
         final String observations = txtview_observations.getText().toString();
 
@@ -250,7 +288,6 @@ public class ServiceTracingFragment extends FragmentBase  {
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             if (!error) {
                 Toast.makeText(getActivity(), getResources().getString(R.string.success_tracing_message), Toast.LENGTH_SHORT).show();
-                //setSuccesSnackBar(getResources().getString(R.string.success_tracing_message));
                 Intent i = new Intent(getActivity(), MainActivity.class);
                 startActivity(i);
             }

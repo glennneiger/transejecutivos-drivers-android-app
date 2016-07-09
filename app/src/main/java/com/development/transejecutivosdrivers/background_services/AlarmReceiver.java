@@ -15,10 +15,7 @@ import java.util.Random;
  */
 public class AlarmReceiver extends WakefulBroadcastReceiver {
     public static final int REQUEST_CODE = 12345;
-    private int idService;
-    private String apikey;
-    private String location;
-    // Triggered by the Alarm periodically (starts the service to run task)
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle t = intent.getExtras();

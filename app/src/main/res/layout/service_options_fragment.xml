@@ -85,7 +85,7 @@
                 android:layout_marginTop="16dp"
                 android:elevation="10dp"
                 android:text="@string/prompt_finish_service"
-                android:background="@color/colorPrimary"
+                android:background="@color/green"
                 android:textColor="@color/colorPrimaryTextLight" />
 
         </LinearLayout>
@@ -102,36 +102,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/prompt_service_observations"
-            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:textSize="17dp"
+            android:text="@string/prompt_service_instruction1"
+            android:textColor="@color/colorPrimaryText"
+            android:gravity="left"
             android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:textSize="18dp"
-            android:text="@string/prompt_service_observations_details"
-            android:textColor="@color/colorPrimary"
-            android:gravity="center"
+            android:textSize="17dp"
+            android:text="@string/prompt_service_instruction2"
+            android:textColor="@color/colorError"
+            android:gravity="left"
             android:layout_gravity="center_horizontal" />
+
 
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:id="@+id/txtview_observations"
-            android:layout_gravity="center_horizontal" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textSize="18dp"
-            android:text="@string/prompt_service_image"
-            android:textColor="@color/colorPrimary"
-            android:gravity="center"
             android:layout_gravity="center_horizontal" />
 
 
@@ -156,8 +149,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:elevation="10dp"
-            android:text="@string/prompt_tracing"
-            android:background="@color/colorPrimary"
+            android:text="@string/prompt_end_service"
+            android:visibility="gone"
+            android:background="@color/green"
             android:textColor="@color/colorPrimaryTextLight" />
 
     </LinearLayout>

@@ -33,7 +33,6 @@
             android:id="@+id/tracing_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -41,130 +40,135 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/prompt_service_refence"
-                android:textSize="25dp"
-                android:gravity="center"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:textColor="@color/colorPrimaryDark"/>
-
-
-            <TextView
-                android:id="@+id/txtview_start_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/prompt_start_time_service_value"
                 android:textSize="18dp"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="17dp"
                 android:textColor="@color/colorPrimary"/>
 
-            <TextView
-                android:id="@+id/txtview_end_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/prompt_end_time_service_value"
-                android:textSize="18dp"
-                android:gravity="center"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginBottom="35dp"/>
 
-            <TextView
-                android:id="@+id/prompt_start_time_service"
-                android:layout_width="wrap_content"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/prompt_start_time_service"
-                android:textSize="15dp"
-                android:gravity="center"
-                android:layout_gravity="center_horizontal" />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/txt_input_start"
-                app:errorTextAppearance="@style/ErrorText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorEnabled="true" >
-
-                <TimePicker
-                    android:id="@+id/timepicker_start"
-                    android:layout_width="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="@string/prompt_start_time_service"
+                    android:textSize="14dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:timePickerMode="spinner"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-
-            <TextView
-                android:id="@+id/prompt_end_time_service"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/prompt_end_time_service"
-                android:gravity="center"
-                android:textSize="15dp"
-                android:layout_gravity="center_horizontal" />
-
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/txt_input_end"
-                app:errorTextAppearance="@style/ErrorText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorEnabled="true" >
-
-                <TimePicker
-                    android:id="@+id/timepicker_end"
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryText"/>
+                <TextView
+                    android:textSize="14dp"
+                    android:text="@string/prompt_end_time_service"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:timePickerMode="spinner"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/prompt_service_observations"
-                android:gravity="center"
-                android:textSize="18dp"
-                android:layout_gravity="center_horizontal" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:id="@+id/txtview_observations"
-                    android:layout_gravity="center_horizontal" />
-
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
             </LinearLayout>
 
-            <LinearLayout
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/txtview_start_time"
+                    android:text="@string/prompt_start_time_service_value"
+                    android:textSize="22dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryText"/>
+                <TextView
+                    android:id="@+id/txtview_end_time"
+                    android:textSize="22dp"
+                    android:text="@string/prompt_end_time_service_value"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_set_start_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="5dp"
+                android:elevation="10dp"
+                android:text="@string/prompt_set_start_time"
+                android:background="@color/orange"
+                android:textColor="@color/colorPrimaryTextLight" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imgview_photo" />
+            <Button
+                android:id="@+id/button_set_end_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:elevation="10dp"
+                android:text="@string/prompt_set_end_time"
+                android:background="@color/orange"
+                android:textColor="@color/colorPrimaryTextLight" />
 
-            </LinearLayout>
+            <TextView
+                android:id="@+id/set_time_instructions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/prompt_set_time_instructions"
+                android:textColor="@color/orange"
+                android:gravity="left" />
+
+            <TextView
+                android:id="@+id/service_instruction1"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/prompt_service_instruction1"
+                android:textColor="@color/colorPrimaryText"
+                android:gravity="left" />
+
+            <TextView
+                android:id="@+id/service_instruction2"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/prompt_service_instruction2"
+                android:textColor="@color/colorError"
+                android:gravity="left" />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:id="@+id/txtview_observations"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgview_photo" />
 
             <Button
                 android:id="@+id/button_take_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
                 android:elevation="10dp"
                 android:text="@string/prompt_take_photo"
+                android:visibility="gone"
                 android:background="@color/colorPrimary"
                 android:textColor="@color/colorPrimaryTextLight" />
 
@@ -172,11 +176,10 @@
                 android:id="@+id/button_finish_tracing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="18dp"
                 android:elevation="10dp"
                 android:text="@string/prompt_tracing"
-                android:background="@color/colorPrimary"
+                android:background="@color/green"
                 android:textColor="@color/colorPrimaryTextLight"
                 android:visibility="gone"/>
         </LinearLayout>

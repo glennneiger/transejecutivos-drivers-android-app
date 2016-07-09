@@ -25,9 +25,7 @@ public abstract class IntentServiceBase extends IntentService implements
     protected GoogleApiClient mGoogleApiClient = null;
     protected Location mLastLocation;
     protected LocationRequest mLocationRequest = null;
-    protected boolean mRequestingLocationUpdates = false;
-    protected final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
-    protected static int UPDATE_INTERVAL = 10000; // 10 sec
+    protected static int UPDATE_INTERVAL = 5000; // 5 sec
     protected static int FATEST_INTERVAL = 5000; // 5 sec
     protected static int DISPLACEMENT = 10; // 10 meters
 
@@ -61,14 +59,6 @@ public abstract class IntentServiceBase extends IntentService implements
             mGoogleApiClient.connect();
         }
     }
-
-    /*
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopLocationUpdates();
-    }
-    */
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -126,12 +116,6 @@ public abstract class IntentServiceBase extends IntentService implements
         }
         catch (SecurityException e) {
 
-        }
-    }
-
-    protected void stopLocationUpdates() {
-        if (mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
     }
 
