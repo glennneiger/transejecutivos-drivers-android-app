@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -44,7 +45,9 @@ public class ServiceOptionsFragment extends FragmentBase  {
     Button btn_on_source;
     Button btn_start_service;
     Button btn_finish_service;
+    Button btn_reset_service;
     EditText txtview_observations;
+    TextView txt_service_complete;
 
     public ServiceOptionsFragment() {
 
@@ -74,10 +77,15 @@ public class ServiceOptionsFragment extends FragmentBase  {
         finish_form = view.findViewById(R.id.finish_form);
 
         btn_call_passenger = (Button) view.findViewById(R.id.btn_call_passenger);
+
+        txt_service_complete = (TextView) view.findViewById(R.id.txt_service_complete);
+
         btn_onmyway = (Button) view.findViewById(R.id.btn_onmyway);
         btn_on_source = (Button) view.findViewById(R.id.btn_on_source);
         btn_start_service = (Button) view.findViewById(R.id.btn_start_service);
         btn_finish_service = (Button) view.findViewById(R.id.btn_finish_service);
+
+        btn_reset_service = (Button) view.findViewById(R.id.btn_reset_service);
 
         button_finish_tracing = (Button) view.findViewById(R.id.button_finish_tracing);
         button_take_photo = (Button) view.findViewById(R.id.button_take_photo);
@@ -140,6 +148,51 @@ public class ServiceOptionsFragment extends FragmentBase  {
             }
         });
 
+        btn_reset_service.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetService();
+            }
+        });
+    }
+
+    protected void resetService() {
+        showProgress(true, buttons_container, progressBar);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                ApiConstants.URL_RESET_SERVICE + "/" + this.service.getIdService(),
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        showProgress(false, buttons_container, progressBar);
+                        validateResponse(response, "reset");
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        setErrorSnackBar(getResources().getString(R.string.error_general));
+                        showProgress(false, buttons_container, progressBar);
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String,String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put("Authorization", user.getApikey());
+                return headers;
+            }
+
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        requestQueue.add(stringRequest);
     }
 
     private void setServiceStatus(final String url, final String status) {
@@ -262,22 +315,9 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
         };
 
-        stringRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 50000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 50000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(stringRequest);
     }
@@ -367,6 +407,9 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
         else {
+            txt_service_complete.setVisibility(View.VISIBLE);
+            btn_reset_service.setVisibility(View.VISIBLE);
+
             btn_on_source.setEnabled(false);
             btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_onmyway.setEnabled(false);
@@ -375,6 +418,11 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_finish_service.setEnabled(false);
             btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+            btn_on_source.setVisibility(View.GONE);
+            btn_onmyway.setVisibility(View.GONE);
+            btn_start_service.setVisibility(View.GONE);
+            btn_finish_service.setVisibility(View.GONE);
         }
     }
 }

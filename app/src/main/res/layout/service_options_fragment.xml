@@ -42,10 +42,32 @@
                 android:id="@+id/btn_call_passenger"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
                 android:elevation="10dp"
                 android:text="@string/prompt_call_passenger"
                 android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryTextLight" />
+
+            <TextView
+                android:id="@+id/txt_service_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textSize="18dp"
+                android:text="@string/prompt_service_complete"
+                android:textColor="@color/colorPrimaryText"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:id="@+id/btn_reset_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:elevation="10dp"
+                android:visibility="gone"
+                android:text="@string/prompt_reset_service"
+                android:background="@color/colorError"
                 android:textColor="@color/colorPrimaryTextLight" />
 
             <Button

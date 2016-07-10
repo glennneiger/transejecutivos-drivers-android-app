@@ -28,9 +28,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.adapters.ServiceExpandableListAdapter;
+import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.background_services.AlarmReceiver;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
@@ -38,6 +45,8 @@ import com.development.transejecutivosdrivers.models.User;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FragmentBase extends Fragment {
     long ALARM_START = 1;
@@ -166,6 +175,7 @@ public class FragmentBase extends Fragment {
         String state = Environment.getExternalStorageState();
         return state.equals(Environment.MEDIA_MOUNTED);
     }
+
 
     public void setErrorSnackBar(String message) {
         Snackbar snackbar = Snackbar

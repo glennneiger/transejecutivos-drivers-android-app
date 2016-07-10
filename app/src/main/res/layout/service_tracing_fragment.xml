@@ -116,6 +116,29 @@
                 android:textColor="@color/colorPrimaryTextLight" />
 
             <TextView
+                android:id="@+id/txt_service_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="25dp"
+                android:text="@string/prompt_service_complete"
+                android:textColor="@color/colorPrimaryText"
+                android:gravity="left"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:id="@+id/btn_reset_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:elevation="10dp"
+                android:visibility="gone"
+                android:text="@string/prompt_reset_service"
+                android:background="@color/colorError"
+                android:textColor="@color/colorPrimaryTextLight" />
+
+            <TextView
                 android:id="@+id/set_time_instructions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

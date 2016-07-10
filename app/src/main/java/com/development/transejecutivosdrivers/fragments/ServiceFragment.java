@@ -44,6 +44,7 @@ public class ServiceFragment extends FragmentBase {
     View progressBar;
     boolean for_search = false;
     Button button_call_passenger;
+    Button button_sms_passenger;
 
     public ServiceFragment() {
 
@@ -66,13 +67,28 @@ public class ServiceFragment extends FragmentBase {
         fragmentContainer = view.findViewById(R.id.service_container);
         progressBar = view.findViewById(R.id.service_progress);
         button_call_passenger = (Button) view.findViewById(R.id.button_call_passenger);
+        button_sms_passenger = (Button) view.findViewById(R.id.button_sms_passenger);
+
+        button_sms_passenger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] tels = passenger.getPhone().split(",");
+                String tel1 = tels[0];
+
+                if (!TextUtils.isEmpty(tel1)) {
+                    Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+                    smsIntent.setType("vnd.android-dir/mms-sms");
+                    smsIntent.putExtra("address", tel1);
+                    startActivity(smsIntent);
+                }
+            }
+        });
 
         button_call_passenger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String[] tels = passenger.getPhone().split(",");
                 String tel1 = tels[0];
-                String tel2 = tels[1];
 
                 if (!TextUtils.isEmpty(tel1)) {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -167,12 +183,13 @@ public class ServiceFragment extends FragmentBase {
             if (!error) {
                 if (status == 0) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.service_decline_message), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    startActivity(i);
                 }
                 else {
                     Toast.makeText(getActivity(), getResources().getString(R.string.service_accept_message), Toast.LENGTH_SHORT).show();
+                    reload();
                 }
-
-                reload();
             }
             else {
                 setErrorSnackBar(getResources().getString(R.string.error_general));

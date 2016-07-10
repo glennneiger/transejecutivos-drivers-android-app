@@ -206,11 +206,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="15dp"
                         android:elevation="10dp"
-                        android:text="@string/prompt_call_passenger_service"
+                        android:text="@string/prompt_call_passenger"
                         android:background="@color/green"
                         android:textColor="@color/colorPrimaryTextLight" />
+
+                <Button
+                    android:id="@+id/button_sms_passenger"
+                    android:layout_below="@+id/button_call_passenger"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:elevation="10dp"
+                    android:text="@string/prompt_sms_passenger_service"
+                    android:background="@color/orange"
+                    android:textColor="@color/colorPrimaryTextLight" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

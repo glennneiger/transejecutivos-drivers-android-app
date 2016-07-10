@@ -70,7 +70,6 @@
 
     <!-- Service -->
     <string name="prompt_accept_service">Aceptar</string>
-    <string name="prompt_call_passenger_service">Llamar a pasajero</string>
     <string name="prompt_decline_service">Rechazar</string>
     <string name="prompt_call_passenger">Llamar al pasajero</string>
     <string name="prompt_on_way">Estoy en camino</string>
@@ -124,6 +123,9 @@
     <string name="prompt_start_time_service_value">Establecer</string>
     <string name="prompt_end_time_service_value">Establecer</string>
 
-    <string name="prompt_app_version">Version 1.1.2</string>
+    <string name="prompt_app_version">Version 1.1.3</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
+    <string name="prompt_service_complete">Este servicio se encuentra completado, si deseas editarlo, presiona el botón rojo.</string>
+    <string name="prompt_sms_passenger_service">Enviar SMS al pasajero</string>
+    <string name="prompt_reset_service">Editar Seguimiento</string>
 </resources>

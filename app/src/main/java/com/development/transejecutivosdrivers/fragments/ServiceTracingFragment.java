@@ -46,12 +46,14 @@ public class ServiceTracingFragment extends FragmentBase  {
     TextView txtview_end_time;
     TextView txtview_service_reference;
 
+    TextView txt_service_complete;
     TextView set_time_instructions;
     TextView service_instruction1;
     TextView service_instruction2;
 
     Button button_set_start_time;
     Button button_set_end_time;
+    Button btn_reset_service;
 
     String start = "";
     String end = "";
@@ -85,9 +87,12 @@ public class ServiceTracingFragment extends FragmentBase  {
         service_instruction1 = (TextView) view.findViewById(R.id.service_instruction1);
         service_instruction2 = (TextView) view.findViewById(R.id.service_instruction2);
 
+        txt_service_complete = (TextView) view.findViewById(R.id.txt_service_complete);
 
         button_set_start_time = (Button) view.findViewById(R.id.button_set_start_time);
         button_set_end_time = (Button) view.findViewById(R.id.button_set_end_time);
+
+        btn_reset_service = (Button) view.findViewById(R.id.btn_reset_service);
 
         txtview_observations = (EditText) view.findViewById(R.id.txtview_observations);
 
@@ -120,6 +125,12 @@ public class ServiceTracingFragment extends FragmentBase  {
         if (!TextUtils.isEmpty(this.service.getEndTime())) {
             txtview_end_time.setText(this.service.getEndTime());
             button_set_end_time.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(this.service.getEndTime()) && !TextUtils.isEmpty(this.service.getStartTime())) {
+            set_time_instructions.setVisibility(View.GONE);
+            txt_service_complete.setVisibility(View.VISIBLE);
+            btn_reset_service.setVisibility(View.VISIBLE);
         }
     }
 
@@ -182,6 +193,13 @@ public class ServiceTracingFragment extends FragmentBase  {
             button_finish_tracing.setEnabled(false);
             button_finish_tracing.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
+
+        btn_reset_service.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetService();
+            }
+        });
     }
 
     private String formatTime(int number) {
@@ -197,13 +215,69 @@ public class ServiceTracingFragment extends FragmentBase  {
     }
 
     private void showTakePhotoButton() {
-        //if (!TextUtils.isEmpty(txtview_start_time.getText()) && !TextUtils.isEmpty(txtview_end_time.getText())) {
         if (!txtview_start_time.getText().equals("Establecer") && !txtview_end_time.getText().equals("Establecer")) {
             set_time_instructions.setVisibility(View.GONE);
             service_instruction1.setVisibility(View.VISIBLE);
             service_instruction2.setVisibility(View.VISIBLE);
             txtview_observations.setVisibility(View.VISIBLE);
             button_take_photo.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void resetService() {
+        showProgress(true, formContainer, progressBar);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                ApiConstants.URL_RESET_SERVICE + "/" + this.service.getIdService(),
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        showProgress(false, formContainer, progressBar);
+                        validateResponse(response);
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        setErrorSnackBar(getResources().getString(R.string.error_general));
+                        showProgress(false, formContainer, progressBar);
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String,String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                headers.put("Authorization", user.getApikey());
+                return headers;
+            }
+
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        requestQueue.add(stringRequest);
+    }
+
+    protected void  validateResponse(String response) {
+        try {
+            JSONObject resObj = new JSONObject(response);
+            Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+            String msg = resObj.getString(JsonKeys.MESSAGE);
+            if (!error) {
+                Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show();
+                reload();
+            }
+            else {
+                setErrorSnackBar(msg);
+            }
+        }
+        catch (JSONException ex) {
+            ex.printStackTrace();
         }
     }
 
