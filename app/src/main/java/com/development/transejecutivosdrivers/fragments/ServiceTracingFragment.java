@@ -140,7 +140,7 @@ public class ServiceTracingFragment extends FragmentBase  {
             @Override
             public void onClick(View v) {
                 final Calendar c = Calendar.getInstance();
-                int mHour = c.get(Calendar.HOUR);
+                int mHour = c.get(Calendar.HOUR_OF_DAY);
                 int mMinute = c.get(Calendar.MINUTE);
 
                 TimePickerDialog tpd = new TimePickerDialog(f.getActivity(), 2,  new TimePickerDialog.OnTimeSetListener() {
@@ -269,7 +269,7 @@ public class ServiceTracingFragment extends FragmentBase  {
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             String msg = resObj.getString(JsonKeys.MESSAGE);
             if (!error) {
-                Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                 reload();
             }
             else {
@@ -362,8 +362,9 @@ public class ServiceTracingFragment extends FragmentBase  {
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             if (!error) {
                 Toast.makeText(getActivity(), getResources().getString(R.string.success_tracing_message), Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getActivity(), MainActivity.class);
-                startActivity(i);
+                //Intent i = new Intent(getActivity(), MainActivity.class);
+                //startActivity(i);
+                reload();
             }
             else {
                 String msg = resObj.getString(JsonKeys.MESSAGE);
