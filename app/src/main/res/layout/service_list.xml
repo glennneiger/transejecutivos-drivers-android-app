@@ -16,9 +16,10 @@
         android:layout_margin="5dp"
         android:padding="10dp" >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_margin="6dp">
 
             <TextView
@@ -31,53 +32,47 @@
 
             <TextView
                 android:id="@+id/txtview_reference"
-                android:layout_below="@+id/txtview_start_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/txtview_source"
-                android:layout_below="@+id/txtview_reference"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorSecondaryText"/>
 
             <TextView
                 android:id="@+id/txtview_destiny"
-                android:layout_below="@+id/txtview_source"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorSecondaryText"/>
 
             <TextView
                 android:id="@+id/txtview_pax_cant"
-                android:layout_below="@+id/txtview_destiny"
+                android:textColor="@color/orange"
+                android:textSize="18dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorSecondaryText"/>
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/txtview_pax"
-                android:layout_below="@+id/txtview_pax_cant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorSecondaryText"/>
 
             <TextView
                 android:id="@+id/txtview_observations"
-                android:layout_below="@+id/txtview_pax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorError"/>
 
             <TextView
                 android:id="@+id/txtview_status"
-                android:layout_below="@+id/txtview_observations"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorError" />
-        </RelativeLayout>
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 </LinearLayout>

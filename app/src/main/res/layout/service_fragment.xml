@@ -78,80 +78,74 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/txtview_service_info_title"
-                    android:hint="@string/service_info_title"
-                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/txtview_start_date"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="22dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:textSize="18sp" />
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_start_date"
-                        android:layout_below="@+id/txtview_service_info_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:id="@+id/txtview_reference"
+                    android:textColor="@color/green"
+                    android:layout_below="@+id/txtview_start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_reference"
-                        android:textColor="@color/green"
-                        android:layout_below="@+id/txtview_start_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:id="@+id/txtview_source"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_below="@+id/txtview_reference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_source"
-                        android:textColor="@color/colorPrimaryText"
-                        android:layout_below="@+id/txtview_reference"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:id="@+id/txtview_destiny"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_below="@+id/txtview_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_destiny"
-                        android:textColor="@color/colorPrimaryText"
-                        android:layout_below="@+id/txtview_source"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:id="@+id/txtview_pax_cant"
+                    android:layout_below="@+id/txtview_destiny"
+                    android:textColor="@color/orange"
+                    android:textSize="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_pax_cant"
-                        android:layout_below="@+id/txtview_destiny"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:id="@+id/txtview_pax"
+                    android:layout_below="@+id/txtview_pax_cant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_pax"
-                        android:layout_below="@+id/txtview_pax_cant"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:id="@+id/txtview_fly"
+                    android:layout_below="@+id/txtview_pax"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_fly"
-                        android:layout_below="@+id/txtview_pax"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:id="@+id/txtview_observations"
+                    android:textColor="@color/colorError"
+                    android:layout_below="@+id/txtview_fly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_observations"
-                        android:textColor="@color/colorError"
-                        android:layout_below="@+id/txtview_fly"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
-
-                    <TextView
-                        android:id="@+id/txtview_status"
-                        android:layout_below="@+id/txtview_observations"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:id="@+id/txtview_status"
+                    android:layout_below="@+id/txtview_observations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
             </RelativeLayout>
 
@@ -162,55 +156,47 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/txtview_passenger_info_title"
-                    android:hint="@string/passenger_info_title"
-                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/txtview_passenger_name"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="22dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:textSize="18sp" />
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_passenger_name"
-                        android:layout_below="@+id/txtview_passenger_info_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:id="@+id/txtview_passenger_company"
+                    android:textColor="@color/green"
+                    android:layout_below="@+id/txtview_passenger_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_passenger_company"
-                        android:textColor="@color/green"
-                        android:layout_below="@+id/txtview_passenger_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:id="@+id/txtview_passenger_phone"
+                    android:textColor="@color/blue"
+                    android:layout_below="@+id/txtview_passenger_company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_passenger_phone"
-                        android:textColor="@color/blue"
-                        android:layout_below="@+id/txtview_passenger_company"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                <TextView
+                    android:id="@+id/txtview_passenger_email"
+                    android:layout_below="@+id/txtview_passenger_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
-                    <TextView
-                        android:id="@+id/txtview_passenger_email"
-                        android:layout_below="@+id/txtview_passenger_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"/>
-
-                    <Button
-                        android:id="@+id/button_call_passenger"
-                        android:layout_below="@+id/txtview_passenger_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="15dp"
-                        android:elevation="10dp"
-                        android:text="@string/prompt_call_passenger"
-                        android:background="@color/green"
-                        android:textColor="@color/colorPrimaryTextLight" />
+                <Button
+                    android:id="@+id/button_call_passenger"
+                    android:layout_below="@+id/txtview_passenger_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="15dp"
+                    android:elevation="10dp"
+                    android:text="@string/prompt_call_passenger"
+                    android:background="@color/green"
+                    android:textColor="@color/colorPrimaryTextLight" />
 
                 <Button
                     android:id="@+id/button_sms_passenger"

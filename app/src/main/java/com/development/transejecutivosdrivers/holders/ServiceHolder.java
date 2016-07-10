@@ -73,17 +73,28 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
         txtview_reference.setText(service.getReference());
         txtview_destiny.setText("Destino: " + service.getDestiny());
         txtview_source.setText("Origen: " + service.getSource());
-        txtview_pax_cant.setText(service.getPaxCant() + " Pasajero(s)");
+
+        txtview_pax_cant.setVisibility(View.GONE);
+        if (service.getPaxCant() > 1) {
+            txtview_pax_cant.setVisibility(View.VISIBLE);
+            txtview_pax_cant.setText(service.getPaxCant() + " Pasajeros");
+        }
 
         if (!TextUtils.isEmpty(service.getPax())) {
             txtview_pax.setText("Pasajeros: " + service.getPax());
         }
 
+        txtview_fly.setVisibility(View.GONE);
         if (!TextUtils.isEmpty(service.getFly()) && !TextUtils.isEmpty(service.getAeroline())) {
+            txtview_fly.setVisibility(View.VISIBLE);
             txtview_fly.setText(Html.fromHtml("Vuelo: <a href=\"" + this.context.getResources().getString(R.string.url_fly) + service.getFly() + "\">" + service.getFly() + ", " + service.getAeroline() + "</a>"));
         }
 
-        txtview_observations.setText("Observaciones: " + service.getObservations());
+        txtview_observations.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(service.getObservations())) {
+            txtview_observations.setVisibility(View.VISIBLE);
+            txtview_observations.setText("Observaciones: " + service.getObservations());
+        }
     }
 
     public void setPassenger(Passenger passenger) {

@@ -60,11 +60,17 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
         txtview_source.setText("Origen: " + service.getSource());
         txtview_pax_cant.setText(service.getPaxCant() + " Pasajero(s)");
 
-        if (!TextUtils.isEmpty(service.getPax())) {
-            txtview_pax.setText("Pasajeros: " + service.getPax());
+        txtview_pax_cant.setVisibility(View.GONE);
+        if (service.getPaxCant() > 1) {
+            txtview_pax_cant.setVisibility(View.VISIBLE);
+            txtview_pax_cant.setText(service.getPaxCant() + " Pasajeros");
         }
 
-        txtview_observations.setText("Observaciones: " + service.getObservations());
+        txtview_observations.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(service.getObservations())) {
+            txtview_observations.setVisibility(View.VISIBLE);
+            txtview_observations.setText("Observaciones: " + service.getObservations());
+        }
     }
 
     public View getItemView() {
