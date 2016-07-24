@@ -8,14 +8,20 @@ import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.util.Base64;
@@ -39,6 +45,7 @@ import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.adapters.ServiceExpandableListAdapter;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.background_services.AlarmReceiver;
+import com.development.transejecutivosdrivers.background_services.BackgroundService;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
@@ -50,7 +57,7 @@ import java.util.Map;
 
 public class FragmentBase extends Fragment {
     long ALARM_START = 1;
-    long ALARM_REPEAT = 7000;
+    long ALARM_REPEAT = 20000;
 
     protected static ExpandableListView expandableListView;
     protected static ServiceExpandableListAdapter serviceExpandableListAdapter;
@@ -209,6 +216,7 @@ public class FragmentBase extends Fragment {
 
     protected void scheduleAlarm(String location) {
         // Construct an intent that will execute the AlarmReceiver
+        /*
         Intent intent = new Intent(this.context, AlarmReceiver.class);
 
         intent.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
@@ -222,17 +230,19 @@ public class FragmentBase extends Fragment {
         AlarmManager alarm = (AlarmManager) this.context.getSystemService(this.context.ALARM_SERVICE);
 
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, ALARM_START, ALARM_REPEAT, pIntent);
-
-        /*
-        backgroundLocationService = new Intent(this.context, BackgroundLocationService.class);
-        backgroundLocationService.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
-        backgroundLocationService.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
-        backgroundLocationService.putExtra(JsonKeys.LOCATION, location);
-        getActivity().startService(backgroundLocationService);
         */
+
+
+        Intent backgroundService = new Intent(getActivity(), BackgroundService.class);
+        backgroundService.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
+        backgroundService.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
+        backgroundService.putExtra(JsonKeys.LOCATION, location);
+        getActivity().startService(backgroundService);
     }
 
     public void cancelAlarm() {
+        getActivity().stopService(new Intent(getActivity(), BackgroundService.class));
+        /*
         Intent intent = new Intent(this.context, AlarmReceiver.class);
 
         final PendingIntent pIntent = PendingIntent.getBroadcast(this.context, AlarmReceiver.REQUEST_CODE,
@@ -242,13 +252,7 @@ public class FragmentBase extends Fragment {
         if (alarm != null) {
             alarm.cancel(pIntent);
         }
-
-        /*
-        if (backgroundLocationService != null) {
-            getActivity().stopService(backgroundLocationService);
-        }
         */
-
     }
 
     /**

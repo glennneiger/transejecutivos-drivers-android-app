@@ -1,6 +1,5 @@
 package com.development.transejecutivosdrivers.background_services;
 
-import android.app.IntentService;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +7,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
@@ -25,6 +23,10 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +35,9 @@ import java.util.Map;
  */
 public class BackgroundService extends Service {
     protected Context context;
+
+    LocationManager locationManager = null;
+
     public BackgroundService() {
 
     }
@@ -45,23 +50,17 @@ public class BackgroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("LALA", "init");
-        WakefulBroadcastReceiver.completeWakefulIntent(intent);
         Bundle t = intent.getExtras();
         if (t != null) {
-            Log.d("LALA", "data getted");
-            LocationManager locationManager = new LocationManager();
+            locationManager = new LocationManager();
             locationManager.setContext(this);
             locationManager.setBackgroundService(this);
             locationManager.setData(t.getInt(JsonKeys.SERVICE_ID), t.getString(JsonKeys.USER_APIKEY), t.getString(JsonKeys.LOCATION));
-            Log.d("LALA", "starting location");
             locationManager.start();
-            Log.d("LALA", "location started");
-            Log.d("LALA", "finish");
         }
-
         return super.onStartCommand(intent, flags, startId);
     }
+
 
     public void stopBackgroundProcess() {
         this.stopSelf();
@@ -69,7 +68,10 @@ public class BackgroundService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d("LALA", "Destroy");
+        if (locationManager != null) {
+            locationManager.stopLocationUpdates();
+            locationManager.disconnectFromGoogleApi();
+        }
         super.onDestroy();
     }
 
@@ -82,12 +84,12 @@ public class BackgroundService extends Service {
         protected Location mLastLocation;
         protected LocationRequest mLocationRequest = null;
         private int REQUEST_CODE_RECOVER_PLAY_SERVICES = 200;
-        protected int UPDATE_INTERVAL = 10000; // 10 sec
-        protected int FATEST_INTERVAL = 7000; // 10 sec
+        protected int UPDATE_INTERVAL = 5000; // 10 sec
+        protected int FATEST_INTERVAL = 5000; // 5 sec
         protected int DISPLACEMENT = 5;
-        protected int NUMBER_UPDATES = 1;
+        protected int NUMBER_UPDATES = 3;
 
-        public boolean isDone = false;
+        public int updates = 0;
 
         Context context;
         BackgroundService backgroundService;
@@ -108,7 +110,6 @@ public class BackgroundService extends Service {
 
         public void start() {
             if (checkGooglePlayServices()) {
-                Log.d("LALA", "play services is done");
                 createLocationRequest();
                 buildGoogleApiClient();
                 if (mGoogleApiClient != null) {
@@ -151,9 +152,8 @@ public class BackgroundService extends Service {
         public void onConnected(Bundle connectionHint) {
             if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                 try {
-                    Log.d("LALA", "Connected");
                     mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                    //sendLocation();
+                    sendLocation();
                     startLocationUpdates();
                 } catch (SecurityException e) {
 
@@ -175,7 +175,6 @@ public class BackgroundService extends Service {
         @Override
         public void onLocationChanged(Location location) {
             mLastLocation = location;
-            Log.d("LALA", "Location change");
             sendLocation();
         }
 
@@ -183,7 +182,6 @@ public class BackgroundService extends Service {
             try {
                 if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                     LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-                    Log.d("LALA", "Requesting updates");
                 }
             }
             catch (SecurityException e) {
@@ -204,7 +202,6 @@ public class BackgroundService extends Service {
         }
 
         public void sendLocation() {
-            Log.d("LALA", "Sending location");
             try {
                 if (mLastLocation != null) {
                     final String latitude = "" + mLastLocation.getLatitude();
@@ -274,10 +271,24 @@ public class BackgroundService extends Service {
         }
 
         public void validateResponse(String response, String la, String lo) {
-            Toast.makeText(getApplicationContext(), "Location sent: " + la + " " + lo,Toast.LENGTH_LONG).show();
-            stopLocationUpdates();
-            disconnectFromGoogleApi();
-            this.backgroundService.stopBackgroundProcess();
+            Toast.makeText(getApplicationContext(), "Location sent: " + la + " " + lo,Toast.LENGTH_SHORT).show();
+            try {
+                JSONObject resObj = new JSONObject(response);
+                Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+                String msg = resObj.getString(JsonKeys.MESSAGE);
+                int ms = resObj.getInt(JsonKeys.MESSAGE);
+                if (!error) {
+                    if (msg.equals("0") || ms == 0) {
+                        this.backgroundService.stopBackgroundProcess();
+                    }
+                }
+
+            }
+            catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+
+            updates++;
         }
     }
 }
