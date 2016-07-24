@@ -69,7 +69,10 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
 
     public void setService(Service service) {
         this.service = service;
-        txtview_start_date.setText(service.getStartDate());
+        if (!TextUtils.isEmpty(service.getStartDate()) || service.getStartDate() != null) {
+            txtview_start_date.setText(service.getStartDate());
+        }
+
         txtview_reference.setText(service.getReference());
         txtview_destiny.setText("Destino: " + service.getDestiny());
         txtview_source.setText("Origen: " + service.getSource());

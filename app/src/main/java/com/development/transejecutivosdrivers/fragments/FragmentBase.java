@@ -50,7 +50,7 @@ import java.util.Map;
 
 public class FragmentBase extends Fragment {
     long ALARM_START = 1;
-    long ALARM_REPEAT = 5000;
+    long ALARM_REPEAT = 7000;
 
     protected static ExpandableListView expandableListView;
     protected static ServiceExpandableListAdapter serviceExpandableListAdapter;
@@ -68,6 +68,7 @@ public class FragmentBase extends Fragment {
     Service service;
     Passenger passenger;
     Context context;
+    Intent backgroundLocationService = null;
 
     //Take picture var
     public final String APP_TAG = "MyCustomApp";
@@ -221,6 +222,14 @@ public class FragmentBase extends Fragment {
         AlarmManager alarm = (AlarmManager) this.context.getSystemService(this.context.ALARM_SERVICE);
 
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, ALARM_START, ALARM_REPEAT, pIntent);
+
+        /*
+        backgroundLocationService = new Intent(this.context, BackgroundLocationService.class);
+        backgroundLocationService.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
+        backgroundLocationService.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
+        backgroundLocationService.putExtra(JsonKeys.LOCATION, location);
+        getActivity().startService(backgroundLocationService);
+        */
     }
 
     public void cancelAlarm() {
@@ -233,6 +242,13 @@ public class FragmentBase extends Fragment {
         if (alarm != null) {
             alarm.cancel(pIntent);
         }
+
+        /*
+        if (backgroundLocationService != null) {
+            getActivity().stopService(backgroundLocationService);
+        }
+        */
+
     }
 
     /**

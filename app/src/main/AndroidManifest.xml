@@ -30,7 +30,7 @@
         </receiver>
 
         <service
-            android:name=".background_services.PrelocationService"
+            android:name=".background_services.BackgroundService"
             android:exported="false" />
 
         <activity

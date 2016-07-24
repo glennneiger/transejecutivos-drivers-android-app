@@ -80,6 +80,7 @@
                 <TextView
                     android:id="@+id/txtview_start_date"
                     android:textColor="@color/colorPrimaryText"
+                    android:text="@string/prompt_date_unavailable"
                     android:textSize="22dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
