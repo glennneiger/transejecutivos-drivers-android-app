@@ -84,7 +84,7 @@ public class BackgroundService extends Service {
         protected Location mLastLocation;
         protected LocationRequest mLocationRequest = null;
         private int REQUEST_CODE_RECOVER_PLAY_SERVICES = 200;
-        protected int UPDATE_INTERVAL = 5000; // 10 sec
+        protected int UPDATE_INTERVAL = 10000; // 10 sec
         protected int FATEST_INTERVAL = 5000; // 5 sec
         protected int DISPLACEMENT = 5;
         protected int NUMBER_UPDATES = 3;
@@ -140,11 +140,11 @@ public class BackgroundService extends Service {
         protected void createLocationRequest() {
             if (mLocationRequest == null) {
                 mLocationRequest = new LocationRequest();
+                mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                 mLocationRequest.setInterval(UPDATE_INTERVAL);
                 mLocationRequest.setFastestInterval(FATEST_INTERVAL);
                 mLocationRequest.setSmallestDisplacement(DISPLACEMENT);
                 //mLocationRequest.setNumUpdates(NUMBER_UPDATES);
-                mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             }
         }
 
@@ -271,7 +271,7 @@ public class BackgroundService extends Service {
         }
 
         public void validateResponse(String response, String la, String lo) {
-            Toast.makeText(getApplicationContext(), "Location sent: " + la + " " + lo,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Location sent: " + la + " " + lo,Toast.LENGTH_SHORT).show();
             try {
                 JSONObject resObj = new JSONObject(response);
                 Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
