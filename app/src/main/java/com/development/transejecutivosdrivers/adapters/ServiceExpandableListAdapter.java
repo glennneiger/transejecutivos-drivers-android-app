@@ -70,6 +70,8 @@ public class ServiceExpandableListAdapter extends BaseExpandableListAdapter {
                 cacheManager.cleanData();
                 cacheManager.setData(JsonKeys.SERVICE_ID, serviceHolder.service.getIdService() + "");
                 Intent i = new Intent(_context, ServiceActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 _context.startActivity(i);
             }
         });

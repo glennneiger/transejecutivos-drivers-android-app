@@ -109,7 +109,7 @@ public class FragmentBase extends Fragment {
     }
 
     public void onLaunchCamera(View view) {
-        CacheManager cacheManager = new CacheManager(context, JsonKeys.TAKING_PHOTO_PREF, JsonKeys.TAKING_PHOTO_KEY);
+        CacheManager cacheManager = new CacheManager(getActivity(), JsonKeys.TAKING_PHOTO_PREF, JsonKeys.TAKING_PHOTO_KEY);
         cacheManager.cleanData();
         cacheManager.setData(JsonKeys.TAKING_PHOTO, "1");
         // create Intent to take a picture and return control to the calling application
@@ -264,34 +264,33 @@ public class FragmentBase extends Fragment {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show, final View formView, final View progressView) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        if(isAdded()){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+                int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            formView.setVisibility(show ? View.GONE : View.VISIBLE);
-            formView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    formView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+                formView.setVisibility(show ? View.GONE : View.VISIBLE);
+                formView.animate().setDuration(shortAnimTime).alpha(
+                        show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        formView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    }
+                });
 
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            progressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            formView.setVisibility(show ? View.GONE : View.VISIBLE);
+                progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                progressView.animate().setDuration(shortAnimTime).alpha(
+                        show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                    }
+                });
+            } else {
+                // The ViewPropertyAnimator APIs are not available, so simply show
+                // and hide the relevant UI components.
+                progressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                formView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
         }
     }
 }

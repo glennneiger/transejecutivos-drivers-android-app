@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.adapters.ServiceExpandableListAdapter;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.deserializers.Deserializer;
+import com.development.transejecutivosdrivers.misc.CacheManager;
 import com.development.transejecutivosdrivers.models.Date;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
@@ -71,7 +73,9 @@ public class ServicesListFragment extends FragmentBase {
     @Override
     public void onStart() {
         super.onStart();
-        searchPendingServices();
+        if(isAdded()){
+            searchPendingServices();
+        }
     }
 
     public void searchPendingServices() {
@@ -97,7 +101,7 @@ public class ServicesListFragment extends FragmentBase {
 
             @Override
             public Map<String, String> getHeaders() {
-                Map<String,String> headers = new HashMap<String, String>();
+                Map<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/x-www-form-urlencoded");
                 headers.put("Authorization", user.getApikey());
                 return headers;
@@ -144,8 +148,10 @@ public class ServicesListFragment extends FragmentBase {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                CacheManager cacheManager = new CacheManager(getActivity(), JsonKeys.SERVICE_PREF, JsonKeys.SERVICE_KEY);
+                cacheManager.cleanData();
+                cacheManager.setData(JsonKeys.SERVICE_ID, idService + "");
                 Intent i = new Intent(getActivity(), ServiceActivity.class);
-                i.putExtra(JsonKeys.SERVICE_ID, idService);
                 startActivity(i);
             }
         });
@@ -155,47 +161,49 @@ public class ServicesListFragment extends FragmentBase {
 
 
     public void setupServicesList() {
-        showProgress(true, layout, progressBar);
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        if(isAdded()){
+            showProgress(true, layout, progressBar);
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.GET,
-                ApiConstants.URL_SERVICES_GROUPED,
-                new com.android.volley.Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        processDataForGroup(response);
-                    }
-                },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, layout, progressBar);
-                    }
-                }) {
+            StringRequest stringRequest = new StringRequest(
+                    Request.Method.GET,
+                    ApiConstants.URL_SERVICES_GROUPED,
+                    new com.android.volley.Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            processDataForGroup(response);
+                        }
+                    },
+                    new com.android.volley.Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            setErrorSnackBar(getResources().getString(R.string.error_general));
+                            showProgress(false, layout, progressBar);
+                        }
+                    }) {
 
-            @Override
-            public Map<String, String> getParams() {
-                Map<String,String> params = new HashMap<String, String>();
-                return params;
-            }
+                @Override
+                public Map<String, String> getParams() {
+                    Map<String,String> params = new HashMap<String, String>();
+                    return params;
+                }
 
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String,String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/x-www-form-urlencoded");
-                headers.put("Authorization", user.getApikey());
-                return headers;
-            }
-        };
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String,String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    headers.put("Authorization", user.getApikey());
+                    return headers;
+                }
+            };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                (int) TimeUnit.SECONDS.toMillis(10),//time out in 10second
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    (int) TimeUnit.SECONDS.toMillis(10),//time out in 10second
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        requestQueue.add(stringRequest);
+            requestQueue.add(stringRequest);
+        }
     }
 
     public void processDataForGroup(String response) {

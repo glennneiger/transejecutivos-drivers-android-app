@@ -49,7 +49,9 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
+        //moveTaskToBack(true);
+        //finish();
+        this.finishAffinity();
     }
 
     @Override

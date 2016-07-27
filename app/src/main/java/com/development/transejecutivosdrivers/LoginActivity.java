@@ -105,7 +105,9 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
+        //moveTaskToBack(true);
+        //finish();
+        this.finishAffinity();
     }
 
     /**

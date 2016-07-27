@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'drivers'
+            keyPassword 'Tr4ns3j3cut1v05Dr1v3r52016*'
+            storeFile file('C:/Users/william.montiel/Documents/transejecutivos-conductores-key.jks')
+            storePassword 'Tr4ns3j3cut1v05Dr1v3r52016*'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "com.development.transejecutivosdrivers"
         minSdkVersion 16
@@ -18,14 +25,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     dexOptions {
         incremental true
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:cardview-v7:23.2.0'

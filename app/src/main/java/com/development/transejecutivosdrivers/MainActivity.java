@@ -26,6 +26,15 @@ public class MainActivity extends ActivityBase {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent i = new Intent(getApplicationContext(), ServiceActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         isLocationServiceEnabled();
