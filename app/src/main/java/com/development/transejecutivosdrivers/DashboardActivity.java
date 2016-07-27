@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import com.development.transejecutivosdrivers.adapters.DashboardMenuAdapter;
+import com.development.transejecutivosdrivers.adapters.JsonKeys;
+import com.development.transejecutivosdrivers.misc.CacheManager;
 import com.development.transejecutivosdrivers.models.DashboardMenu;
 
 public class DashboardActivity extends ActivityBase implements AdapterView.OnItemClickListener {
@@ -40,6 +42,8 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
         super.onStart();
         isLocationServiceEnabled();
         checkGooglePlayServices();
+        CacheManager cacheManager = new CacheManager(getApplicationContext(), JsonKeys.SERVICE_PREF, JsonKeys.SERVICE_KEY);
+        cacheManager.cleanData();
     }
 
     @Override

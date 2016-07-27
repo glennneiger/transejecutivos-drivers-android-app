@@ -23,6 +23,7 @@ import com.development.transejecutivosdrivers.adapters.TabPagerAdapter;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.deserializers.Deserializer;
 import com.development.transejecutivosdrivers.holders.ServiceHolder;
+import com.development.transejecutivosdrivers.misc.CacheManager;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 
@@ -39,12 +40,14 @@ public class ServiceActivity extends ActivityBase {
     private ViewPager viewPager;
     private PagerAdapter adapter = null;
 
-    int idService = 0;
+    String idService = "0";
     Service service;
     Passenger passenger;
     View main_pager;
     View progressBar;
     View service_activity_layout;
+
+    Boolean refresh = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +58,45 @@ public class ServiceActivity extends ActivityBase {
         setSupportActionBar(toolbar);
 
         validateSession();
+        isLocationServiceEnabled();
 
         service_activity_layout = findViewById(R.id.service_activity_layout);
         main_pager = findViewById(R.id.main_pager);
         progressBar = findViewById(R.id.service_progress);
         mainTabs = (TabLayout) findViewById(R.id.main_tabs);
 
-        Bundle t = getIntent().getExtras();
-        if (t != null) {
-            idService = t.getInt(JsonKeys.SERVICE_ID);
+        CacheManager cacheManager = new CacheManager(getApplicationContext(), JsonKeys.SERVICE_PREF, JsonKeys.SERVICE_KEY);
+
+        if(!cacheManager.checkData()) {
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+
+        idService = cacheManager.getData(JsonKeys.SERVICE_ID);
+        getService();
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        CacheManager cacheManager = new CacheManager(getApplicationContext(), JsonKeys.TAKING_PHOTO_PREF, JsonKeys.TAKING_PHOTO_KEY);
+        if (!cacheManager.isDataLoaded()) {
+            this.refresh = true;
+            Intent i = new Intent(getApplicationContext(), ServiceActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        } else {
+            cacheManager.cleanData();
+            this.refresh = false;
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        isLocationServiceEnabled();
-        getService();
     }
 
     public Service getServiceData() {
@@ -80,16 +105,6 @@ public class ServiceActivity extends ActivityBase {
 
     public void getService() {
         showProgress(true, main_pager, progressBar);
-
-        final boolean refresh;
-
-        if (adapter != null) {
-            refresh = true;
-        }
-        else {
-            refresh = false;
-        }
-
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         StringRequest stringRequest = new StringRequest(
@@ -98,7 +113,7 @@ public class ServiceActivity extends ActivityBase {
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        validateServiceResponse(response, refresh);
+                        validateServiceResponse(response);
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {
@@ -126,7 +141,7 @@ public class ServiceActivity extends ActivityBase {
         requestQueue.add(stringRequest);
     }
 
-    private void validateServiceResponse(String response, boolean refresh) {
+    private void validateServiceResponse(String response) {
         showProgress(false, main_pager, progressBar);
         try {
             JSONObject resObj = new JSONObject(response);
@@ -141,7 +156,7 @@ public class ServiceActivity extends ActivityBase {
 
                     service = deserializer.getService();
                     passenger = deserializer.getPassenger();
-                    if (!refresh) {
+                    if (refresh) {
                         setTabs();
                     }
                 }
@@ -169,6 +184,8 @@ public class ServiceActivity extends ActivityBase {
         else {
             mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.options_tab)));
         }
+
+        //mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.extras_tabs)));
 
         viewPager = (ViewPager) findViewById(R.id.main_pager);
         adapter = new TabPagerAdapter(getFragmentManager(),mainTabs.getTabCount(), getApplicationContext(), user, service, passenger);
@@ -228,5 +245,18 @@ public class ServiceActivity extends ActivityBase {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        CacheManager cacheManager = new CacheManager(getApplicationContext(), JsonKeys.SERVICE_PREF, JsonKeys.SERVICE_KEY);
+        cacheManager.cleanData();
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        // Closing all the Activities
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        // Add new Flag to start new Activity
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 }

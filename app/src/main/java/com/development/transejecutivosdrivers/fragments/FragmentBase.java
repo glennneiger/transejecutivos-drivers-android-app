@@ -25,14 +25,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.development.transejecutivosdrivers.R;
+import com.development.transejecutivosdrivers.ServiceActivity;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.adapters.ServiceExpandableListAdapter;
 import com.development.transejecutivosdrivers.background_services.BackgroundService;
+import com.development.transejecutivosdrivers.misc.CacheManager;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.lang.reflect.Field;
 
 public class FragmentBase extends Fragment {
     long ALARM_START = 1;
@@ -54,7 +57,6 @@ public class FragmentBase extends Fragment {
     Service service;
     Passenger passenger;
     Context context;
-    Intent backgroundLocationService = null;
 
     //Take picture var
     public final String APP_TAG = "MyCustomApp";
@@ -90,7 +92,26 @@ public class FragmentBase extends Fragment {
         return;
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void onLaunchCamera(View view) {
+        CacheManager cacheManager = new CacheManager(context, JsonKeys.TAKING_PHOTO_PREF, JsonKeys.TAKING_PHOTO_KEY);
+        cacheManager.cleanData();
+        cacheManager.setData(JsonKeys.TAKING_PHOTO, "1");
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(photoFileName)); // set the image file name
@@ -189,8 +210,12 @@ public class FragmentBase extends Fragment {
     }
 
     protected void reload() {
-        getActivity().finish();
-        getActivity().startActivity(getActivity().getIntent());
+        //getActivity().finish();
+        //getActivity().startActivity(getActivity().getIntent());
+        Intent refresh = new Intent(getActivity(), ServiceActivity.class);
+        refresh.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        refresh.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(refresh);
     }
 
     protected void scheduleAlarm(String location) {

@@ -8,7 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.fragments.ServicesListFragment;
+import com.development.transejecutivosdrivers.misc.CacheManager;
 
 public class MainActivity extends ActivityBase {
 
@@ -27,6 +29,9 @@ public class MainActivity extends ActivityBase {
     protected void onStart() {
         super.onStart();
         isLocationServiceEnabled();
+        checkGooglePlayServices();
+        CacheManager cacheManager = new CacheManager(getApplicationContext(), JsonKeys.SERVICE_PREF, JsonKeys.SERVICE_KEY);
+        cacheManager.cleanData();
     }
 
     protected void setFragment() {
@@ -69,5 +74,11 @@ public class MainActivity extends ActivityBase {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

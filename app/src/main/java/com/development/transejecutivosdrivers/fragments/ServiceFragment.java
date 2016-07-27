@@ -117,6 +117,8 @@ public class ServiceFragment extends FragmentBase {
         return view;
     }
 
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -125,9 +127,12 @@ public class ServiceFragment extends FragmentBase {
             setService(serviceActivity.getServiceData());
         }
 
-        ServiceHolder serviceHolder = new ServiceHolder(view, getActivity());
-        serviceHolder.setService(service);
-        serviceHolder.setPassenger(passenger);
+        if (service != null && passenger != null) {
+            ServiceHolder serviceHolder = new ServiceHolder(view, getActivity());
+            serviceHolder.setService(service);
+            serviceHolder.setPassenger(passenger);
+        }
+
     }
 
     public void updateService(final int status) {

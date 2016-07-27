@@ -123,10 +123,11 @@
     <string name="prompt_start_time_service_value">Establecer</string>
     <string name="prompt_end_time_service_value">Establecer</string>
 
-    <string name="prompt_app_version">Version 1.1.6</string>
+    <string name="prompt_app_version">Version 1.1.7</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
     <string name="prompt_service_complete">Este servicio se encuentra completado, si deseas editarlo, presiona el botón rojo.</string>
     <string name="prompt_sms_passenger_service">Enviar SMS al pasajero</string>
     <string name="prompt_reset_service">Editar Seguimiento</string>
     <string name="prompt_date_unavailable">Fecha no disponible</string>
+    <string name="extras_tabs">Extras</string>
 </resources>

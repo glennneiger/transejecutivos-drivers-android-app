@@ -92,4 +92,17 @@ public class JsonKeys {
     public static final String LOCATION = "location";
     public static final String PRELOCATION = "prelocation";
     public static final String ONSERVICE = "location";
+
+    /**
+     * Cache stored service data
+     */
+    public static final String SERVICE_PREF = "idServiceTransEjecutivosDriversPref";
+    public static final String SERVICE_KEY = "idServiceLoaded";
+
+    /**
+     * Cache stored general data
+     */
+    public static final String TAKING_PHOTO_PREF = "takingPhotoTransEjecutivosDriversPref";
+    public static final String TAKING_PHOTO_KEY = "isPhotoTaked";
+    public static final String TAKING_PHOTO= "photo";
 }

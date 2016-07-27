@@ -14,6 +14,7 @@ import com.development.transejecutivosdrivers.MainActivity;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.ServiceActivity;
 import com.development.transejecutivosdrivers.holders.ServiceMainHolder;
+import com.development.transejecutivosdrivers.misc.CacheManager;
 import com.development.transejecutivosdrivers.models.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,9 +66,10 @@ public class ServiceExpandableListAdapter extends BaseExpandableListAdapter {
         serviceHolder.card_view_services_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CacheManager cacheManager = new CacheManager(_context, JsonKeys.SERVICE_PREF, JsonKeys.SERVICE_KEY);
+                cacheManager.cleanData();
+                cacheManager.setData(JsonKeys.SERVICE_ID, serviceHolder.service.getIdService() + "");
                 Intent i = new Intent(_context, ServiceActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.putExtra(JsonKeys.SERVICE_ID, serviceHolder.service.getIdService());
                 _context.startActivity(i);
             }
         });

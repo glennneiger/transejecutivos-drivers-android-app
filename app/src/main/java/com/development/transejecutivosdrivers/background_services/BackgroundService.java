@@ -50,13 +50,15 @@ public class BackgroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Bundle t = intent.getExtras();
-        if (t != null) {
-            locationManager = new LocationManager();
-            locationManager.setContext(this);
-            locationManager.setBackgroundService(this);
-            locationManager.setData(t.getInt(JsonKeys.SERVICE_ID), t.getString(JsonKeys.USER_APIKEY), t.getString(JsonKeys.LOCATION));
-            locationManager.start();
+        if (intent != null) {
+            Bundle t = intent.getExtras();
+            if (t != null) {
+                locationManager = new LocationManager();
+                locationManager.setContext(this);
+                locationManager.setBackgroundService(this);
+                locationManager.setData(t.getInt(JsonKeys.SERVICE_ID), t.getString(JsonKeys.USER_APIKEY), t.getString(JsonKeys.LOCATION));
+                locationManager.start();
+            }
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -196,7 +198,7 @@ public class BackgroundService extends Service {
         }
 
         public void stopLocationUpdates() {
-            if (mGoogleApiClient != null) {
+            if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             }
         }

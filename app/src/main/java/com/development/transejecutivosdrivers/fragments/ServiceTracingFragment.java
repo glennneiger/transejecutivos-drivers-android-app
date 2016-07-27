@@ -106,8 +106,6 @@ public class ServiceTracingFragment extends FragmentBase  {
     @Override
     public void onStart() {
         super.onStart();
-        ServiceActivity serviceActivity = (ServiceActivity) getActivity();
-        setService(serviceActivity.getServiceData());
         setDataOnView();
         setOnClickListeners();
     }
@@ -333,25 +331,6 @@ public class ServiceTracingFragment extends FragmentBase  {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        /*
-        stringRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 50000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 50000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
-        */
-
         requestQueue.add(stringRequest);
     }
 
@@ -362,8 +341,6 @@ public class ServiceTracingFragment extends FragmentBase  {
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             if (!error) {
                 Toast.makeText(getActivity(), getResources().getString(R.string.success_tracing_message), Toast.LENGTH_SHORT).show();
-                //Intent i = new Intent(getActivity(), MainActivity.class);
-                //startActivity(i);
                 reload();
             }
             else {

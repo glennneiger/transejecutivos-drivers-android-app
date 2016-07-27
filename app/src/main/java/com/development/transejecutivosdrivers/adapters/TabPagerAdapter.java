@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.util.Log;
 
+import com.development.transejecutivosdrivers.fragments.ExtrasFragment;
 import com.development.transejecutivosdrivers.fragments.ServiceFragment;
 import com.development.transejecutivosdrivers.fragments.ServiceOptionsFragment;
 import com.development.transejecutivosdrivers.fragments.ServiceTracingFragment;
@@ -50,6 +51,9 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
                     return fragment;
                 }
 
+            //case 2:
+            //    ExtrasFragment extrasFragment = ExtrasFragment.newInstance(this.user, this.service, this.passenger);
+            //    return extrasFragment;
             default:
                 return null;
         }
