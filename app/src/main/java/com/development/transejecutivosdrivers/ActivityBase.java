@@ -104,7 +104,6 @@ public class ActivityBase extends AppCompatActivity {
             alert.show();
 
         }
-
     }
 
     public void checkGooglePlayServices(){

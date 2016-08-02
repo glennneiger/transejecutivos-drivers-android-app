@@ -110,7 +110,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
             public void onClick(View v) {
                 String[] tels = passenger.getPhone().split(",");
                 String tel1 = tels[0];
-                String tel2 = tels[1];
 
                 if (!TextUtils.isEmpty(tel1)) {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);

@@ -130,4 +130,7 @@
     <string name="prompt_reset_service">Editar Seguimiento</string>
     <string name="prompt_date_unavailable">Fecha no disponible</string>
     <string name="extras_tabs">Extras</string>
+    <string name="error_gps_disabled">Se ha desconectado el GPS, por favor revisar</string>
+    <string name="error_gps_disconnect">Se ha desconectado el GPS... Reconectando</string>
+    <string name="error_network_disconnect">Se ha perdido la conexión a internet... Reconectando</string>
 </resources>

@@ -23,10 +23,8 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -145,7 +143,7 @@ public class BackgroundService extends Service {
                 mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                 mLocationRequest.setInterval(UPDATE_INTERVAL);
                 mLocationRequest.setFastestInterval(FATEST_INTERVAL);
-                mLocationRequest.setSmallestDisplacement(DISPLACEMENT);
+                //mLocationRequest.setSmallestDisplacement(DISPLACEMENT);
                 //mLocationRequest.setNumUpdates(NUMBER_UPDATES);
             }
         }
@@ -165,12 +163,18 @@ public class BackgroundService extends Service {
 
         @Override
         public void onConnectionSuspended(int i) {
-            mGoogleApiClient.connect();
+            if (i == CAUSE_SERVICE_DISCONNECTED) {
+                Toast.makeText(getApplicationContext(), R.string.error_gps_disconnect, Toast.LENGTH_SHORT).show();
+            } else if (i == CAUSE_NETWORK_LOST) {
+                Toast.makeText(getApplicationContext(), R.string.error_network_disconnect, Toast.LENGTH_SHORT).show();
+            }
+            mGoogleApiClient.reconnect();
         }
 
         @Override
         public void onConnectionFailed(ConnectionResult connectionResult) {
-            Toast.makeText(getApplicationContext(), R.string.error_general, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), R.string.error_gps_disabled, Toast.LENGTH_LONG).show();
+            //mGoogleApiClient.reconnect();
         }
 
 
@@ -231,10 +235,8 @@ public class BackgroundService extends Service {
                             new com.android.volley.Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getApplicationContext(), R.string.error_location,Toast.LENGTH_LONG).show();
-                                    stopLocationUpdates();
-                                    disconnectFromGoogleApi();
-                                    backgroundService.stopBackgroundProcess();
+                                    Toast.makeText(getApplicationContext(), R.string.error_network_disconnect,Toast.LENGTH_LONG).show();
+                                    //backgroundService.stopBackgroundProcess();
                                 }
                             }) {
 
@@ -273,7 +275,6 @@ public class BackgroundService extends Service {
         }
 
         public void validateResponse(String response, String la, String lo) {
-            //Toast.makeText(getApplicationContext(), "Location sent: " + la + " " + lo,Toast.LENGTH_SHORT).show();
             try {
                 JSONObject resObj = new JSONObject(response);
                 Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
@@ -291,6 +292,58 @@ public class BackgroundService extends Service {
             }
 
             updates++;
+        }
+
+        public void checkConnection() {
+            if (!isLocationServiceEnabled()) {
+                disconnectFromGoogleApi();
+                stopLocationUpdates();
+
+                try {
+                    Thread.sleep(5000);
+                }
+                catch (InterruptedException ex) {
+
+                }
+
+                checkConnection();
+            }
+            else if (mGoogleApiClient == null) {
+                start();
+            }
+            else if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.reconnect();
+            }
+        }
+
+        public boolean isLocationServiceEnabled(){
+            Context context = getApplicationContext();
+            android.location.LocationManager locationManager = null;
+            boolean gps_enabled = false, network_enabled = false;
+
+            if(locationManager == null) {
+                locationManager = (android.location.LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            }
+
+            try{
+                gps_enabled = locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
+            }
+            catch(Exception ex){
+                //do nothing...
+            }
+
+            try{
+                network_enabled = locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER);
+            }
+            catch(Exception ex){
+                //do nothing...
+            }
+
+            if (!gps_enabled || !network_enabled) {
+                return false;
+            }
+
+            return true;
         }
     }
 }
