@@ -51,9 +51,9 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
                     return fragment;
                 }
 
-            //case 2:
-            //    ExtrasFragment extrasFragment = ExtrasFragment.newInstance(this.user, this.service, this.passenger);
-            //    return extrasFragment;
+            case 2:
+                ExtrasFragment extrasFragment = ExtrasFragment.newInstance(this.user, this.service, this.passenger);
+                return extrasFragment;
             default:
                 return null;
         }
