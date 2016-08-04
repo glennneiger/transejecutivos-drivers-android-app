@@ -1,5 +1,7 @@
 package com.development.transejecutivosdrivers.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -37,6 +40,8 @@ public class ExtrasFragment extends FragmentBase {
     View no_show_form;
     Button btn_call_passenger;
     Button btn_no_show;
+    Button button_take_photo;
+    Button button_finish_no_show;
     EditText txtview_observations;
 
     public ExtrasFragment() {
@@ -60,10 +65,13 @@ public class ExtrasFragment extends FragmentBase {
 
         service_option_progress = view.findViewById(R.id.extra_service_progress);
         extra_options_container = view.findViewById(R.id.extra_options_container);
-        no_show_form = view.findViewById(R.id.extra_options_container);
+        no_show_form = view.findViewById(R.id.no_show_form);
         btn_call_passenger = (Button) view.findViewById(R.id.btn_call_passenger);
         btn_no_show = (Button) view.findViewById(R.id.btn_no_show);
+        button_take_photo = (Button) view.findViewById(R.id.button_take_photo);
+        button_finish_no_show = (Button) view.findViewById(R.id.button_finish_no_show);
         txtview_observations = (EditText) view.findViewById(R.id.txtview_observations);
+        imageView = (ImageView) view.findViewById(R.id.imgview_photo);
 
         return view;
     }
@@ -80,7 +88,6 @@ public class ExtrasFragment extends FragmentBase {
             public void onClick(View v) {
                 String[] tels = passenger.getPhone().split(",");
                 String tel1 = tels[0];
-                String tel2 = tels[1];
 
                 if (!TextUtils.isEmpty(tel1)) {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -93,12 +100,13 @@ public class ExtrasFragment extends FragmentBase {
         btn_no_show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFinishForm();
+                createAlertDialog();
+                //showNoShowForm();
             }
         });
     }
 
-    private void showFinishForm() {
+    private void showNoShowForm() {
         extra_options_container.setVisibility(View.GONE);
         no_show_form.setVisibility(View.VISIBLE);
 
@@ -109,7 +117,7 @@ public class ExtrasFragment extends FragmentBase {
             }
         });
 
-        button_finish_tracing.setOnClickListener(new View.OnClickListener() {
+        button_finish_no_show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 noShow();
@@ -126,12 +134,10 @@ public class ExtrasFragment extends FragmentBase {
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
-                ApiConstants.URL_FINISH_SERVICE + "/" + this.service.getIdService(),
+                ApiConstants.URL_TRACE_SERVICE + "/" + this.service.getIdService(),
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        showProgress(false, no_show_form, service_option_progress);
-                        no_show_form.setVisibility(View.GONE);
                         validateResponse(response);
                     }
                 },
@@ -155,12 +161,13 @@ public class ExtrasFragment extends FragmentBase {
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put(JsonKeys.SERVICE_OBSERVATIONS, observations);
+                params.put(JsonKeys.TRACING_START, "0");
+                params.put(JsonKeys.TRACING_END, "0");
+                params.put(JsonKeys.TRACING_OBSERVATIONS, observations);
                 params.put(JsonKeys.TRACING_IMAGE, image);
 
                 return params;
             }
-
         };
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
@@ -172,5 +179,31 @@ public class ExtrasFragment extends FragmentBase {
 
     private void validateResponse(String response) {
 
+    }
+
+    /**
+     * Crea un diálogo de alerta sencillo
+     * @return Nuevo diálogo
+     */
+    public void createAlertDialog () {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setMessage(getString(R.string.prompt_no_show_confirm));
+
+        alertDialogBuilder.setPositiveButton(getString(R.string.prompt_no_show_yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                showNoShowForm();
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton(R.string.prompt_no_show_no,new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //finish();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }

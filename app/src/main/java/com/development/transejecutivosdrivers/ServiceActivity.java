@@ -185,7 +185,7 @@ public class ServiceActivity extends ActivityBase {
             mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.options_tab)));
         }
 
-        //mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.extras_tabs)));
+        mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.extras_tabs)));
 
         viewPager = (ViewPager) findViewById(R.id.main_pager);
         adapter = new TabPagerAdapter(getFragmentManager(),mainTabs.getTabCount(), getApplicationContext(), user, service, passenger);

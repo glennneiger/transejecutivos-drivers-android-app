@@ -84,8 +84,8 @@ public class BackgroundService extends Service {
         protected Location mLastLocation;
         protected LocationRequest mLocationRequest = null;
         private int REQUEST_CODE_RECOVER_PLAY_SERVICES = 200;
-        protected int UPDATE_INTERVAL = 10000; // 10 sec
-        protected int FATEST_INTERVAL = 5000; // 5 sec
+        protected int UPDATE_INTERVAL = 8000; // 8 sec
+        protected int FATEST_INTERVAL = 4000; // 4 sec
         protected int DISPLACEMENT = 5;
         protected int NUMBER_UPDATES = 3;
 
@@ -235,7 +235,7 @@ public class BackgroundService extends Service {
                             new com.android.volley.Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getApplicationContext(), R.string.error_network_disconnect,Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(getApplicationContext(), R.string.error_network_disconnect,Toast.LENGTH_LONG).show();
                                     //backgroundService.stopBackgroundProcess();
                                 }
                             }) {

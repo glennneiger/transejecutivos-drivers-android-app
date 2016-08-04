@@ -128,7 +128,6 @@ public class FragmentBase extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-
                 Uri takenPhotoUri = getPhotoFileUri(photoFileName);
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
@@ -152,7 +151,7 @@ public class FragmentBase extends Fragment {
 
                 button_finish_tracing.setVisibility(View.VISIBLE);
             } else { // Result was a failure
-                Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.photo_wasnt_take_it), Toast.LENGTH_SHORT).show();
             }
         }
     }
