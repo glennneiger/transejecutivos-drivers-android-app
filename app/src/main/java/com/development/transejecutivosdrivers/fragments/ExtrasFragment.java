@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -28,8 +30,13 @@ import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by william.montiel on 27/07/2016.
@@ -41,7 +48,7 @@ public class ExtrasFragment extends FragmentBase {
     Button btn_call_passenger;
     Button btn_no_show;
     Button button_take_photo;
-    Button button_finish_no_show;
+    TextInputLayout inputLayoutObservations;
     EditText txtview_observations;
 
     public ExtrasFragment() {
@@ -69,7 +76,8 @@ public class ExtrasFragment extends FragmentBase {
         btn_call_passenger = (Button) view.findViewById(R.id.btn_call_passenger);
         btn_no_show = (Button) view.findViewById(R.id.btn_no_show);
         button_take_photo = (Button) view.findViewById(R.id.button_take_photo);
-        button_finish_no_show = (Button) view.findViewById(R.id.button_finish_no_show);
+        button_finish_tracing = (Button) view.findViewById(R.id.button_finish_no_show);
+        inputLayoutObservations  = (TextInputLayout) view.findViewById(R.id.txt_input_layout_observations);
         txtview_observations = (EditText) view.findViewById(R.id.txtview_observations);
         imageView = (ImageView) view.findViewById(R.id.imgview_photo);
 
@@ -79,6 +87,7 @@ public class ExtrasFragment extends FragmentBase {
     @Override
     public void onStart() {
         super.onStart();
+        setSupportPhones();
         setOnClickListeners();
     }
 
@@ -104,6 +113,11 @@ public class ExtrasFragment extends FragmentBase {
                 //showNoShowForm();
             }
         });
+
+        if (!TextUtils.isEmpty(service.getB1ha()) && !TextUtils.isEmpty(service.getBls()) && !TextUtils.isEmpty(service.getPab()) && !TextUtils.isEmpty(service.getSt())) {
+            btn_no_show.setEnabled(false);
+            btn_no_show.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
     }
 
     private void showNoShowForm() {
@@ -117,7 +131,7 @@ public class ExtrasFragment extends FragmentBase {
             }
         });
 
-        button_finish_no_show.setOnClickListener(new View.OnClickListener() {
+        button_finish_tracing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 noShow();
@@ -128,57 +142,136 @@ public class ExtrasFragment extends FragmentBase {
     private void noShow() {
         showProgress(true, no_show_form, service_option_progress);
 
+        inputLayoutObservations.setError(null);
+
         final String observations = txtview_observations.getText().toString();
 
+        if (TextUtils.isEmpty(observations)) {
+            showProgress(false, no_show_form, service_option_progress);
+            inputLayoutObservations.setError(getString(R.string.error_empty_observations));
+            inputLayoutObservations.requestFocus();
+            setErrorSnackBar(getResources().getString(R.string.error_empty_observations));
+        } else {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+
+            StringRequest stringRequest = new StringRequest(
+                    Request.Method.POST,
+                    ApiConstants.URL_TRACE_SERVICE + "/" + this.service.getIdService(),
+                    new com.android.volley.Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            validateResponse(response);
+                        }
+                    },
+                    new com.android.volley.Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            setErrorSnackBar(getResources().getString(R.string.error_general));
+                            showProgress(false, no_show_form, service_option_progress);
+                        }
+                    }) {
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String,String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    headers.put("Authorization", user.getApikey());
+                    return headers;
+                }
+
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    params.put(JsonKeys.TRACING_START, "0");
+                    params.put(JsonKeys.TRACING_END, "0");
+                    params.put(JsonKeys.TRACING_OBSERVATIONS, observations);
+                    params.put(JsonKeys.TRACING_IMAGE, image);
+                    params.put(JsonKeys.APP_VERSION, getString(R.string.prompt_app_version));
+
+                    return params;
+                }
+            };
+
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            requestQueue.add(stringRequest);
+        }
+    }
+
+    private void setSupportPhones() {
+        showProgress(true, extra_options_container, service_option_progress);
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
         StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                ApiConstants.URL_TRACE_SERVICE + "/" + this.service.getIdService(),
+                Request.Method.GET,
+                ApiConstants.URL_SUPPORT_PHONE,
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        validateResponse(response);
+                        validate(response);
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, no_show_form, service_option_progress);
+                        showProgress(false, extra_options_container, service_option_progress);
                     }
                 }) {
 
             @Override
             public Map<String, String> getHeaders() {
-                Map<String,String> headers = new HashMap<String, String>();
+                Map<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/x-www-form-urlencoded");
                 headers.put("Authorization", user.getApikey());
                 return headers;
             }
-
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put(JsonKeys.TRACING_START, "0");
-                params.put(JsonKeys.TRACING_END, "0");
-                params.put(JsonKeys.TRACING_OBSERVATIONS, observations);
-                params.put(JsonKeys.TRACING_IMAGE, image);
-
-                return params;
-            }
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                (int) TimeUnit.SECONDS.toMillis(10),//time out in 10second
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(stringRequest);
     }
 
-    private void validateResponse(String response) {
+    private void validate(String response) {
+        showProgress(false, extra_options_container, service_option_progress);
+        try {
+            JSONObject resObj = new JSONObject(response);
+            Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+            if (!error) {
+                JSONArray res = resObj.getJSONArray(JsonKeys.RESPONSE);
+                for (int i = 0; i < res.length(); i++) {
 
+                }
+            }
+        }
+        catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void validateResponse(String response) {
+        try {
+            JSONObject resObj = new JSONObject(response);
+            Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+            String msg = resObj.getString(JsonKeys.MESSAGE);
+            if (!error) {
+                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                reload();
+            }
+            else {
+                setErrorSnackBar(msg);
+            }
+        }
+        catch (JSONException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**

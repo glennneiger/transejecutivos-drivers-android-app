@@ -30,6 +30,8 @@ public class JsonKeys {
     public static final String MESSAGE = "message";
     public static final String ERROR = "error";
     public static final String DATE = "date";
+    public static final String APP_VERSION = "version";
+    public static final String RESPONSE = "response";
 
     /**
      * Services Json Keys

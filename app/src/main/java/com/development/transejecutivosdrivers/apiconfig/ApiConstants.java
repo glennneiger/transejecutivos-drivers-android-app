@@ -22,6 +22,7 @@ public class ApiConstants {
     public static final String RESET_PASSWORD = "resetpassword";
     public static final String SEARCH_SERVICE = "searchservice";
     public static final String RESET_SERVICE = "resetservice";
+    public static final String SUPPORT_PHONE = "getsupportphones";
 
     public static final String URL_LOGIN = URL_BASE + "/" + API + "/" + API_VERSION + "/" + LOGIN;
     public static final String URL_SERVICES_GROUPED = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SERVICES_GROUPED;
@@ -40,4 +41,5 @@ public class ApiConstants {
     public static final String URL_RESET_PASSWORD = URL_BASE + "/" + API + "/" + API_VERSION_1 + "/" + RESET_PASSWORD;
     public static final String URL_SEARCH_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SEARCH_SERVICE;
     public static final String URL_RESET_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + RESET_SERVICE;
+    public static final String URL_SUPPORT_PHONE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SUPPORT_PHONE;
 }

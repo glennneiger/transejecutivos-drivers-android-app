@@ -322,6 +322,7 @@ public class ServiceTracingFragment extends FragmentBase  {
                 params.put(JsonKeys.TRACING_END, end);
                 params.put(JsonKeys.TRACING_OBSERVATIONS, observations);
                 params.put(JsonKeys.TRACING_IMAGE, image);
+                params.put(JsonKeys.APP_VERSION, getString(R.string.prompt_app_version));
 
                 return params;
             }

@@ -308,6 +308,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put(JsonKeys.SERVICE_OBSERVATIONS, observations);
                 params.put(JsonKeys.TRACING_IMAGE, image);
+                params.put(JsonKeys.APP_VERSION, getString(R.string.prompt_app_version));
 
                 return params;
             }

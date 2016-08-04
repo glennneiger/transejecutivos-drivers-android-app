@@ -135,7 +135,8 @@
     <string name="error_network_disconnect">Se ha perdido la conexión a internet... Reconectando</string>
     <string name="prompt_no_show_service">No show</string>
     <string name="photo_wasnt_take_it">La foto no fue capturada</string>
-    <string name="prompt_no_show_confirm">¿Esta seguro que desea cambiar el estado del servicio a \"Pasajero no se encontró\"?</string>
+    <string name="prompt_no_show_confirm">Esta funcionalidad solo debe ser usada, cuando un pasajero no fue encontrado en el sitio de recogida ¿Desea continuar?</string>
     <string name="prompt_no_show_yes">Si</string>
     <string name="prompt_no_show_no">No</string>
+    <string name="error_empty_observations">Debes ingresar una observación</string>
 </resources>

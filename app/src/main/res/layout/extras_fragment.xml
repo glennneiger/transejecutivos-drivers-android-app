@@ -57,7 +57,7 @@
                     android:id="@+id/btn_no_show"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
+                    android:layout_marginTop="5dp"
                     android:elevation="10dp"
                     android:text="@string/prompt_no_show_service"
                     android:background="@color/colorError"
@@ -94,12 +94,20 @@
                     android:layout_gravity="center_horizontal" />
 
 
-
-                <EditText
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/txt_input_layout_observations"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:id="@+id/txtview_observations"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorText"
+                    app:errorEnabled="true">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:id="@+id/txtview_observations"
+                        android:layout_gravity="center_horizontal" />
+
+                </android.support.design.widget.TextInputLayout>
 
 
                 <ImageView
