@@ -164,11 +164,13 @@ public class BackgroundService extends Service {
         @Override
         public void onConnectionSuspended(int i) {
             if (i == CAUSE_SERVICE_DISCONNECTED) {
-                Toast.makeText(getApplicationContext(), R.string.error_gps_disconnect, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), R.string.error_gps_disconnect, Toast.LENGTH_SHORT).show();
             } else if (i == CAUSE_NETWORK_LOST) {
-                Toast.makeText(getApplicationContext(), R.string.error_network_disconnect, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), R.string.error_network_disconnect, Toast.LENGTH_SHORT).show();
             }
-            mGoogleApiClient.reconnect();
+            if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.reconnect();
+            }
         }
 
         @Override

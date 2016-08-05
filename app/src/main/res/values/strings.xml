@@ -123,7 +123,7 @@
     <string name="prompt_start_time_service_value">Establecer</string>
     <string name="prompt_end_time_service_value">Establecer</string>
 
-    <string name="prompt_app_version">Version 1.1.8</string>
+    <string name="prompt_app_version">1.1.8</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
     <string name="prompt_service_complete">Este servicio se encuentra completado, si deseas editarlo, presiona el botón rojo.</string>
     <string name="prompt_sms_passenger_service">Enviar SMS al pasajero</string>
@@ -135,8 +135,9 @@
     <string name="error_network_disconnect">Se ha perdido la conexión a internet... Reconectando</string>
     <string name="prompt_no_show_service">No show</string>
     <string name="photo_wasnt_take_it">La foto no fue capturada</string>
-    <string name="prompt_no_show_confirm">Esta funcionalidad solo debe ser usada, cuando un pasajero no fue encontrado en el sitio de recogida ¿Desea continuar?</string>
+    <string name="prompt_no_show_confirm">Esta funcionalidad solo debe ser usada, cuando un pasajero no fue encontrado en el sitio de recogida ¿Esta seguro que desea continuar?</string>
     <string name="prompt_no_show_yes">Si</string>
     <string name="prompt_no_show_no">No</string>
     <string name="error_empty_observations">Debes ingresar una observación</string>
+    <string name="prompt_call_to_support">LLAMAR A TRANSPORTES EJECUTIVOS</string>
 </resources>

@@ -3,17 +3,20 @@ package com.development.transejecutivosdrivers.fragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,7 @@ import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
+import com.google.android.gms.location.internal.LocationRequestUpdateData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +47,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ExtrasFragment extends FragmentBase {
     View service_option_progress;
-    View extra_options_container;
+    LinearLayout extra_options_container;
     View no_show_form;
     Button btn_call_passenger;
     Button btn_no_show;
@@ -71,7 +75,7 @@ public class ExtrasFragment extends FragmentBase {
         view = inflater.inflate(R.layout.extras_fragment, container, false);
 
         service_option_progress = view.findViewById(R.id.extra_service_progress);
-        extra_options_container = view.findViewById(R.id.extra_options_container);
+        extra_options_container = (LinearLayout) view.findViewById(R.id.extra_options_container);
         no_show_form = view.findViewById(R.id.no_show_form);
         btn_call_passenger = (Button) view.findViewById(R.id.btn_call_passenger);
         btn_no_show = (Button) view.findViewById(R.id.btn_no_show);
@@ -81,13 +85,14 @@ public class ExtrasFragment extends FragmentBase {
         txtview_observations = (EditText) view.findViewById(R.id.txtview_observations);
         imageView = (ImageView) view.findViewById(R.id.imgview_photo);
 
+        setSupportPhones();
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        setSupportPhones();
         setOnClickListeners();
     }
 
@@ -241,13 +246,44 @@ public class ExtrasFragment extends FragmentBase {
 
     private void validate(String response) {
         showProgress(false, extra_options_container, service_option_progress);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.setMargins(0, 5, 0, 5);
+
         try {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             if (!error) {
                 JSONArray res = resObj.getJSONArray(JsonKeys.RESPONSE);
                 for (int i = 0; i < res.length(); i++) {
+                    final String phone = res.getString(i);
 
+                    if (!TextUtils.isEmpty(phone)) {
+                        int b = i+1;
+                        Button button = new Button(getActivity());
+                        button.setId(i);
+                        button.setBackgroundColor(getResources().getColor(R.color.green));
+                        button.setText(getString(R.string.prompt_call_to_support) + " " + b);
+                        button.setTextColor(getResources().getColor(R.color.colorPrimaryTextLight));
+                        //button.setAllCaps(false);
+                        button.setTextSize(13);
+                        button.setLayoutParams(params);
+
+                        extra_options_container.addView(button);
+
+                        final int id_ = button.getId();
+                        Button btn = ((Button) view.findViewById(id_));
+                        btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                callIntent.setData(Uri.parse("tel:" + phone));
+                                startActivity(callIntent);
+                            }
+                        });
+                    }
                 }
             }
         }
