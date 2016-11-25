@@ -1,8 +1,12 @@
 package com.development.transejecutivosdrivers;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,9 +14,11 @@ import android.widget.GridView;
 import com.development.transejecutivosdrivers.adapters.DashboardMenuAdapter;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.misc.CacheManager;
+import com.development.transejecutivosdrivers.misc.DialogCreator;
 import com.development.transejecutivosdrivers.models.DashboardMenu;
 
 public class DashboardActivity extends ActivityBase implements AdapterView.OnItemClickListener {
+    private static final int PERMISSION_REQUEST_CODE = 1;
     private GridView gridView;
     private DashboardMenuAdapter adaptador;
     /**
@@ -27,6 +33,13 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
         setContentView(R.layout.activity_dashboard);
 
         validateSession();
+
+        int MyVersion = Build.VERSION.SDK_INT;
+        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if(!checkPermissions()){
+                requestPermission();
+            }
+        }
 
         context = getApplicationContext();
 
@@ -79,6 +92,33 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
                 break;
 
             default:
+                break;
+        }
+    }
+
+    private boolean checkPermissions() {
+        return ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{android.Manifest.permission.CALL_PHONE},
+                PERMISSION_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    finish();
+                    startActivity(getIntent());
+                } else {
+                    DialogCreator dialogCreator = new DialogCreator(this);
+                    dialogCreator.createCustomDialog(getString(R.string.cancel_permission_location), "ACEPTAR");
+                }
                 break;
         }
     }

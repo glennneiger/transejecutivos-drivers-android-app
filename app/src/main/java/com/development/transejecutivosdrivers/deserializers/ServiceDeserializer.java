@@ -46,7 +46,14 @@ public class ServiceDeserializer extends DeserializerValidator{
 
             this.service.setIdService(idService);
             this.service.setReference(reference);
-            int pax_cant = Integer.parseInt(paxCant);
+            int pax_cant;
+
+            if (paxCant.equals("")) {
+                pax_cant = 0;
+            } else {
+                pax_cant = Integer.parseInt(paxCant);
+            }
+
             this.service.setPaxCant(pax_cant);
             this.service.setPax(pax);
             this.service.setSource(source);
