@@ -37,7 +37,7 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
         int MyVersion = Build.VERSION.SDK_INT;
         if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
             if(!checkPermissions()){
-                requestPermission();
+                requestPermissions();
             }
         }
 
@@ -97,13 +97,26 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
     }
 
     private boolean checkPermissions() {
-        return ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED;
+        return ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(DashboardActivity.this, android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_WIFI_STATE) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.WAKE_LOCK) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+
     }
 
-    private void requestPermission() {
+
+    private void requestPermissions() {
         ActivityCompat.requestPermissions(
                 this,
-                new String[]{android.Manifest.permission.CALL_PHONE},
+                new String[]{android.Manifest.permission.CALL_PHONE, android.Manifest.permission.READ_PHONE_STATE, Manifest.permission.SEND_SMS,
+                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.WAKE_LOCK,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE ,Manifest.permission.READ_EXTERNAL_STORAGE},
                 PERMISSION_REQUEST_CODE);
 
     }
@@ -113,8 +126,8 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    finish();
-                    startActivity(getIntent());
+                    //finish();
+                    //startActivity(getIntent());
                 } else {
                     DialogCreator dialogCreator = new DialogCreator(this);
                     dialogCreator.createCustomDialog(getString(R.string.cancel_permission_location), "ACEPTAR");
