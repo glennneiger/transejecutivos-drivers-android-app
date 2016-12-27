@@ -15,7 +15,7 @@ public class Const {
     //NOTIFICATION PUSH
     final static public String CONST_NOTIFICATION_PUSH_BODY = "message";
     final static public String CONST_NOTIFICATION_PUSH_TITLE = "msgtitle";
-    final static public String CONST_NOTIFICACION_PUSH_DATABASE = "database";
+    final static public String CONST_NOTIFICACION_PUSH_SERVICE = "idservice";
     //error
     final static public String CONST_MSG_ERROR_SERVER = "Ocurrió un error en el servidor, por favor intentar más tarde.";
 

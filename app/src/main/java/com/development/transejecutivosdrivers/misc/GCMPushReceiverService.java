@@ -23,22 +23,26 @@ import java.util.Random;
 public class GCMPushReceiverService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message   = data.getString(Const.CONST_NOTIFICATION_PUSH_BODY);
-        String title     = data.getString(Const.CONST_NOTIFICATION_PUSH_TITLE);
-        String database = data.getString(Const.CONST_NOTIFICACION_PUSH_DATABASE);
+        Log.d("LALA", "" + data);
+        Log.d("LALA", "" + data.getString(Const.CONST_NOTIFICATION_PUSH_BODY));
+        Log.d("LALA", "" + data.getString(Const.CONST_NOTIFICATION_PUSH_TITLE));
+        Log.d("LALA", "" + data.getString(Const.CONST_NOTIFICACION_PUSH_SERVICE));
+
+        Object messageObj = data.get(Const.CONST_NOTIFICATION_PUSH_BODY);
+        String title = data.getString(Const.CONST_NOTIFICATION_PUSH_TITLE);
+        String database = data.getString(Const.CONST_NOTIFICACION_PUSH_SERVICE);
         sendNotification(message,title,database);
     }
 
     private void sendNotification(String message,String title,String database) {
-        Log.e("database",">"+database);
         Intent intent = new Intent(this, DashboardActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(JsonKeys.NOTIFICACION_PUTEXTRA,database);
+        intent.putExtra(JsonKeys.NOTIFICACION_PUTEXTRA, database);
         int requestCode = 0;//Your request code
         PendingIntent pendingIntent = PendingIntent.getActivity(this.getApplicationContext(), requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder noBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_transejecutivoslauncher)
+                .setSmallIcon(R.drawable.ic_notification_logo)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
