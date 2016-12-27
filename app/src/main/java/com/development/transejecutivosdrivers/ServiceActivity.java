@@ -147,23 +147,27 @@ public class ServiceActivity extends ActivityBase {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             if (!error) {
-                JSONObject data = (JSONObject) resObj.get(JsonKeys.SERVICE);
-                int idService = (int) data.get(JsonKeys.SERVICE_ID);
-                if (idService != 0) {
-                    Deserializer deserializer = new Deserializer();
-                    deserializer.setResponseJSONObject(data);
-                    deserializer.deserializeOnePassengerAndService();
+                String res = "" + resObj.get(JsonKeys.SERVICE);
 
-                    service = deserializer.getService();
-                    passenger = deserializer.getPassenger();
-                    if (refresh) {
-                        setTabs();
+                if (!res.isEmpty() && !res.equals("null")) {
+                    JSONObject data = (JSONObject) resObj.get(JsonKeys.SERVICE);
+                    int idService = (int) data.get(JsonKeys.SERVICE_ID);
+                    if (idService != 0) {
+                        Deserializer deserializer = new Deserializer();
+                        deserializer.setResponseJSONObject(data);
+                        deserializer.deserializeOnePassengerAndService();
+
+                        service = deserializer.getService();
+                        passenger = deserializer.getPassenger();
+                        if (refresh) {
+                            setTabs();
+                        }
                     }
-                }
-                else {
-                    Toast.makeText(this, R.string.service_not_found_error, Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(this, MainActivity.class);
-                    startActivity(i);
+                    else {
+                        Toast.makeText(this, R.string.service_not_found_error, Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(this, MainActivity.class);
+                        startActivity(i);
+                    }
                 }
             }
             else {
@@ -252,7 +256,7 @@ public class ServiceActivity extends ActivityBase {
         super.onBackPressed();
         CacheManager cacheManager = new CacheManager(getApplicationContext(), JsonKeys.SERVICE_PREF, JsonKeys.SERVICE_KEY);
         cacheManager.cleanData();
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         // Add new Flag to start new Activity

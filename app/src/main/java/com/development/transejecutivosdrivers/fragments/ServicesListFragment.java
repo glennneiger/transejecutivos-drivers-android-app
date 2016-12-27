@@ -121,6 +121,10 @@ public class ServicesListFragment extends FragmentBase {
         try {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+
+            //Log.d("LALALALALA", "" + resObj.get(JsonKeys.SERVICE));
+            //String res = "" + resObj.get(JsonKeys.SERVICE);
+
             if (!error) {
                 JSONObject service = (JSONObject) resObj.get(JsonKeys.SERVICE);
                 int idService = (int) service.get(JsonKeys.SERVICE_ID);
