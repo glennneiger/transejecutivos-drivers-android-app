@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -41,6 +42,8 @@ import java.util.concurrent.TimeUnit;
  * Created by william.montiel on 28/03/2016.
  */
 public class ServicesListFragment extends FragmentBase {
+    public AlertDialog alert;
+
     public ServicesListFragment() {
 
     }
@@ -122,9 +125,6 @@ public class ServicesListFragment extends FragmentBase {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
 
-            //Log.d("LALALALALA", "" + resObj.get(JsonKeys.SERVICE));
-            //String res = "" + resObj.get(JsonKeys.SERVICE);
-
             if (!error) {
                 JSONObject service = (JSONObject) resObj.get(JsonKeys.SERVICE);
                 int idService = (int) service.get(JsonKeys.SERVICE_ID);
@@ -145,22 +145,23 @@ public class ServicesListFragment extends FragmentBase {
     }
 
     public void showService(final int idService) {
+        if ( getActivity() != null && !getActivity().isFinishing()) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+            dialog.setMessage(getResources().getString(R.string.service_message));
+            dialog.setPositiveButton(getResources().getString(R.string.button_service_modal_prompt), new DialogInterface.OnClickListener() {
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setMessage(getResources().getString(R.string.service_message));
-        dialog.setPositiveButton(getResources().getString(R.string.button_service_modal_prompt), new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                CacheManager cacheManager = new CacheManager(getActivity(), JsonKeys.SERVICE_PREF, JsonKeys.SERVICE_KEY);
-                cacheManager.cleanData();
-                cacheManager.setData(JsonKeys.SERVICE_ID, idService + "");
-                Intent i = new Intent(getActivity(), ServiceActivity.class);
-                startActivity(i);
-            }
-        });
-        AlertDialog alert = dialog.create();
-        alert.show();
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    CacheManager cacheManager = new CacheManager(getActivity(), JsonKeys.SERVICE_PREF, JsonKeys.SERVICE_KEY);
+                    cacheManager.cleanData();
+                    cacheManager.setData(JsonKeys.SERVICE_ID, idService + "");
+                    Intent i = new Intent(getActivity(), ServiceActivity.class);
+                    startActivity(i);
+                }
+            });
+            this.alert = dialog.create();
+            this.alert.show();
+        }
     }
 
 
@@ -305,5 +306,13 @@ public class ServicesListFragment extends FragmentBase {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (this.alert != null && this.alert.isShowing()){
+            this.alert.dismiss();
+        }
     }
 }

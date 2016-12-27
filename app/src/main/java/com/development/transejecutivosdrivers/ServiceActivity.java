@@ -256,7 +256,7 @@ public class ServiceActivity extends ActivityBase {
         super.onBackPressed();
         CacheManager cacheManager = new CacheManager(getApplicationContext(), JsonKeys.SERVICE_PREF, JsonKeys.SERVICE_KEY);
         cacheManager.cleanData();
-        Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         // Add new Flag to start new Activity

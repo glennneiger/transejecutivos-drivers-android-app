@@ -20,6 +20,7 @@ public class JsonKeys {
     public static final String USER_CODE = "code";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
+    public static final String TOKEN = "gcm_token";
     public static final String USER_FIRSTIME = "first_time";
     public static final String USER_NOTIFICATIONS = "notifications";
 
@@ -107,4 +108,12 @@ public class JsonKeys {
     public static final String TAKING_PHOTO_PREF = "takingPhotoTransEjecutivosDriversPref";
     public static final String TAKING_PHOTO_KEY = "isPhotoTaked";
     public static final String TAKING_PHOTO= "photo";
+
+    /**
+     * Notifications push
+     */
+    final static public String NOTIFICATION_DESCRIPTION = "message";
+    final static public String NOTIFICATION_DATE        = "createdon";
+    final static public String NOTIFICACION_PUTEXTRA    = "notificacionpush";
+    final static public String TOKEN_GCM = "tokengcm";
 }

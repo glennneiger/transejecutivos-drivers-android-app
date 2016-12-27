@@ -16,6 +16,7 @@ public class User implements Serializable {
     String phone2;
     String apikey;
     String code;
+    String token;
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
@@ -85,6 +86,14 @@ public class User implements Serializable {
         return phone1;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public String getPhone2() {
         return phone2;
     }
@@ -96,4 +105,6 @@ public class User implements Serializable {
     public String getCode() {
         return code;
     }
+
+
 }
