@@ -18,17 +18,21 @@ import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.adapters.Const;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.google.android.gms.gcm.GcmListenerService;
+
+import org.json.JSONObject;
+
 import java.util.Random;
 
 public class GCMPushReceiverService extends GcmListenerService {
     @Override
-    public void onMessageReceived(String from, Bundle data) {
-        Log.d("LALA", "" + data);
-        Log.d("LALA", "" + data.getString(Const.CONST_NOTIFICATION_PUSH_BODY));
-        Log.d("LALA", "" + data.getString(Const.CONST_NOTIFICATION_PUSH_TITLE));
-        Log.d("LALA", "" + data.getString(Const.CONST_NOTIFICACION_PUSH_SERVICE));
-
-        Object messageObj = data.get(Const.CONST_NOTIFICATION_PUSH_BODY);
+    public void onMessageReceived(String from, Bundle data) {String message = "";
+        String messageObj = data.getString(Const.CONST_NOTIFICATION_PUSH_BODY);
+        try {
+            JSONObject obj = new JSONObject(messageObj);
+            message = obj.getString(Const.CONST_NOTIFICATION_PUSH_BODY);
+        } catch (Throwable t) {
+            Log.e("My App", "Could not parse malformed JSON: \"" + messageObj + "\"");
+        }
         String title = data.getString(Const.CONST_NOTIFICATION_PUSH_TITLE);
         String database = data.getString(Const.CONST_NOTIFICACION_PUSH_SERVICE);
         sendNotification(message,title,database);
