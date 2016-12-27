@@ -33,7 +33,7 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
     //GCM
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     public String token;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +85,7 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
     }
 
     public void setToken(){
+        Log.d("LALA", token);
         user.setToken(token);
     }
 

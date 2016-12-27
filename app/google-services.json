@@ -1,27 +1,20 @@
 {
   "project_info": {
-    "project_number": "165406227601",
-    "firebase_url": "https://transejecutivos-1271.firebaseio.com",
-    "project_id": "transejecutivos-1271",
-    "storage_bucket": "transejecutivos-1271.appspot.com"
+    "project_number": "442225472160",
+    "project_id": "transejecutivos-153817"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:165406227601:android:68c024b19b039929",
+        "mobilesdk_app_id": "1:442225472160:android:68c024b19b039929",
         "android_client_info": {
           "package_name": "com.development.transejecutivosdrivers"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "165406227601-nq4api99ptnfc0ocl6r2678tbmkk43i8.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBQxTJFd7dAY1DA7O07FT7raXEFoY3nkFI"
+          "current_key": "AIzaSyCqwkCI9-gwkJKmR9qFTQ-E6zIbgWO5lFw"
         }
       ],
       "services": {
@@ -33,7 +26,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 2
+          "status": 1
         }
       }
     }
