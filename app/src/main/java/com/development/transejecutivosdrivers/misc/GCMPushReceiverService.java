@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
@@ -18,10 +17,7 @@ import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.adapters.Const;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.google.android.gms.gcm.GcmListenerService;
-
 import org.json.JSONObject;
-
-import java.util.Random;
 
 public class GCMPushReceiverService extends GcmListenerService {
     @Override
@@ -55,7 +51,6 @@ public class GCMPushReceiverService extends GcmListenerService {
                 .setLights(Color.WHITE, 1000, 3000)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_transejecutivoslauncher))
                 .setContentIntent(pendingIntent)
-                //.addAction(android.R.drawable.ic_menu_camera,"vamos a ver", pendingIntent)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .setBigContentTitle(title)
                         .bigText(message));

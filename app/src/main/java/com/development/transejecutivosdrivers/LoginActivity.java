@@ -61,6 +61,10 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
     private View mLoginFormView;
     private View loginLayout;
 
+    //GCM
+    public BroadcastReceiver mRegistrationBroadcastReceiver;
+    public String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +113,37 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        showProgress(true, mLoginFormView, mProgressView);
+
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+        if (ConnectionResult.SUCCESS != resultCode) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                Toast.makeText(getApplicationContext(), Const.CONST_GOOGLE_PLAY_NOT_INSTALL, Toast.LENGTH_LONG).show();
+                GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
+                GooglePlayServicesUtil.getErrorDialog(resultCode,this, 200).show();
+            } else {
+                Toast.makeText(getApplicationContext(), Const.CONST_GOOGLE_PLAY_NOT_SUPPORT, Toast.LENGTH_LONG).show();
+            }
+            showProgress(false, mLoginFormView, mProgressView);
+        } else {
+            Intent itent = new Intent(this, GCMRegistrationIntentService.class);
+            startService(itent);
+        }
+
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals(Const.CONST_GCM_REGISTER_SUCCES)){
+                    token = intent.getStringExtra(JsonKeys.TOKEN_GCM);
+                    Log.d("LALA", token);
+                }else if(intent.getAction().equals(Const.CONST_GCM_REGISTER_ERROR)){
+                    Toast.makeText(getApplicationContext(), Const.CONST_GMC_MESSAGE_REGISTER_ERROR, Toast.LENGTH_LONG).show();
+                }
+
+                showProgress(false, mLoginFormView, mProgressView);
+            }
+        };
     }
 
     @Override
@@ -264,22 +299,20 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
                         user.setApikey(resObj.getString(JsonKeys.USER_APIKEY));
                         user.setCode(resObj.getString(JsonKeys.USER_CODE));
 
+                        Log.d("LALA", token);
+
+                        user.setToken(token);
+
+                        Log.d("LALALAA", "1");
+
+                        updateUserToken(user);
+
+                        Log.d("LALALAA", "2");
+
                         session.createUserLoginSession(user);
 
-                        onPostExecute(true);
-
-                        // Starting MainActivity
-                        Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                        // Add new Flag to start new Activity
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(i);
+                        Log.d("LALALAA", "3");
                     }
-
-                    showProgress(false, mLoginFormView, mProgressView);
-
-                    finish();
                 }
                 else {
                     setErrorSnackBar(loginLayout, getResources().getString(R.string.error_invalid_login));
@@ -290,6 +323,75 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
                 ex.printStackTrace();
             }
         }
+
+        protected void updateUserToken(final User user) {
+            Log.d("LALALAA", "4");
+
+
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+            StringRequest stringRequest = new StringRequest(
+                    Request.Method.PUT,
+                    ApiConstants.URL_UPDATE_PROFILE,
+                    new com.android.volley.Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("LALALAA", "Aqui");
+                            onPostExecute(true);
+
+                            // Starting MainActivity
+                            Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                            // Add new Flag to start new Activity
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+
+                            showProgress(false, mLoginFormView, mProgressView);
+
+                            finish();
+                        }
+                    },
+                    new com.android.volley.Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            onCancelled();
+                            setErrorSnackBar(loginLayout, getResources().getString(R.string.error_general));
+                        }
+                    }) {
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String,String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    headers.put("Authorization", user.getApikey());
+                    return headers;
+                }
+
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<String, String>();
+                    params.put(JsonKeys.USER_NAME, user.getName());
+                    params.put(JsonKeys.USER_LASTNAMEP, user.getLastName());
+                    params.put(JsonKeys.USER_EMAIL1, user.getEmail1());
+                    params.put(JsonKeys.USER_EMAIL2, user.getEmail2());
+                    params.put(JsonKeys.USER_PHONE1, user.getPhone1());
+                    params.put(JsonKeys.USER_PHONE2, user.getPhone2());
+                    params.put(JsonKeys.USER_TOKEN, user.getToken());
+                    params.put(JsonKeys.USER_NOTIFICATIONS, "1");
+
+                    return params;
+                }
+            };
+
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    (int) TimeUnit.SECONDS.toMillis(10),//time out in 10second
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            requestQueue.add(stringRequest);
+        }
+
 
         @Override
         protected void onPostExecute(Boolean success) {
