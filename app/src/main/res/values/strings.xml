@@ -14,6 +14,7 @@
 
     <!-- General Strings -->
     <string name="error_general">Se perdió la conexión a internet momentaneamente, por favor intenta de nuevo</string>
+    <string name="server_error">Ocurrió un error, por favor contacta a soporte</string>
     <string name="no_services">No hay servicios para mostrar</string>
     <string name="accept_button">Aceptar</string>
 
@@ -123,7 +124,7 @@
     <string name="prompt_start_time_service_value">Establecer</string>
     <string name="prompt_end_time_service_value">Establecer</string>
 
-    <string name="prompt_app_version">1.2</string>
+    <string name="prompt_app_version">1.2.0</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
     <string name="prompt_service_complete">Este servicio se encuentra completado, si deseas editarlo, presiona el botón rojo.</string>
     <string name="prompt_sms_passenger_service">Enviar SMS al pasajero</string>

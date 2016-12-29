@@ -136,7 +136,7 @@ public class ServicesListFragment extends FragmentBase {
                 }
             }
             else {
-                setErrorSnackBar(getResources().getString(R.string.error_general));
+                setErrorSnackBar(getResources().getString(R.string.server_error));
             }
         }
         catch (JSONException ex) {
@@ -182,7 +182,7 @@ public class ServicesListFragment extends FragmentBase {
                     new com.android.volley.Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            setErrorSnackBar(getResources().getString(R.string.error_general));
+                            setErrorSnackBar(getResources().getString(R.string.server_error));
                             showProgress(false, layout, progressBar);
                         }
                     }) {
@@ -307,6 +307,8 @@ public class ServicesListFragment extends FragmentBase {
             }
         });
     }
+
+
 
     @Override
     public void onDestroy() {

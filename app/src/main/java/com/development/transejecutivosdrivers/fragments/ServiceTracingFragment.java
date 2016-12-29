@@ -111,21 +111,21 @@ public class ServiceTracingFragment extends FragmentBase  {
     }
 
     private void setDataOnView() {
-        if (!TextUtils.isEmpty(this.service.getReference())) {
+        if (this.service != null && !TextUtils.isEmpty(this.service.getReference())) {
             txtview_service_reference.setText(this.service.getReference());
         }
 
-        if (!TextUtils.isEmpty(this.service.getStartTime())) {
+        if (this.service != null && !TextUtils.isEmpty(this.service.getStartTime())) {
             txtview_start_time.setText(this.service.getStartTime());
             button_set_start_time.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(this.service.getEndTime())) {
+        if (this.service != null && !TextUtils.isEmpty(this.service.getEndTime())) {
             txtview_end_time.setText(this.service.getEndTime());
             button_set_end_time.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(this.service.getEndTime()) && !TextUtils.isEmpty(this.service.getStartTime())) {
+        if (this.service != null && !TextUtils.isEmpty(this.service.getEndTime()) && !TextUtils.isEmpty(this.service.getStartTime())) {
             set_time_instructions.setVisibility(View.GONE);
             txt_service_complete.setVisibility(View.VISIBLE);
             btn_reset_service.setVisibility(View.VISIBLE);

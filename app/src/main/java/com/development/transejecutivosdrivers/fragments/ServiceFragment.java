@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -136,48 +137,50 @@ public class ServiceFragment extends FragmentBase {
     }
 
     public void updateService(final int status) {
-        final String idService = "" + this.service.getIdService();
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.PUT,
-                ApiConstants.URL_ACCEPT_SERVICE + "/" + idService,
-                new com.android.volley.Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        validateUpdateServiceResponse(response, status);
-                    }
-                },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, fragmentContainer, progressBar);
-                    }
-                }) {
+        if (this.service != null) {
+            final String idService = "" + this.service.getIdService();
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            StringRequest stringRequest = new StringRequest(
+                    Request.Method.PUT,
+                    ApiConstants.URL_ACCEPT_SERVICE + "/" + idService,
+                    new com.android.volley.Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            validateUpdateServiceResponse(response, status);
+                        }
+                    },
+                    new com.android.volley.Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            setErrorSnackBar(getResources().getString(R.string.error_general));
+                            showProgress(false, fragmentContainer, progressBar);
+                        }
+                    }) {
 
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String,String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/x-www-form-urlencoded");
-                headers.put("Authorization", user.getApikey());
-                return headers;
-            }
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String,String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    headers.put("Authorization", user.getApikey());
+                    return headers;
+                }
 
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put(JsonKeys.SERVICE_STATUS, "" + status);
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<String, String>();
+                    params.put(JsonKeys.SERVICE_STATUS, "" + status);
 
-                return params;
-            }
-        };
+                    return params;
+                }
+            };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                (int) TimeUnit.SECONDS.toMillis(10),//time out in 10second
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    (int) TimeUnit.SECONDS.toMillis(10),//time out in 10second
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        requestQueue.add(stringRequest);
+            requestQueue.add(stringRequest);
+        }
     }
 
     public void validateUpdateServiceResponse(String response, int status) {
