@@ -85,10 +85,12 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DashboardActivity"
             android:label="@string/title_activity_dashboard"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -99,10 +101,12 @@
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RecoverpassActivity"
             android:label="@string/title_activity_recoverpass"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ServiceActivity"
@@ -112,9 +116,11 @@
         <activity
             android:name=".SearchserviceActivity"
             android:label="@string/title_activity_searchservice"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ResetpassActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_resetpass"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--

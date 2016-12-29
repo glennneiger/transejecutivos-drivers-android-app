@@ -72,6 +72,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.id = 3;
         view = inflater.inflate(R.layout.service_options_fragment, container, false);
 
         progressBar = view.findViewById(R.id.service_option_progress);

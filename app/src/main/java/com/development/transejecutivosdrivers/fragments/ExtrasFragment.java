@@ -72,6 +72,7 @@ public class ExtrasFragment extends FragmentBase {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.id = 4;
         view = inflater.inflate(R.layout.extras_fragment, container, false);
 
         service_option_progress = view.findViewById(R.id.extra_service_progress);

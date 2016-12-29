@@ -45,6 +45,8 @@ public class FragmentBase extends Fragment {
     protected static ExpandableListView expandableListView;
     protected static ServiceExpandableListAdapter serviceExpandableListAdapter;
 
+    int id;
+
     View view;
     View progressBar;
     View layout;
@@ -91,6 +93,10 @@ public class FragmentBase extends Fragment {
         setRetainInstance(true);
 
         return;
+    }
+
+    public int getIdFragment() {
+        return this.id;
     }
 
     @Override

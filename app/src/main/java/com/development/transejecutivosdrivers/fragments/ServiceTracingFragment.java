@@ -73,6 +73,7 @@ public class ServiceTracingFragment extends FragmentBase  {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.id = 2;
         view = inflater.inflate(R.layout.service_tracing_fragment, container, false);
         button_finish_tracing = (Button) view.findViewById(R.id.button_finish_tracing);
 

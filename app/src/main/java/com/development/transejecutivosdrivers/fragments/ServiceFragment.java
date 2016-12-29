@@ -63,6 +63,7 @@ public class ServiceFragment extends FragmentBase {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.id = 1;
         view = inflater.inflate(R.layout.service_fragment, container, false);
 
         fragmentContainer = view.findViewById(R.id.service_container);

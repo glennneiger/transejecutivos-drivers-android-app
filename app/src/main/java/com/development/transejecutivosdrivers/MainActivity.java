@@ -13,6 +13,7 @@ import com.development.transejecutivosdrivers.fragments.ServicesListFragment;
 import com.development.transejecutivosdrivers.misc.CacheManager;
 
 public class MainActivity extends ActivityBase {
+    public ServicesListFragment servicesListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class MainActivity extends ActivityBase {
     protected void setFragment() {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ServicesListFragment servicesListFragment = new ServicesListFragment();
+        servicesListFragment = new ServicesListFragment();
         servicesListFragment.setUser(user);
         fragmentTransaction.add(R.id.fragment_container, servicesListFragment, "Services List Fragment");
         fragmentTransaction.commit();
@@ -88,6 +89,13 @@ public class MainActivity extends ActivityBase {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
+        Log.d("LALA", "Back");
+        if (servicesListFragment.getIdFragment() == 0) {
+            Log.d("LALA", "id" + servicesListFragment.getIdFragment()
+            );
+            Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
+            startActivity(i);
+            finish();
+        }
     }
 }

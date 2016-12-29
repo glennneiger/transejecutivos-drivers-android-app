@@ -58,6 +58,7 @@ public class ServicesListFragment extends FragmentBase {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.id = 0;
         view = inflater.inflate(R.layout.service_list_fragment, container, false);
 
         layout = view.findViewById(R.id.service_expandable_listview);
@@ -308,7 +309,9 @@ public class ServicesListFragment extends FragmentBase {
         });
     }
 
-
+    public static void onBackPressed() {
+        //Pop Fragments off backstack and do your other checks
+    }
 
     @Override
     public void onDestroy() {
