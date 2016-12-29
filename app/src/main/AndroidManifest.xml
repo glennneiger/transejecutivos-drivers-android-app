@@ -38,6 +38,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name="android.support.multidex.MultiDexApplication"
         android:theme="@style/AppTheme.PopupOverlay" >
 
         <receiver android:name=".background_services.AlarmReceiver" >
