@@ -314,7 +314,7 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
                         user.setPhone2(resObj.getString(JsonKeys.USER_PHONE2));
                         user.setApikey(resObj.getString(JsonKeys.USER_APIKEY));
                         user.setCode(resObj.getString(JsonKeys.USER_CODE));
-                        
+
                         user.setToken(token);
                         updateUserToken(user);
 
