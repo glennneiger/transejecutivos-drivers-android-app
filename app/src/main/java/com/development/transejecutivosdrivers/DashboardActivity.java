@@ -21,7 +21,6 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
     private GridView gridView;
     private DashboardMenuAdapter adaptador;
     Context context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

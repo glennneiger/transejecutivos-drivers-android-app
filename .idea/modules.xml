@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TransEjecutivosDrivers.iml" filepath="$PROJECT_DIR$/TransEjecutivosDrivers.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/transejecutivos-drivers.iml" filepath="$PROJECT_DIR$/transejecutivos-drivers.iml" />
     </modules>

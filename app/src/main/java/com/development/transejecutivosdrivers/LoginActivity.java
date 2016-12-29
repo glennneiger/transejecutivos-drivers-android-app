@@ -5,11 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,7 +22,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -63,7 +64,7 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
 
     //GCM
     public BroadcastReceiver mRegistrationBroadcastReceiver;
-    public String token;
+    public String token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +128,7 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
             }
             showProgress(false, mLoginFormView, mProgressView);
         } else {
+            //showProgress(false, mLoginFormView, mProgressView);
             Intent itent = new Intent(this, GCMRegistrationIntentService.class);
             startService(itent);
         }
@@ -136,7 +138,6 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
             public void onReceive(Context context, Intent intent) {
                 if(intent.getAction().equals(Const.CONST_GCM_REGISTER_SUCCES)){
                     token = intent.getStringExtra(JsonKeys.TOKEN_GCM);
-                    Log.d("LALA", token);
                 }else if(intent.getAction().equals(Const.CONST_GCM_REGISTER_ERROR)){
                     Toast.makeText(getApplicationContext(), Const.CONST_GMC_MESSAGE_REGISTER_ERROR, Toast.LENGTH_LONG).show();
                 }
@@ -144,6 +145,21 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
                 showProgress(false, mLoginFormView, mProgressView);
             }
         };
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Const.CONST_GCM_REGISTER_SUCCES));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Const.CONST_GCM_REGISTER_ERROR));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
     }
 
     @Override
@@ -298,20 +314,11 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
                         user.setPhone2(resObj.getString(JsonKeys.USER_PHONE2));
                         user.setApikey(resObj.getString(JsonKeys.USER_APIKEY));
                         user.setCode(resObj.getString(JsonKeys.USER_CODE));
-
-                        Log.d("LALA", token);
-
+                        
                         user.setToken(token);
-
-                        Log.d("LALALAA", "1");
-
                         updateUserToken(user);
 
-                        Log.d("LALALAA", "2");
-
                         session.createUserLoginSession(user);
-
-                        Log.d("LALALAA", "3");
                     }
                 }
                 else {
@@ -325,9 +332,6 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
         }
 
         protected void updateUserToken(final User user) {
-            Log.d("LALALAA", "4");
-
-
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
             StringRequest stringRequest = new StringRequest(
@@ -336,7 +340,6 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
                     new com.android.volley.Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Log.d("LALALAA", "Aqui");
                             onPostExecute(true);
 
                             // Starting MainActivity
@@ -378,6 +381,7 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
                     params.put(JsonKeys.USER_PHONE1, user.getPhone1());
                     params.put(JsonKeys.USER_PHONE2, user.getPhone2());
                     params.put(JsonKeys.USER_TOKEN, user.getToken());
+                    params.put(JsonKeys.PASSWORD, "");
                     params.put(JsonKeys.USER_NOTIFICATIONS, "1");
 
                     return params;
