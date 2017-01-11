@@ -124,7 +124,7 @@
     <string name="prompt_start_time_service_value">Establecer</string>
     <string name="prompt_end_time_service_value">Establecer</string>
 
-    <string name="prompt_app_version">1.2.0</string>
+    <string name="prompt_app_version">1.2.1</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
     <string name="prompt_service_complete">Este servicio se encuentra completado, si deseas editarlo, presiona el botón rojo.</string>
     <string name="prompt_sms_passenger_service">Enviar SMS al pasajero</string>
@@ -142,4 +142,5 @@
     <string name="error_empty_observations">Debes ingresar una observación</string>
     <string name="prompt_call_to_support">LLAMAR A TRANSPORTES EJECUTIVOS</string>
     <string name="cancel_permission_location">Esta aplicación necesita permiso para realizar llamadas telefónicas, al no aceptar la solicitud, no podrá usar esta funcionalidad.</string>
+    <string name="title_activity_splash">Transportes Ejecutivos</string>
 </resources>

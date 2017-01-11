@@ -18,11 +18,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.misc.UserSessionManager;
 import com.development.transejecutivosdrivers.models.User;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 /**
@@ -32,6 +34,7 @@ public class ActivityBase extends AppCompatActivity {
 
     UserSessionManager session;
     User user;
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
 
     public void setErrorSnackBar(View view, String message) {
         Snackbar snackbar = Snackbar
@@ -109,9 +112,22 @@ public class ActivityBase extends AppCompatActivity {
     }
 
     public void checkGooglePlayServices(){
+        /*
         int checkGooglePlayServices = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (checkGooglePlayServices != ConnectionResult.SUCCESS) {
             GooglePlayServicesUtil.getErrorDialog(checkGooglePlayServices,this, 200).show();
+        }
+        */
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        int result = googleAPI.isGooglePlayServicesAvailable(this);
+        if (result != ConnectionResult.SUCCESS) {
+            if (googleAPI.isUserResolvableError(result)) {
+                googleAPI.getErrorDialog(this, result, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Toast.makeText(this, getString(R.string.device_not_supported), Toast.LENGTH_LONG).show();
+            }
+        } else if(result == ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED){
+            googleAPI.getErrorDialog(this, result, PLAY_SERVICES_RESOLUTION_REQUEST).show();
         }
     }
 

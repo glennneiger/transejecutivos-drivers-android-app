@@ -78,10 +78,15 @@ public class ServiceFragment extends FragmentBase {
                 String tel1 = tels[0];
 
                 if (!TextUtils.isEmpty(tel1)) {
+                    /*
                     Intent smsIntent = new Intent(Intent.ACTION_VIEW);
                     smsIntent.setType("vnd.android-dir/mms-sms");
                     smsIntent.putExtra("address", tel1);
                     startActivity(smsIntent);
+                    */
+                    Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + tel1));
+                    //intent.putExtra("sms_body", "");
+                    startActivity(intent);
                 }
             }
         });

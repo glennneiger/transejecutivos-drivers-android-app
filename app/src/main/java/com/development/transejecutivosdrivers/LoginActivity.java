@@ -35,6 +35,7 @@ import com.development.transejecutivosdrivers.misc.GCMRegistrationIntentService;
 import com.development.transejecutivosdrivers.misc.UserSessionManager;
 import com.development.transejecutivosdrivers.models.User;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.json.JSONException;
@@ -61,6 +62,8 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
     private View mProgressView;
     private View mLoginFormView;
     private View loginLayout;
+
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
 
     //GCM
     public BroadcastReceiver mRegistrationBroadcastReceiver;
@@ -117,16 +120,20 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
 
         showProgress(true, mLoginFormView, mProgressView);
 
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
-        if (ConnectionResult.SUCCESS != resultCode) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        int result = googleAPI.isGooglePlayServicesAvailable(this);
+
+        if (ConnectionResult.SUCCESS != result) {
+            if (googleAPI.isUserResolvableError(result)) {
                 Toast.makeText(getApplicationContext(), Const.CONST_GOOGLE_PLAY_NOT_INSTALL, Toast.LENGTH_LONG).show();
-                GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
-                GooglePlayServicesUtil.getErrorDialog(resultCode,this, 200).show();
+                googleAPI.showErrorNotification(getApplicationContext(), result);
+                googleAPI.getErrorDialog(this, result, 200).show();
             } else {
                 Toast.makeText(getApplicationContext(), Const.CONST_GOOGLE_PLAY_NOT_SUPPORT, Toast.LENGTH_LONG).show();
             }
             showProgress(false, mLoginFormView, mProgressView);
+        } else if(result == ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED){
+            googleAPI.getErrorDialog(this, result, PLAY_SERVICES_RESOLUTION_REQUEST).show();
         } else {
             //showProgress(false, mLoginFormView, mProgressView);
             Intent itent = new Intent(this, GCMRegistrationIntentService.class);
