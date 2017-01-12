@@ -1,6 +1,7 @@
 package com.development.transejecutivosdrivers.background_services;
 
 import android.app.Service;
+import android.os.Bundle;
 import android.os.Process;
 import android.content.Intent;
 import android.os.Handler;
@@ -10,6 +11,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.development.transejecutivosdrivers.adapters.JsonKeys;
 
 /**
  * Created by william.montiel on 12/01/2017.
@@ -31,19 +34,14 @@ public class BackgroundServiceManager extends Service{
         @Override
         public void handleMessage(Message msg) {
             this.message = msg;
-            // Normally we would do some work here, like download a file.
-            /*
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                // Restore interrupt status.
-                Thread.currentThread().interrupt();
-            }
-            */
 
-            Log.d("LALA", "Sub started");
+            Bundle bundle = this.message.getData();
+
+            Log.d("LALA", "Subtask is started");
+            Toast.makeText(getApplicationContext(), "El proceso de envío de ubicación ha iniciado", Toast.LENGTH_SHORT).show();
             locationManager = new LocationManager();
             locationManager.setContext(getApplicationContext());
+            locationManager.setData(bundle.getInt(JsonKeys.SERVICE_ID), bundle.getString(JsonKeys.USER_APIKEY), bundle.getString(JsonKeys.LOCATION));
             locationManager.setServiceHandler(this);
             locationManager.start();
         }
@@ -51,7 +49,7 @@ public class BackgroundServiceManager extends Service{
         public void stop() {
             // Stop the service using the startId, so that we don't stop
             // the service in the middle of handling another job
-            Log.d("LALA", "Sub ended");
+            Log.d("LALA", "Subtask is finished");
             stopSelf(message.arg1);
         }
     }
@@ -73,15 +71,18 @@ public class BackgroundServiceManager extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         this.id = startId;
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+        if (intent != null) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                // For each start request, send a message to start a job and deliver the
+                // start ID so we know which request we're stopping when we finish the job
+                Message msg = mServiceHandler.obtainMessage();
+                msg.arg1 = startId;
+                msg.setData(bundle);
+                mServiceHandler.sendMessage(msg);
+            }
+        }
 
-        // For each start request, send a message to start a job and deliver the
-        // start ID so we know which request we're stopping when we finish the job
-        Message msg = mServiceHandler.obtainMessage();
-        msg.arg1 = startId;
-        mServiceHandler.sendMessage(msg);
-
-        // If we get killed, after returning from here, restart
         return START_NOT_STICKY;
     }
 
@@ -94,6 +95,6 @@ public class BackgroundServiceManager extends Service{
     @Override
     public void onDestroy() {
         Log.d("LALA", "Service done");
-        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "El proceso de envío de ubicación ha finalizado", Toast.LENGTH_SHORT).show();
     }
 }

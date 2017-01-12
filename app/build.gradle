@@ -16,8 +16,8 @@ android {
         applicationId "com.development.transejecutivosdrivers"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 14
-        versionName "1.2.2"
+        versionCode 15
+        versionName "1.2.3"
         multiDexEnabled true
     }
     buildTypes {
@@ -50,4 +50,6 @@ dependencies {
     compile('com.google.android.gms:play-services-gcm:9.0.0'){
         exclude group: 'com.google.firebase', module: 'firebase-common'
     }
+
+    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
 }

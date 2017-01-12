@@ -89,18 +89,6 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
                 session.logoutUser();
                 break;
 
-            case 4:
-                Intent intent = new Intent(getApplicationContext(), BackgroundServiceManager.class);
-                intent.putExtra(JsonKeys.SERVICE_ID, 1);
-                intent.putExtra(JsonKeys.USER_APIKEY, "Lala");
-                intent.putExtra(JsonKeys.LOCATION, "Loc");
-                startService(intent);
-                break;
-
-            case 5:
-                stopService(new Intent(getApplicationContext(), BackgroundServiceManager.class));
-                break;
-
             default:
                 break;
         }

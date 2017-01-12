@@ -116,4 +116,5 @@ public class JsonKeys {
     final static public String NOTIFICATION_DATE        = "createdon";
     final static public String NOTIFICACION_PUTEXTRA    = "notificacionpush";
     final static public String TOKEN_GCM = "tokengcm";
+    public static final String HEADER_KEY = "Authorization";
 }

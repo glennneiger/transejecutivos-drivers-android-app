@@ -29,6 +29,7 @@ import com.development.transejecutivosdrivers.ServiceActivity;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.adapters.ServiceExpandableListAdapter;
 import com.development.transejecutivosdrivers.background_services.BackgroundService;
+import com.development.transejecutivosdrivers.background_services.BackgroundServiceManager;
 import com.development.transejecutivosdrivers.misc.CacheManager;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
@@ -225,7 +226,7 @@ public class FragmentBase extends Fragment {
     }
 
     protected void scheduleAlarm(String location) {
-        Intent backgroundService = new Intent(getActivity(), BackgroundService.class);
+        Intent backgroundService = new Intent(getActivity(), BackgroundServiceManager.class);
         backgroundService.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
         backgroundService.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
         backgroundService.putExtra(JsonKeys.LOCATION, location);
@@ -233,7 +234,7 @@ public class FragmentBase extends Fragment {
     }
 
     public void cancelAlarm() {
-        getActivity().stopService(new Intent(getActivity(), BackgroundService.class));
+        getActivity().stopService(new Intent(getActivity(), BackgroundServiceManager.class));
     }
 
     /**
