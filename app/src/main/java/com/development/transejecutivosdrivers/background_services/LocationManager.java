@@ -164,7 +164,7 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
             sender = new LocationSender(latitude, longitude);
             sender.execute();
 
-            if (UPDATES <= TOTAL_UPDATES) {
+            if (UPDATES >= TOTAL_UPDATES) {
                 this.stopLocationUpdates();
                 this.disconnectFromGoogleApi();
                 this.serviceHandler.stop();

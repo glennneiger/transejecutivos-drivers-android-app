@@ -3,6 +3,7 @@ package com.development.transejecutivosdrivers.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,15 +24,23 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.ServiceActivity;
+import com.development.transejecutivosdrivers.adapters.Const;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.misc.CacheManager;
+import com.development.transejecutivosdrivers.misc.RequestHandler;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -427,6 +436,86 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_onmyway.setVisibility(View.GONE);
             btn_start_service.setVisibility(View.GONE);
             btn_finish_service.setVisibility(View.GONE);
+        }
+    }
+
+    private class FinishService extends AsyncTask<String, Void, Void> {
+        public String data, message = Const.CONST_MSG_ERROR_SERVER;
+        public boolean errorBackground = true;
+        private String lat, lng;
+
+        public FinishService(String lat, String lng) {
+            this.lat = lat;
+            this.lng = lng;
+        }
+
+        protected void onPreExecute(){
+            super.onPreExecute();
+        }
+        @Override
+        protected Void doInBackground(String... arg) {
+            //Valiable de error
+            Boolean error = false;
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            //Se tiene que Arreglar cuando se arregle el api
+            params.add(new BasicNameValuePair(JsonKeys.LATITUDE, this.lat));
+            params.add(new BasicNameValuePair(JsonKeys.LONGITUDE, this.lng));
+
+            RequestHandler requestHandler = new RequestHandler();
+
+            String response = requestHandler.makeServiceCall(getUrl(),requestHandler.POST, params, apikey);
+
+            Log.d("LALA RES", response);
+
+            if(response != null && response != ""){
+                try {
+                    JSONObject resObj = new JSONObject(response);
+                    error = (Boolean) resObj.get(JsonKeys.ERROR);
+                    String msg = resObj.getString(JsonKeys.MESSAGE);
+                    int ms = resObj.getInt(JsonKeys.MESSAGE);
+                    if (!error) {
+                        if (msg.equals("0") || ms == 0) {
+                            stopLocationUpdates();
+                            disconnectFromGoogleApi();
+                            serviceHandler.stop();
+                        }
+                    }
+                }
+                catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+
+            }else{
+                errorBackground = true;
+                message = Const.CONST_MSG_ERROR_SERVER;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result){
+            super.onPostExecute(result);
+            if(errorBackground) {
+
+            } else {
+
+            }
+        }
+
+        protected String getUrl() {
+            String url = "";
+            if (location != null && location.equals(JsonKeys.PRELOCATION)) {
+                url = ApiConstants.URL_SET_PRELOCATION;
+            }
+            else if (location != null && location.equals(JsonKeys.ONSERVICE)) {
+                url = ApiConstants.URL_SET_LOCATION;
+            }
+            url = url + "/" + idService;
+
+            Log.d("LALA URL", url);
+
+            return  url;
         }
     }
 }
