@@ -89,10 +89,7 @@ public class MainActivity extends ActivityBase {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Log.d("LALA", "Back");
         if (servicesListFragment.getIdFragment() == 0) {
-            Log.d("LALA", "id" + servicesListFragment.getIdFragment()
-            );
             Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
             startActivity(i);
             finish();

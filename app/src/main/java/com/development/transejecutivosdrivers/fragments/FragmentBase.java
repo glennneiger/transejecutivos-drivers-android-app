@@ -225,24 +225,6 @@ public class FragmentBase extends Fragment {
     }
 
     protected void scheduleAlarm(String location) {
-        // Construct an intent that will execute the AlarmReceiver
-        /*
-        Intent intent = new Intent(this.context, AlarmReceiver.class);
-
-        intent.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
-        intent.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
-        intent.putExtra(JsonKeys.LOCATION, location);
-
-        // Create a PendingIntent to be triggered when the alarm goes off
-        final PendingIntent pIntent = PendingIntent.getBroadcast(getActivity(), AlarmReceiver.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarm = (AlarmManager) this.context.getSystemService(this.context.ALARM_SERVICE);
-
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, ALARM_START, ALARM_REPEAT, pIntent);
-        */
-
-
         Intent backgroundService = new Intent(getActivity(), BackgroundService.class);
         backgroundService.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
         backgroundService.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
@@ -252,17 +234,6 @@ public class FragmentBase extends Fragment {
 
     public void cancelAlarm() {
         getActivity().stopService(new Intent(getActivity(), BackgroundService.class));
-        /*
-        Intent intent = new Intent(this.context, AlarmReceiver.class);
-
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this.context, AlarmReceiver.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarm = (AlarmManager) this.context.getSystemService(Context.ALARM_SERVICE);
-        if (alarm != null) {
-            alarm.cancel(pIntent);
-        }
-        */
     }
 
     /**
@@ -292,8 +263,6 @@ public class FragmentBase extends Fragment {
                     }
                 });
             } else {
-                // The ViewPropertyAnimator APIs are not available, so simply show
-                // and hide the relevant UI components.
                 progressView.setVisibility(show ? View.VISIBLE : View.GONE);
                 formView.setVisibility(show ? View.GONE : View.VISIBLE);
             }

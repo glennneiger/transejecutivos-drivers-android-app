@@ -7,15 +7,12 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.google.android.gms.common.ConnectionResult;
@@ -40,6 +37,11 @@ public class BackgroundService extends Service {
 
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -58,12 +60,8 @@ public class BackgroundService extends Service {
                 locationManager.start();
             }
         }
-        return super.onStartCommand(intent, flags, startId);
-    }
 
-
-    public void stopBackgroundProcess() {
-        this.stopSelf();
+        return START_NOT_STICKY;
     }
 
     @Override
@@ -88,7 +86,6 @@ public class BackgroundService extends Service {
         protected int FATEST_INTERVAL = 4000; // 4 sec
         protected int DISPLACEMENT = 5;
         protected int NUMBER_UPDATES = 3;
-
         public int updates = 0;
 
         Context context;
@@ -284,7 +281,7 @@ public class BackgroundService extends Service {
                 int ms = resObj.getInt(JsonKeys.MESSAGE);
                 if (!error) {
                     if (msg.equals("0") || ms == 0) {
-                        this.backgroundService.stopBackgroundProcess();
+                        this.backgroundService.stopSelf();
                     }
                 }
 

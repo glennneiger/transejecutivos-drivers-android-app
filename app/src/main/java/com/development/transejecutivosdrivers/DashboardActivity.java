@@ -10,8 +10,12 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
+
 import com.development.transejecutivosdrivers.adapters.DashboardMenuAdapter;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
+import com.development.transejecutivosdrivers.background_services.BackgroundService;
+import com.development.transejecutivosdrivers.background_services.BackgroundServiceManager;
 import com.development.transejecutivosdrivers.misc.CacheManager;
 import com.development.transejecutivosdrivers.misc.DialogCreator;
 import com.development.transejecutivosdrivers.models.DashboardMenu;
@@ -83,6 +87,18 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
 
             case 3:
                 session.logoutUser();
+                break;
+
+            case 4:
+                Intent intent = new Intent(getApplicationContext(), BackgroundServiceManager.class);
+                intent.putExtra(JsonKeys.SERVICE_ID, 1);
+                intent.putExtra(JsonKeys.USER_APIKEY, "Lala");
+                intent.putExtra(JsonKeys.LOCATION, "Loc");
+                startService(intent);
+                break;
+
+            case 5:
+                stopService(new Intent(getApplicationContext(), BackgroundServiceManager.class));
                 break;
 
             default:

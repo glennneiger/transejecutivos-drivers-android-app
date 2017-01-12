@@ -29,6 +29,8 @@ public class DashboardMenu {
             new DashboardMenu(1, "Ver Servicios", R.drawable.services),
             new DashboardMenu(2, "Buscar Servicio", R.drawable.search),
             new DashboardMenu(3, "Cerrar Sesión", R.drawable.logout),
+            new DashboardMenu(4, "Iniciar", R.drawable.logout),
+            new DashboardMenu(5, "Parar", R.drawable.logout),
     };
 
     /**

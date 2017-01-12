@@ -52,6 +52,10 @@
             android:name=".background_services.BackgroundService"
             android:exported="false" />
 
+        <service
+            android:name=".background_services.BackgroundServiceManager"
+            android:exported="false" />
+
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
