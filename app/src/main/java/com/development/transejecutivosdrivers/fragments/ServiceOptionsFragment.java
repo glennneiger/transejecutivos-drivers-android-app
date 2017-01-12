@@ -60,6 +60,8 @@ public class ServiceOptionsFragment extends FragmentBase  {
     EditText txtview_observations;
     TextView txt_service_complete;
 
+    FinishService finishService = null;
+
     public ServiceOptionsFragment() {
 
     }
@@ -272,7 +274,9 @@ public class ServiceOptionsFragment extends FragmentBase  {
         button_finish_tracing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishService();
+                final String observations = txtview_observations.getText().toString();
+                finishService = new FinishService(observations);
+                finishService.execute();
             }
         });
     }
@@ -367,7 +371,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
     }
 
     private void disableButtons() {
-        if ((service != null && service.getOld() == 1)|| TextUtils.isEmpty(service.getCd())) {
+        if (service!= null && (service != null && service.getOld() == 1) || TextUtils.isEmpty(service.getCd())) {
             btn_onmyway.setEnabled(false);
             btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_on_source.setEnabled(false);
@@ -442,53 +446,33 @@ public class ServiceOptionsFragment extends FragmentBase  {
     private class FinishService extends AsyncTask<String, Void, Void> {
         public String data, message = Const.CONST_MSG_ERROR_SERVER;
         public boolean errorBackground = true;
-        private String lat, lng;
+        private String observations;
 
-        public FinishService(String lat, String lng) {
-            this.lat = lat;
-            this.lng = lng;
+        public FinishService(String observations) {
+            this.observations = observations;
         }
 
         protected void onPreExecute(){
             super.onPreExecute();
+            showProgress(true, finish_form, progressBar);
         }
         @Override
         protected Void doInBackground(String... arg) {
-            //Valiable de error
-            Boolean error = false;
-
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            //Se tiene que Arreglar cuando se arregle el api
-            params.add(new BasicNameValuePair(JsonKeys.LATITUDE, this.lat));
-            params.add(new BasicNameValuePair(JsonKeys.LONGITUDE, this.lng));
+            params.add(new BasicNameValuePair(JsonKeys.SERVICE_OBSERVATIONS, this.observations));
+            params.add(new BasicNameValuePair(JsonKeys.TRACING_IMAGE, image));
+            params.add(new BasicNameValuePair(JsonKeys.APP_VERSION, getString(R.string.prompt_app_version)));
 
             RequestHandler requestHandler = new RequestHandler();
 
-            String response = requestHandler.makeServiceCall(getUrl(),requestHandler.POST, params, apikey);
+            String response = requestHandler.makeServiceCall(ApiConstants.URL_FINISH_SERVICE + "/" + service.getIdService(),requestHandler.POST, params, user.getApikey());
 
             Log.d("LALA RES", response);
 
             if(response != null && response != ""){
-                try {
-                    JSONObject resObj = new JSONObject(response);
-                    error = (Boolean) resObj.get(JsonKeys.ERROR);
-                    String msg = resObj.getString(JsonKeys.MESSAGE);
-                    int ms = resObj.getInt(JsonKeys.MESSAGE);
-                    if (!error) {
-                        if (msg.equals("0") || ms == 0) {
-                            stopLocationUpdates();
-                            disconnectFromGoogleApi();
-                            serviceHandler.stop();
-                        }
-                    }
-                }
-                catch (JSONException ex) {
-                    ex.printStackTrace();
-                }
-
-            }else{
+                this.validateResponse(response);
+            } else {
                 errorBackground = true;
-                message = Const.CONST_MSG_ERROR_SERVER;
             }
             return null;
         }
@@ -496,26 +480,34 @@ public class ServiceOptionsFragment extends FragmentBase  {
         @Override
         protected void onPostExecute(Void result){
             super.onPostExecute(result);
-            if(errorBackground) {
+            showProgress(false, finish_form, progressBar);
+            disableButtons();
 
+            if (errorBackground) {
+                setErrorSnackBar(message);
             } else {
-
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
+
+            reload();
         }
 
-        protected String getUrl() {
-            String url = "";
-            if (location != null && location.equals(JsonKeys.PRELOCATION)) {
-                url = ApiConstants.URL_SET_PRELOCATION;
+        protected void validateResponse(String response) {
+            try {
+                JSONObject resObj = new JSONObject(response);
+                Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+                String msg = resObj.getString(JsonKeys.MESSAGE);
+                if (!error) {
+                    errorBackground = false;
+                    message = msg;
+                }
+                else {
+                    errorBackground = true;
+                }
             }
-            else if (location != null && location.equals(JsonKeys.ONSERVICE)) {
-                url = ApiConstants.URL_SET_LOCATION;
+            catch (JSONException ex) {
+                ex.printStackTrace();
             }
-            url = url + "/" + idService;
-
-            Log.d("LALA URL", url);
-
-            return  url;
         }
     }
 }

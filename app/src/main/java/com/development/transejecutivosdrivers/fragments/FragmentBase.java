@@ -140,12 +140,12 @@ public class FragmentBase extends Fragment {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
 
-                // Resize the bitmap to 150x100 (width x height)
+                // Resize the bitmap to 1080x720 (width x height)
                 Bitmap finalBitmap = Bitmap.createScaledBitmap(takenImage, 1080, 720, true);
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-                finalBitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                finalBitmap.compress(Bitmap.CompressFormat.JPEG, 40, stream);
 
                 byte[] byteArray = stream.toByteArray();
 
