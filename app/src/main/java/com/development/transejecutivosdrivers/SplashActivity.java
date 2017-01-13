@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
+import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
         Thread timerTread = new Thread(){
             public void run(){
                 try{
@@ -30,5 +34,10 @@ public class SplashActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

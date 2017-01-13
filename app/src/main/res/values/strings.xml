@@ -143,4 +143,26 @@
     <string name="prompt_call_to_support">LLAMAR A TRANSPORTES EJECUTIVOS</string>
     <string name="cancel_permission_location">Esta aplicación necesita permiso para realizar llamadas telefónicas, al no aceptar la solicitud, no podrá usar esta funcionalidad.</string>
     <string name="title_activity_splash">Transportes Ejecutivos</string>
+
+    <!-- Updater -->
+    <string name="mah_android_upd_dlg_title">Información</string>
+    <!-- Button texts-->
+    <string name="mah_android_upd_dlg_btn_no_later_txt">Luego</string>
+    <string name="mah_android_upd_dlg_btn_no_close_txt">Cerrar</string>
+    <string name="mah_android_upd_dlg_btn_yes_update_txt">Actualizar</string>
+    <string name="mah_android_upd_dlg_btn_yes_install_txt">Instalar</string>
+    <string name="mah_android_upd_dlg_btn_yes_open_new_txt">Abrir la nueva versión</string>
+    <string name="mah_android_upd_dlg_btn_no_uninstall_old_txt">Desinstalar la antigua versión</string>
+
+    <!-- Info texts-->
+    <string name="mah_android_upd_updater_info_install">La aplicación fue a movida a otro lugar. por favor instala la versión más reciente</string>
+    <string name="mah_android_upd_updater_info_update">"Hay una nueva versión disponible. Por favor actualizala"</string>
+    <string name="mah_android_upd_restricter_info_install">Esta es una versión antigua y está obsoleta. La aplicación fue a movida a otro lugar. \npor favor instala la versión más reciente</string>
+    <string name="mah_android_upd_restricter_info_update">"Esta es una versión antigua y está obsoleta. por favor actualiza la aplicación"</string>
+    <string name="mah_android_upd_restricter_info_open_new_version">"Esta es una versión antigua y está obsoleta. por favor utiliza la nueva aplicación"</string>
+
+    <!-- Additional information-->
+    <string name="mah_android_upd_internet_update_error">Revisa tu conexión a internet</string>
+    <!--new--> <string name="mah_android_upd_play_service_not_found">Por favor instala Google Play Services para actualizar la aplicación</string>
+    <string name="mah_android_upd_info_popup_text">MAHAndroidUpdater library</string>
 </resources>

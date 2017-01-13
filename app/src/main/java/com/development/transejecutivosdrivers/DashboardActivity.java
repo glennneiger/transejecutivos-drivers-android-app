@@ -14,11 +14,13 @@ import android.widget.Toast;
 
 import com.development.transejecutivosdrivers.adapters.DashboardMenuAdapter;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
+import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.background_services.BackgroundService;
 import com.development.transejecutivosdrivers.background_services.BackgroundServiceManager;
 import com.development.transejecutivosdrivers.misc.CacheManager;
 import com.development.transejecutivosdrivers.misc.DialogCreator;
 import com.development.transejecutivosdrivers.models.DashboardMenu;
+import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 
 public class DashboardActivity extends ActivityBase implements AdapterView.OnItemClickListener {
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -46,6 +48,8 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
         gridView.setAdapter(adaptador);
 
         gridView.setOnItemClickListener(this);
+
+        MAHUpdaterController.init(this, ApiConstants.URL_APP_VERSION);
     }
 
     @Override
@@ -63,6 +67,12 @@ public class DashboardActivity extends ActivityBase implements AdapterView.OnIte
         //moveTaskToBack(true);
         //finish();
         this.finishAffinity();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MAHUpdaterController.end();
     }
 
     @Override

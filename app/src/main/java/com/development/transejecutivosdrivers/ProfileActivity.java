@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.models.User;
+import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +77,13 @@ public class ProfileActivity extends ActivityBase implements LoaderManager.Loade
             }
         });
 
+        MAHUpdaterController.init(this, ApiConstants.URL_APP_VERSION);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MAHUpdaterController.end();
     }
 
     private void setViews() {

@@ -28,6 +28,7 @@ import com.development.transejecutivosdrivers.fragments.ServicesListFragment;
 import com.development.transejecutivosdrivers.models.Date;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
+import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,8 +77,15 @@ public class SearchserviceActivity extends ActivityBase {
                 searchService();
             }
         });
+
+        MAHUpdaterController.init(this, ApiConstants.URL_APP_VERSION);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MAHUpdaterController.end();
+    }
 
     public void searchService() {
         DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);

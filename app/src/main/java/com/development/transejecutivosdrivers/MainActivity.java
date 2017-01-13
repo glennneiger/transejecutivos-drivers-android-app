@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
+import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.fragments.ServicesListFragment;
 import com.development.transejecutivosdrivers.misc.CacheManager;
+import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 
 public class MainActivity extends ActivityBase {
     public ServicesListFragment servicesListFragment;
@@ -18,12 +20,15 @@ public class MainActivity extends ActivityBase {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         validateSession();
         setFragment();
+
+        MAHUpdaterController.init(this, ApiConstants.URL_APP_VERSION);
     }
 
     @Override
@@ -42,6 +47,12 @@ public class MainActivity extends ActivityBase {
         checkGooglePlayServices();
         CacheManager cacheManager = new CacheManager(getApplicationContext(), JsonKeys.SERVICE_PREF, JsonKeys.SERVICE_KEY);
         cacheManager.cleanData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MAHUpdaterController.end();
     }
 
     protected void setFragment() {

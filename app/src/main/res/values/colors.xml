@@ -15,4 +15,15 @@
     <color name="green">#B2B072</color>
     <color name="blue">#2C7699</color>
     <color name="orange">#CC7E06</color>
+
+    <!-- Updater colors -->
+    <color name="mah_android_upd_window_background_color">#FFFFFFFF</color>
+    <color name="mah_android_upd_title_bar_color">#607D8B</color>
+    <color name="mah_android_upd_info_txt_color">#607D8B</color>
+
+    <color name="mah_android_upd_restricter_dlg_btn_pressed_color">#B2B072</color>
+    <color name="mah_android_upd_restricter_dlg_btn_dark_state_color">#B2B072</color>
+    <color name="mah_android_upd_restricter_dlg_btn_light_state_color">#ffffffff</color>
+
+    <color name="mah_android_upd_upd_dlg_btn_text_color">#CC7E06</color>
 </resources>

@@ -26,6 +26,7 @@ import com.development.transejecutivosdrivers.holders.ServiceHolder;
 import com.development.transejecutivosdrivers.misc.CacheManager;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
+import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,8 +76,16 @@ public class ServiceActivity extends ActivityBase {
 
         idService = cacheManager.getData(JsonKeys.SERVICE_ID);
         getService();
+
+        MAHUpdaterController.init(this, ApiConstants.URL_APP_VERSION);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MAHUpdaterController.end();
+    }
 
     @Override
     protected void onRestart() {

@@ -17,6 +17,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
+import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -52,6 +54,14 @@ public class RecoverpassActivity extends ActivityBase {
                 recoverPassword();
             }
         });
+
+        MAHUpdaterController.init(this, ApiConstants.URL_APP_VERSION);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MAHUpdaterController.end();
     }
 
     private void recoverPassword() {

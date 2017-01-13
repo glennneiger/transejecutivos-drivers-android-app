@@ -37,6 +37,7 @@ import com.development.transejecutivosdrivers.models.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -152,6 +153,8 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
                 showProgress(false, mLoginFormView, mProgressView);
             }
         };
+
+        MAHUpdaterController.init(this, ApiConstants.URL_APP_VERSION);
     }
 
     @Override
@@ -167,6 +170,12 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
     protected void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MAHUpdaterController.end();
     }
 
     @Override
