@@ -42,4 +42,6 @@ public class ApiConstants {
     public static final String URL_SEARCH_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SEARCH_SERVICE;
     public static final String URL_RESET_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + RESET_SERVICE;
     public static final String URL_SUPPORT_PHONE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SUPPORT_PHONE;
+
+    public static final String URL_TEST = URL_BASE + "/" + API + "/" + API_VERSION + "/lala";
 }

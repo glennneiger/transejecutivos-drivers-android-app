@@ -483,13 +483,11 @@ public class ServiceOptionsFragment extends FragmentBase  {
             showProgress(false, finish_form, progressBar);
             disableButtons();
 
-            if (errorBackground) {
-                setErrorSnackBar(message);
-            } else {
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_LONG).show();
 
-            reload();
+            if (!errorBackground) {
+                reload();
+            }
         }
 
         protected void validateResponse(String response) {

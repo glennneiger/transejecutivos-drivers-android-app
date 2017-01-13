@@ -2,8 +2,10 @@ package com.development.transejecutivosdrivers.fragments;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +24,22 @@ import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.MainActivity;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.ServiceActivity;
+import com.development.transejecutivosdrivers.adapters.Const;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
+import com.development.transejecutivosdrivers.misc.RequestHandler;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,6 +66,8 @@ public class ServiceTracingFragment extends FragmentBase  {
 
     String start = "";
     String end = "";
+
+    FinishTrace finishTrace = null;
 
     public ServiceTracingFragment() {
 
@@ -184,7 +195,11 @@ public class ServiceTracingFragment extends FragmentBase  {
             button_finish_tracing.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setTracing();
+                    final String observations = txtview_observations.getText().toString();
+                    start = (String) txtview_start_time.getText();
+                    end = (String) txtview_end_time.getText();
+                    finishTrace = new FinishTrace(start, end, observations);
+                    finishTrace.execute();
                 }
             });
         }
@@ -280,6 +295,7 @@ public class ServiceTracingFragment extends FragmentBase  {
         }
     }
 
+    /*
     private void setTracing() {
         showProgress(true, formContainer, progressBar);
 
@@ -352,6 +368,78 @@ public class ServiceTracingFragment extends FragmentBase  {
         }
         catch (JSONException ex) {
             ex.printStackTrace();
+        }
+    }
+    */
+
+    private class FinishTrace extends AsyncTask<String, Void, Void> {
+        public String data, message = Const.CONST_MSG_ERROR_SERVER;
+        public boolean errorBackground = true;
+        private String observations;
+        private String start;
+        private String end;
+
+        public FinishTrace(String start, String end, String observations) {
+            this.observations = observations;
+            this.start = start;
+            this.end = end;
+        }
+
+        protected void onPreExecute(){
+            super.onPreExecute();
+            showProgress(true, formContainer, progressBar);
+        }
+        @Override
+        protected Void doInBackground(String... arg) {
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair(JsonKeys.TRACING_START, this.start));
+            params.add(new BasicNameValuePair(JsonKeys.TRACING_END, this.end));
+            params.add(new BasicNameValuePair(JsonKeys.TRACING_OBSERVATIONS, this.observations));
+            params.add(new BasicNameValuePair(JsonKeys.TRACING_IMAGE, image));
+            params.add(new BasicNameValuePair(JsonKeys.APP_VERSION, getString(R.string.prompt_app_version)));
+
+            RequestHandler requestHandler = new RequestHandler();
+
+            String response = requestHandler.makeServiceCall(ApiConstants.URL_FINISH_SERVICE + "/" + service.getIdService(),requestHandler.POST, params, user.getApikey());
+
+            Log.d("LALA RES", response);
+
+            if(response != null && response != ""){
+                this.validateResponse(response);
+            } else {
+                errorBackground = true;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result){
+            super.onPostExecute(result);
+            showProgress(false, formContainer, progressBar);
+
+            Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_LONG).show();
+
+            if (!errorBackground) {
+                reload();
+            }
+        }
+
+        protected void validateResponse(String response) {
+            try {
+                JSONObject resObj = new JSONObject(response);
+                Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+                message = resObj.getString(JsonKeys.MESSAGE);
+                if (!error) {
+                    errorBackground = false;
+                }
+                else {
+                    errorBackground = true;
+                }
+            }
+            catch (JSONException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }

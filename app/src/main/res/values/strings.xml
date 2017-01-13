@@ -13,7 +13,7 @@
     <string name="error_invalid_login">Usuario o contraseña incorrecta</string>
 
     <!-- General Strings -->
-    <string name="error_general">Se perdió la conexión a internet momentaneamente, por favor intenta de nuevo</string>
+    <string name="error_general">Ha ocurrido un error, por favor contacta a soporte</string>
     <string name="server_error">Ocurrió un error, por favor contacta a soporte</string>
     <string name="no_services">No hay servicios para mostrar</string>
     <string name="accept_button">Aceptar</string>
