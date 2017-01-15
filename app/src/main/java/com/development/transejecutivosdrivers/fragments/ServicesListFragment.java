@@ -223,7 +223,9 @@ public class ServicesListFragment extends FragmentBase {
                 JSONArray servicesJsonArray = resObj.getJSONArray(JsonKeys.SERVICES);
                 JSONArray datesJsonArray = resObj.getJSONArray(JsonKeys.DATES);
                 if (servicesJsonArray.length() <= 0) {
-                    setErrorSnackBar(getResources().getString(R.string.no_services));
+                    if (isAdded()){
+                        setErrorSnackBar(getResources().getString(R.string.no_services));
+                    }
                 }
                 else {
                     Deserializer deserializer = new Deserializer();
