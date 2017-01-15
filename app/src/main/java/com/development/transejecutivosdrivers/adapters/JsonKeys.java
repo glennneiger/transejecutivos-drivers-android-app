@@ -58,9 +58,13 @@ public class JsonKeys {
     public static final String SERVICE_OLD = "old";
     public static final String SERVICE_TRACE_ID = "trace_id";
     public static final String SERVICE_B1HA = "b1ha";
+    public static final String SERVICE_B1HA_TIME = "b1haTime";
     public static final String SERVICE_BLS = "bls";
+    public static final String SERVICE_BLS_TIME = "blsTime";
     public static final String SERVICE_PAB = "pab";
+    public static final String SERVICE_PAB_TIME = "pabTime";
     public static final String SERVICE_ST = "st";
+    public static final String SERVICE_ST_TIME = "stTime";
     public static final String SERVICE_B1HA_STATUS = "b1haStatus";
 
     /**

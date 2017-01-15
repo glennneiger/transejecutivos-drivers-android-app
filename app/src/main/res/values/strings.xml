@@ -144,6 +144,12 @@
     <string name="cancel_permission_location">Esta aplicación necesita permiso para realizar llamadas telefónicas, al no aceptar la solicitud, no podrá usar esta funcionalidad.</string>
     <string name="title_activity_splash">Transportes Ejecutivos</string>
 
+    <!-- Service Completed-->
+    <string name="bh1a_time">Botón de 1 hora antes: </string>
+    <string name="bls_time">llegó al sitio: </string>
+    <string name="pab_time">Hora de incio: </string>
+    <string name="st_time">Hora de fin: </string>
+
     <!-- Updater -->
     <string name="mah_android_upd_dlg_title">Información</string>
     <!-- Button texts-->

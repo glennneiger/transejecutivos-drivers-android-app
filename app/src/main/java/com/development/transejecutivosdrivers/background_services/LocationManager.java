@@ -41,9 +41,10 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
     protected GoogleApiClient mGoogleApiClient = null;
     protected Location mLastLocation;
     protected LocationRequest mLocationRequest = null;
-    protected int UPDATE_INTERVAL = 5000; // 5 sec
-    protected int FATEST_INTERVAL = 10000; // 10000 sec
+    protected int UPDATE_INTERVAL = 10000; // 10 sec
+    protected int FATEST_INTERVAL = 8000; // 8000 sec
     protected int TOTAL_UPDATES = 10000;
+    protected int DISPLACEMENT_METERS = 5;
     protected int UPDATES = 1;
 
 
@@ -100,6 +101,8 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(UPDATE_INTERVAL);
         mLocationRequest.setFastestInterval(FATEST_INTERVAL);
+        mLocationRequest.setNumUpdates(TOTAL_UPDATES);
+        //mLocationRequest.setSmallestDisplacement(DISPLACEMENT_METERS);
     }
 
     @Override

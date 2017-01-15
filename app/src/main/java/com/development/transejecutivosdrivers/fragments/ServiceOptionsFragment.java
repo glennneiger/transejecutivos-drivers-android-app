@@ -2,6 +2,7 @@ package com.development.transejecutivosdrivers.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,8 +19,10 @@ import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.R;
@@ -58,7 +61,11 @@ public class ServiceOptionsFragment extends FragmentBase  {
     Button btn_finish_service;
     Button btn_reset_service;
     EditText txtview_observations;
-    TextView txt_service_complete;
+
+    View service_complete_container;
+    TextView txt_service_start;
+    TextView txt_service_end;
+    ImageView imgview_service_map;
 
     FinishService finishService = null;
 
@@ -92,7 +99,10 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
         btn_call_passenger = (Button) view.findViewById(R.id.btn_call_passenger);
 
-        txt_service_complete = (TextView) view.findViewById(R.id.txt_service_complete);
+        service_complete_container = view.findViewById(R.id.service_complete_container);
+        txt_service_start = (TextView) view.findViewById(R.id.txt_service_start);
+        txt_service_end = (TextView) view.findViewById(R.id.txt_service_end);
+        imgview_service_map = (ImageView) view.findViewById(R.id.imgview_service_map);
 
         btn_onmyway = (Button) view.findViewById(R.id.btn_onmyway);
         btn_on_source = (Button) view.findViewById(R.id.btn_on_source);
@@ -348,10 +358,10 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     scheduleAlarm(JsonKeys.PRELOCATION);
                 }
                 else if (btn.equals("bls")) {
-                    cancelAlarm();
+                    //cancelAlarm();
                 }
                 else if (btn.equals("pab")) {
-                    cancelAlarm();
+                    //cancelAlarm();
                     scheduleAlarm(JsonKeys.ONSERVICE);
                 }
                 else if (btn.equals("st")) {
@@ -424,7 +434,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
         else {
-            txt_service_complete.setVisibility(View.VISIBLE);
+            showServiceResume();
             btn_reset_service.setVisibility(View.VISIBLE);
 
             btn_on_source.setEnabled(false);
@@ -441,6 +451,32 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_start_service.setVisibility(View.GONE);
             btn_finish_service.setVisibility(View.GONE);
         }
+    }
+
+    private void showServiceResume() {
+        txt_service_start.setText(getResources().getString(R.string.pab_time) + " " + service.getPabTime());
+        txt_service_end.setText(getResources().getString(R.string.st_time) + " " + service.getStTime());
+
+        String durl = ApiConstants.URL_IMAGE_MAP + service.getReference() + ".dd";
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        ImageRequest drequest = new ImageRequest(durl,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        imgview_service_map.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        imgview_service_map.setImageResource(R.drawable.image_not_found);
+                    }
+                });
+
+        requestQueue.add(drequest);
+
+        service_complete_container.setVisibility(View.VISIBLE);
     }
 
     private class FinishService extends AsyncTask<String, Void, Void> {

@@ -202,8 +202,9 @@ public class ServiceFragment extends FragmentBase {
                 }
                 else {
                     Toast.makeText(getActivity(), getResources().getString(R.string.service_accept_message), Toast.LENGTH_SHORT).show();
-                    reload();
                 }
+
+                reload();
             }
             else {
                 setErrorSnackBar(getResources().getString(R.string.error_general));

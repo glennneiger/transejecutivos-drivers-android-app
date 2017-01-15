@@ -193,15 +193,17 @@ public class FragmentBase extends Fragment {
 
 
     public void setErrorSnackBar(String message) {
-        Snackbar snackbar = Snackbar
-                .make(view, message, Snackbar.LENGTH_LONG);
+        if(isAdded()){
+            Snackbar snackbar = Snackbar
+                    .make(view, message, Snackbar.LENGTH_LONG);
 
-        snackbar.show();
+            snackbar.show();
 
-        View snackBarView = snackbar.getView();
-        snackBarView.setBackgroundColor(getResources().getColor(R.color.colorError));
-        TextView txtv = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
-        txtv.setGravity(Gravity.CENTER);
+            View snackBarView = snackbar.getView();
+            snackBarView.setBackgroundColor(getResources().getColor(R.color.colorError));
+            TextView txtv = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+            txtv.setGravity(Gravity.CENTER);
+        }
     }
 
     public void setSuccesSnackBar(String message) {

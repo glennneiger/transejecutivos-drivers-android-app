@@ -22,10 +22,46 @@ public class Service {
     String aeroline;
     int idTrace;
     String b1ha;
+    String b1haTime;
     String bls;
+    String blsTime;
     String pab;
+    String pabTime;
     String st;
+    String stTime;
     int b1haStatus;
+
+    public String getB1haTime() {
+        return b1haTime;
+    }
+
+    public void setB1haTime(String b1haTime) {
+        this.b1haTime = b1haTime;
+    }
+
+    public String getBlsTime() {
+        return blsTime;
+    }
+
+    public void setBlsTime(String blsTime) {
+        this.blsTime = blsTime;
+    }
+
+    public String getPabTime() {
+        return pabTime;
+    }
+
+    public void setPabTime(String pabTime) {
+        this.pabTime = pabTime;
+    }
+
+    public String getStTime() {
+        return stTime;
+    }
+
+    public void setStTime(String stTime) {
+        this.stTime = stTime;
+    }
 
     public String getStartTime() {
         return startTime;
