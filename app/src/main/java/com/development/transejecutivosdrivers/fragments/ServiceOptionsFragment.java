@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Network;
@@ -72,6 +71,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
     View service_complete_container;
     TextView txt_service_start;
     TextView txt_service_end;
+    TextView txt_service_trace_observations;
     ImageView imgview_service_map;
 
     FinishService finishService = null;
@@ -111,6 +111,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
         service_complete_container = view.findViewById(R.id.service_complete_container);
         txt_service_start = (TextView) view.findViewById(R.id.txt_service_start);
         txt_service_end = (TextView) view.findViewById(R.id.txt_service_end);
+        txt_service_trace_observations = (TextView) view.findViewById(R.id.txt_service_trace_observations);
         imgview_service_map = (ImageView) view.findViewById(R.id.imgview_service_map);
 
         btn_onmyway = (Button) view.findViewById(R.id.btn_onmyway);
@@ -369,7 +370,8 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                (int) TimeUnit.SECONDS.toMillis(30),
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
@@ -464,7 +466,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
         else {
-            showServiceResume();
+            showServiceSummary();
             btn_reset_service.setVisibility(View.VISIBLE);
 
             btn_on_source.setEnabled(false);
@@ -483,9 +485,10 @@ public class ServiceOptionsFragment extends FragmentBase  {
         }
     }
 
-    private void showServiceResume() {
-        txt_service_start.setText(getResources().getString(R.string.pab_time) + " " + service.getPabTime());
-        txt_service_end.setText(getResources().getString(R.string.st_time) + " " + service.getStTime());
+    private void showServiceSummary() {
+        txt_service_start.setText(getResources().getString(R.string.pab_time) + " " + service.getStartTime());
+        txt_service_end.setText(getResources().getString(R.string.st_time) + " " + service.getEndTime());
+        txt_service_trace_observations.setText(service.getTraceObservations());
 
         String durl = ApiConstants.URL_IMAGE_MAP + service.getReference() + ".png";
 

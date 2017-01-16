@@ -29,10 +29,19 @@ public class Service {
     String pabTime;
     String st;
     String stTime;
+    String traceObservations;
     int b1haStatus;
 
     public String getB1haTime() {
         return b1haTime;
+    }
+
+    public String getTraceObservations() {
+        return traceObservations;
+    }
+
+    public void setTraceObservations(String traceObservations) {
+        this.traceObservations = traceObservations;
     }
 
     public void setB1haTime(String b1haTime) {

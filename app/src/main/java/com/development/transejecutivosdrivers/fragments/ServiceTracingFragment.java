@@ -2,6 +2,8 @@ package com.development.transejecutivosdrivers.fragments;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,10 +23,12 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.MainActivity;
@@ -48,6 +52,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by william.montiel on 31/03/2016.
@@ -62,7 +67,11 @@ public class ServiceTracingFragment extends FragmentBase  {
     TextView txtview_end_time;
     TextView txtview_service_reference;
 
-    TextView txt_service_complete;
+    View service_complete_container;
+    TextView txt_service_start;
+    TextView txt_service_end;
+    TextView txt_service_trace_observations;
+
     TextView set_time_instructions;
     TextView service_instruction1;
     TextView service_instruction2;
@@ -106,7 +115,10 @@ public class ServiceTracingFragment extends FragmentBase  {
         service_instruction1 = (TextView) view.findViewById(R.id.service_instruction1);
         service_instruction2 = (TextView) view.findViewById(R.id.service_instruction2);
 
-        txt_service_complete = (TextView) view.findViewById(R.id.txt_service_complete);
+        service_complete_container = view.findViewById(R.id.service_complete_container);
+        txt_service_start = (TextView) view.findViewById(R.id.txt_service_start);
+        txt_service_end = (TextView) view.findViewById(R.id.txt_service_end);
+        txt_service_trace_observations = (TextView) view.findViewById(R.id.txt_service_trace_observations);
 
         button_set_start_time = (Button) view.findViewById(R.id.button_set_start_time);
         button_set_end_time = (Button) view.findViewById(R.id.button_set_end_time);
@@ -146,9 +158,16 @@ public class ServiceTracingFragment extends FragmentBase  {
 
         if (this.service != null && !TextUtils.isEmpty(this.service.getEndTime()) && !TextUtils.isEmpty(this.service.getStartTime())) {
             set_time_instructions.setVisibility(View.GONE);
-            txt_service_complete.setVisibility(View.VISIBLE);
+            showServiceSummary();
             btn_reset_service.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void showServiceSummary() {
+        txt_service_start.setText(getResources().getString(R.string.pab_time) + " " + service.getStartTime());
+        txt_service_end.setText(getResources().getString(R.string.st_time) + " " + service.getEndTime());
+        txt_service_trace_observations.setText(service.getTraceObservations());
+        service_complete_container.setVisibility(View.VISIBLE);
     }
 
     private void setOnClickListeners() {
@@ -262,6 +281,10 @@ public class ServiceTracingFragment extends FragmentBase  {
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + 313702226));
+                        intent.putExtra("sms_body", "lala");
+                        startActivity(intent);
+
                         showProgress(false, formContainer, progressBar);
                         validateResponse(response);
                     }
@@ -377,7 +400,8 @@ public class ServiceTracingFragment extends FragmentBase  {
             }
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                (int) TimeUnit.SECONDS.toMillis(30),
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
