@@ -38,15 +38,6 @@ public class RequestHandler{
      * Making service call
      * @url - url to make request
      * @method - http request method
-     * */
-    public String makeServiceCall(String url, int method) {
-        return this.makeServiceCall(url, method, null,null);
-    }
-
-    /*
-     * Making service call
-     * @url - url to make request
-     * @method - http request method
      * @params - http request params
      * */
     public String makeServiceCall(String url, int method,

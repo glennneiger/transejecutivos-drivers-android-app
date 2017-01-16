@@ -16,12 +16,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -32,6 +38,7 @@ import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.misc.CacheManager;
 import com.development.transejecutivosdrivers.misc.RequestHandler;
+import com.development.transejecutivosdrivers.misc.VolleyErrorHandler;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
@@ -68,6 +75,8 @@ public class ServiceOptionsFragment extends FragmentBase  {
     ImageView imgview_service_map;
 
     FinishService finishService = null;
+
+    RequestQueue mRequestQueue;
 
     public ServiceOptionsFragment() {
 
@@ -284,9 +293,12 @@ public class ServiceOptionsFragment extends FragmentBase  {
         button_finish_tracing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 final String observations = txtview_observations.getText().toString();
                 finishService = new FinishService(observations);
                 finishService.execute();
+                */
+                finishService();
             }
         });
     }
@@ -296,7 +308,17 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
         final String observations = txtview_observations.getText().toString();
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        // Instantiate the cache
+        Cache cache = new DiskBasedCache(getActivity().getCacheDir(), 1024 * 1024); // 1MB cap
+
+        // Set up the network to use HttpURLConnection as the HTTP client.
+        Network network = new BasicNetwork(new HurlStack());
+
+        // Instantiate the RequestQueue with the cache and network.
+        mRequestQueue = new RequestQueue(cache, network);
+
+        // Start the queue
+        mRequestQueue.start();
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -313,8 +335,16 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, finish_form, progressBar);
+                        if (isAdded()) {
+                            VolleyErrorHandler voleyErrorHandler = new VolleyErrorHandler();
+                            voleyErrorHandler.setVolleyError(error);
+                            voleyErrorHandler.process();
+                            String msg = voleyErrorHandler.getMessage();
+                            String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
+
+                            setErrorSnackBar(message);
+                            showProgress(false, layout, progressBar);
+                        }
                     }
                 }) {
 
@@ -343,7 +373,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        requestQueue.add(stringRequest);
+        mRequestQueue.add(stringRequest);
     }
 
     protected void  validateResponse(String response, String btn) {
@@ -358,10 +388,10 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     scheduleAlarm(JsonKeys.PRELOCATION);
                 }
                 else if (btn.equals("bls")) {
-                    //cancelAlarm();
+                    cancelAlarm();
                 }
                 else if (btn.equals("pab")) {
-                    //cancelAlarm();
+                    cancelAlarm();
                     scheduleAlarm(JsonKeys.ONSERVICE);
                 }
                 else if (btn.equals("st")) {
@@ -457,7 +487,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
         txt_service_start.setText(getResources().getString(R.string.pab_time) + " " + service.getPabTime());
         txt_service_end.setText(getResources().getString(R.string.st_time) + " " + service.getStTime());
 
-        String durl = ApiConstants.URL_IMAGE_MAP + service.getReference() + ".dd";
+        String durl = ApiConstants.URL_IMAGE_MAP + service.getReference() + ".png";
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 

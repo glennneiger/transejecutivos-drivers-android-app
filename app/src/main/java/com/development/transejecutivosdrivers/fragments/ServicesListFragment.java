@@ -4,17 +4,23 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Network;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.R;
@@ -24,6 +30,7 @@ import com.development.transejecutivosdrivers.adapters.ServiceExpandableListAdap
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.deserializers.Deserializer;
 import com.development.transejecutivosdrivers.misc.CacheManager;
+import com.development.transejecutivosdrivers.misc.VolleyErrorHandler;
 import com.development.transejecutivosdrivers.models.Date;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
@@ -33,6 +40,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,7 +93,18 @@ public class ServicesListFragment extends FragmentBase {
 
     public void searchPendingServices() {
         showProgress(true, layout, progressBar);
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+
+        // Instantiate the cache
+        Cache cache = new DiskBasedCache(getActivity().getCacheDir(), 1024 * 1024); // 1MB cap
+
+        // Set up the network to use HttpURLConnection as the HTTP client.
+        Network network = new BasicNetwork(new HurlStack());
+
+        // Instantiate the RequestQueue with the cache and network.
+        RequestQueue mRequestQueue = new RequestQueue(cache, network);
+
+        // Start the queue
+        mRequestQueue.start();
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
@@ -99,8 +118,16 @@ public class ServicesListFragment extends FragmentBase {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, layout, progressBar);
+                        if (isAdded()) {
+                            VolleyErrorHandler voleyErrorHandler = new VolleyErrorHandler();
+                            voleyErrorHandler.setVolleyError(error);
+                            voleyErrorHandler.process();
+                            String msg = voleyErrorHandler.getMessage();
+                            String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
+
+                            setErrorSnackBar(message);
+                            showProgress(false, layout, progressBar);
+                        }
                     }
                 }) {
 
@@ -118,7 +145,7 @@ public class ServicesListFragment extends FragmentBase {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        requestQueue.add(stringRequest);
+        mRequestQueue.add(stringRequest);
     }
 
     public void validateSearchPendingServiceResponse(String response) {

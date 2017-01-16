@@ -27,4 +27,5 @@ public class Const {
 
     //URL
     final static public String CONST_MSG_URL_ERROR = "Ocurrió un error, url no valida";
+    final static public String error404 = "Recurso no encontrado";
 }

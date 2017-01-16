@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,10 +14,15 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 
+import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
@@ -25,6 +31,7 @@ import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.deserializers.Deserializer;
 import com.development.transejecutivosdrivers.fragments.ServiceFragment;
 import com.development.transejecutivosdrivers.fragments.ServicesListFragment;
+import com.development.transejecutivosdrivers.misc.VolleyErrorHandler;
 import com.development.transejecutivosdrivers.models.Date;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
@@ -93,7 +100,11 @@ public class SearchserviceActivity extends ActivityBase {
         final String date = String.format("%02d", (datePicker.getMonth() + 1)) + "/" + String.format("%02d", (datePicker.getDayOfMonth())) + "/" + datePicker.getYear();
 
         showProgress(true, search_service_form, search_service_progress);
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024);
+        Network network = new BasicNetwork(new HurlStack());
+        RequestQueue mRequestQueue = new RequestQueue(cache, network);
+        mRequestQueue.start();
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -107,7 +118,13 @@ public class SearchserviceActivity extends ActivityBase {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(search_service_activity, getString(R.string.error_general));
+                        VolleyErrorHandler voleyErrorHandler = new VolleyErrorHandler();
+                        voleyErrorHandler.setVolleyError(error);
+                        voleyErrorHandler.process();
+                        String msg = voleyErrorHandler.getMessage();
+                        String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
+
+                        setErrorSnackBar(search_service_activity, message);
                         showProgress(false, search_service_form, search_service_progress);
                     }
                 }) {
@@ -133,7 +150,7 @@ public class SearchserviceActivity extends ActivityBase {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        requestQueue.add(stringRequest);
+        mRequestQueue.add(stringRequest);
     }
 
 

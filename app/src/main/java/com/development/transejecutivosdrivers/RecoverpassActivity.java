@@ -9,14 +9,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
+import com.development.transejecutivosdrivers.misc.VolleyErrorHandler;
 import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 
 import org.json.JSONException;
@@ -81,7 +87,10 @@ public class RecoverpassActivity extends ActivityBase {
         }
 
         if (!cancel) {
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            Cache cache = new DiskBasedCache(getApplicationContext().getCacheDir(), 1024 * 1024);
+            Network network = new BasicNetwork(new HurlStack());
+            RequestQueue mRequestQueue = new RequestQueue(cache, network);
+            mRequestQueue.start();
 
             StringRequest stringRequest = new StringRequest(
                     Request.Method.POST,
@@ -95,8 +104,13 @@ public class RecoverpassActivity extends ActivityBase {
                     new com.android.volley.Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            VolleyErrorHandler voleyErrorHandler = new VolleyErrorHandler();
+                            voleyErrorHandler.setVolleyError(error);
+                            voleyErrorHandler.process();
+                            String msg = voleyErrorHandler.getMessage();
+                            String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.error_general) : msg);
                             showProgress(false, recoverFormView, recoverProgressView);
-                            setErrorSnackBar(recoverpassLayout, getResources().getString(R.string.error_general));
+                            setErrorSnackBar(recoverpassLayout, message);
                         }
                     }) {
 
@@ -115,7 +129,7 @@ public class RecoverpassActivity extends ActivityBase {
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-            requestQueue.add(stringRequest);
+            mRequestQueue.add(stringRequest);
         }
         else {
             showProgress(false, recoverFormView, recoverProgressView);

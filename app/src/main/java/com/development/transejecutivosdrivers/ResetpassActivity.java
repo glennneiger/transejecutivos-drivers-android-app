@@ -13,14 +13,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
+import com.development.transejecutivosdrivers.misc.VolleyErrorHandler;
 import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 
 import org.json.JSONException;
@@ -161,7 +167,10 @@ public class ResetpassActivity extends ActivityBase implements LoaderManager.Loa
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            Cache cache = new DiskBasedCache(getApplicationContext().getCacheDir(), 1024 * 1024);
+            Network network = new BasicNetwork(new HurlStack());
+            RequestQueue mRequestQueue = new RequestQueue(cache, network);
+            mRequestQueue.start();
 
             StringRequest stringRequest = new StringRequest(
                     Request.Method.POST,
@@ -176,7 +185,12 @@ public class ResetpassActivity extends ActivityBase implements LoaderManager.Loa
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             onCancelled();
-                            setErrorSnackBar(layout, getResources().getString(R.string.error_general));
+                            VolleyErrorHandler voleyErrorHandler = new VolleyErrorHandler();
+                            voleyErrorHandler.setVolleyError(error);
+                            voleyErrorHandler.process();
+                            String msg = voleyErrorHandler.getMessage();
+                            String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
+                            setErrorSnackBar(layout, message);
                         }
                     }) {
 
@@ -196,7 +210,7 @@ public class ResetpassActivity extends ActivityBase implements LoaderManager.Loa
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//DEFAULT_MAX_RETRIES = 1;
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-            requestQueue.add(stringRequest);
+            mRequestQueue.add(stringRequest);
             return true;
         }
 
