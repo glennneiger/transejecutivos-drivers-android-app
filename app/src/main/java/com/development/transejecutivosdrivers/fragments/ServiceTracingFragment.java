@@ -68,8 +68,6 @@ public class ServiceTracingFragment extends FragmentBase  {
     TextView txtview_service_reference;
 
     View service_complete_container;
-    TextView txt_service_start;
-    TextView txt_service_end;
     TextView txt_service_trace_observations;
 
     TextView set_time_instructions;
@@ -116,8 +114,6 @@ public class ServiceTracingFragment extends FragmentBase  {
         service_instruction2 = (TextView) view.findViewById(R.id.service_instruction2);
 
         service_complete_container = view.findViewById(R.id.service_complete_container);
-        txt_service_start = (TextView) view.findViewById(R.id.txt_service_start);
-        txt_service_end = (TextView) view.findViewById(R.id.txt_service_end);
         txt_service_trace_observations = (TextView) view.findViewById(R.id.txt_service_trace_observations);
 
         button_set_start_time = (Button) view.findViewById(R.id.button_set_start_time);
@@ -164,8 +160,6 @@ public class ServiceTracingFragment extends FragmentBase  {
     }
 
     private void showServiceSummary() {
-        txt_service_start.setText(getResources().getString(R.string.pab_time) + " " + service.getStartTime());
-        txt_service_end.setText(getResources().getString(R.string.st_time) + " " + service.getEndTime());
         txt_service_trace_observations.setText(service.getTraceObservations());
         service_complete_container.setVisibility(View.VISIBLE);
     }
@@ -281,10 +275,6 @@ public class ServiceTracingFragment extends FragmentBase  {
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + 313702226));
-                        intent.putExtra("sms_body", "lala");
-                        startActivity(intent);
-
                         showProgress(false, formContainer, progressBar);
                         validateResponse(response);
                     }

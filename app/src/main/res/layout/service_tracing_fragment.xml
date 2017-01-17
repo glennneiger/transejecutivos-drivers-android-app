@@ -123,22 +123,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txt_service_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:textSize="18dp"
-                    android:textColor="@color/colorPrimaryText" />
-
-                <TextView
-                    android:id="@+id/txt_service_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textSize="18dp"
-                    android:textColor="@color/colorPrimaryText"/>
-
-                <TextView
                     android:id="@+id/txt_service_trace_observations"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -196,6 +180,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:id="@+id/txtview_observations"
+                android:maxLength="400"
                 android:visibility="gone"
                 android:layout_gravity="center_horizontal" />
 

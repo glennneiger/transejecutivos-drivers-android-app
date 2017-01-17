@@ -70,6 +70,7 @@
                     android:hint="@string/prompt_password1"
                     android:inputType="textPassword"
                     android:maxLines="1"
+                    android:maxLength="100"
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
@@ -89,6 +90,7 @@
                     android:hint="@string/prompt_password2"
                     android:inputType="textPassword"
                     android:maxLines="1"
+                    android:maxLength="100"
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>

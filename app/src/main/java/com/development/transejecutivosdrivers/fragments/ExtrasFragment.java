@@ -189,7 +189,7 @@ public class ExtrasFragment extends FragmentBase {
                                 String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
 
                                 setErrorSnackBar(message);
-                                showProgress(false, layout, progressBar);
+                                showProgress(false, no_show_form, service_option_progress);
                             }
                         }
                     }) {
@@ -240,8 +240,16 @@ public class ExtrasFragment extends FragmentBase {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, extra_options_container, service_option_progress);
+                        if (isAdded()) {
+                            VolleyErrorHandler voleyErrorHandler = new VolleyErrorHandler();
+                            voleyErrorHandler.setVolleyError(error);
+                            voleyErrorHandler.process();
+                            String msg = voleyErrorHandler.getMessage();
+                            String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
+
+                            setErrorSnackBar(message);
+                            showProgress(false, extra_options_container, service_option_progress);
+                        }
                     }
                 }) {
 
@@ -311,6 +319,7 @@ public class ExtrasFragment extends FragmentBase {
     }
 
     private void validateResponse(String response) {
+        showProgress(false, no_show_form, service_option_progress);
         try {
             JSONObject resObj = new JSONObject(response);
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);

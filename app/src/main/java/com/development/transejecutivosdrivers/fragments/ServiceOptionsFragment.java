@@ -204,8 +204,16 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, buttons_container, progressBar);
+                        if (isAdded()) {
+                            VolleyErrorHandler voleyErrorHandler = new VolleyErrorHandler();
+                            voleyErrorHandler.setVolleyError(error);
+                            voleyErrorHandler.process();
+                            String msg = voleyErrorHandler.getMessage();
+                            String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
+
+                            setErrorSnackBar(message);
+                            showProgress(false, buttons_container, progressBar);
+                        }
                     }
                 }) {
 
@@ -245,9 +253,17 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        setErrorSnackBar(getResources().getString(R.string.error_general));
-                        showProgress(false, buttons_container, progressBar);
-                        cancelAlarm();
+                        if (isAdded()) {
+                            VolleyErrorHandler voleyErrorHandler = new VolleyErrorHandler();
+                            voleyErrorHandler.setVolleyError(error);
+                            voleyErrorHandler.process();
+                            String msg = voleyErrorHandler.getMessage();
+                            String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
+
+                            setErrorSnackBar(message);
+                            showProgress(false, buttons_container, progressBar);
+                            cancelAlarm();
+                        }
                     }
                 }) {
 
@@ -344,7 +360,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                             String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
 
                             setErrorSnackBar(message);
-                            showProgress(false, layout, progressBar);
+                            showProgress(false, finish_form, progressBar);
                         }
                     }
                 }) {

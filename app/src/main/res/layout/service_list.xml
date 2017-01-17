@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/shadow"
+    android:background="@color/colorPrimaryTextLight"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/card_view_services_list"
-        android:background="@color/colorSecondaryText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="1dp"
         android:layout_margin="5dp"
-        android:padding="10dp" >
+        android:padding="10dp"
+        card_view:cardBackgroundColor="@color/colorPrimaryTextLight">
 
         <LinearLayout
             android:layout_width="match_parent"

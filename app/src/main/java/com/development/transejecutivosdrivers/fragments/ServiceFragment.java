@@ -150,6 +150,7 @@ public class ServiceFragment extends FragmentBase {
 
     public void updateService(final int status) {
         if (this.service != null) {
+            showProgress(true, fragmentContainer, progressBar);
             final String idService = "" + this.service.getIdService();
             Cache cache = new DiskBasedCache(getActivity().getCacheDir(), 1024 * 1024);
             Network network = new BasicNetwork(new HurlStack());
@@ -175,7 +176,7 @@ public class ServiceFragment extends FragmentBase {
                                 String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
 
                                 setErrorSnackBar(message);
-                                showProgress(false, layout, progressBar);
+                                showProgress(false, fragmentContainer, progressBar);
                             }
                         }
                     }) {

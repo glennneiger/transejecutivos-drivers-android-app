@@ -186,6 +186,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:id="@+id/txtview_observations"
+                    android:maxLength="400"
                     android:layout_gravity="center_horizontal" />
 
 

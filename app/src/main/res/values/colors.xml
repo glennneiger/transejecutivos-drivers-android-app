@@ -6,10 +6,10 @@
     <color name="colorAccent">#9E9E9E</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#727272</color>
-    <color name="colorPrimaryTextLight">#FFFFFF</color>
+    <color name="colorPrimaryTextLight">#ffffff</color>
     <color name="icons">#212121</color>
     <color name="divider">#B6B6B6</color>
-    <color name="colorBackground">#C6C9CC</color>
+    <color name="colorBackground">#c6c9cc</color>
     <color name="colorError">#8F4430</color>
     <color name="shadow">#ddd</color>
     <color name="green">#B2B072</color>
