@@ -28,4 +28,14 @@ public class Const {
     //URL
     final static public String CONST_MSG_URL_ERROR = "Ocurrió un error, url no valida";
     final static public String error404 = "Recurso no encontrado";
+
+    public interface ACTION {
+        public static String MAIN_ACTION = "action.main";
+        public static String STARTFOREGROUND_ACTION = "action.startforeground";
+        public static String STOPFOREGROUND_ACTION = "action.stopforeground";
+    }
+
+    public interface NOTIFICATION_ID {
+        public static int FOREGROUND_SERVICE = 101;
+    }
 }

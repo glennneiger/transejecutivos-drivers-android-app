@@ -409,7 +409,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     cancelAlarm();
                 }
                 else if (btn.equals("pab")) {
-                    cancelAlarm();
                     scheduleAlarm(JsonKeys.ONSERVICE);
                 }
                 else if (btn.equals("st")) {

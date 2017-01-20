@@ -1,6 +1,8 @@
 package com.development.transejecutivosdrivers.background_services;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.IntentSender;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import com.development.transejecutivosdrivers.models.Service;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.fitness.data.Application;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
@@ -46,6 +49,9 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
     protected int TOTAL_UPDATES = 10000;
     protected int DISPLACEMENT_METERS = 5;
     protected int UPDATES = 1;
+    private boolean mResolvingError = false;
+    private static final int REQUEST_RESOLVE_ERROR = 1001;
+    protected Activity activity;
 
 
     Context context;
@@ -65,12 +71,18 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
         this.context = context;
     }
 
+    public void setApplication(Activity activity) {
+        this.activity = activity;
+    }
+
     public void start() {
+        Log.d("LALA", "start");
         if (checkGooglePlayServices()) {
             createLocationRequest();
             buildGoogleApiClient();
             if (mGoogleApiClient != null) {
                 mGoogleApiClient.connect();
+                Log.d("LALA", "connect 1");
             }
         } else {
 
@@ -87,12 +99,14 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
     }
 
     public synchronized void buildGoogleApiClient() {
+        Log.d("LALA", "buildGoogleApiClient");
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this.context)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
+            Log.d("LALA", "mGoogleApiClient");
         }
     }
 
@@ -103,19 +117,24 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
         mLocationRequest.setFastestInterval(FATEST_INTERVAL);
         mLocationRequest.setNumUpdates(TOTAL_UPDATES);
         //mLocationRequest.setSmallestDisplacement(DISPLACEMENT_METERS);
+        Log.d("LALA", "mLocationRequest");
     }
 
     @Override
     public void onConnected(Bundle connectionHint) {
+        Log.d("LALA", "onConnected");
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             startLocationUpdates();
+            Log.d("LALA", "connected 1");
         }
     }
 
     protected void startLocationUpdates() {
+        Log.d("LALA", "startLocationUpdates");
         try {
             if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+                Log.d("LALA", "requestLocationUpdates");
             }
         }
         catch (SecurityException e) {
@@ -124,32 +143,44 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
     }
 
     public void stopLocationUpdates() {
+        Log.d("LALA", "stopLocationUpdates");
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            Log.d("LALA", "mGoogleApiClient");
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
     }
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.d("LALA", "onLocationChanged");
         mLastLocation = location;
         process();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
+        Log.d("LALA", "onConnectionSuspended");
         if (mGoogleApiClient != null) {
             mGoogleApiClient.reconnect();
+            Log.d("LALA", "reconnect");
         }
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        //Toast.makeText(getApplicationContext(), R.string.error_gps_disabled, Toast.LENGTH_LONG).show();
-        //mGoogleApiClient.reconnect();
+    public void onConnectionFailed(ConnectionResult result) {
+        Log.d("LALA", "OnConnectionFailed");
+
+        if (!mGoogleApiClient.isConnecting() && !mGoogleApiClient.isConnected()) {
+            Log.d("LALA", "connect");
+            mGoogleApiClient.connect();
+        }
     }
 
+
     public void disconnectFromGoogleApi() {
+        Log.d("LALA", "disconnectFromGoogleApi");
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            Log.d("LALA", "disconnect");
             mGoogleApiClient.disconnect();
         }
     }

@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.ServiceActivity;
+import com.development.transejecutivosdrivers.adapters.Const;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.adapters.ServiceExpandableListAdapter;
 import com.development.transejecutivosdrivers.background_services.BackgroundService;
@@ -38,6 +39,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.List;
+
+import static android.R.attr.button;
 
 public class FragmentBase extends Fragment {
     long ALARM_START = 1;
@@ -228,15 +231,35 @@ public class FragmentBase extends Fragment {
     }
 
     protected void scheduleAlarm(String location) {
+        /*
         Intent backgroundService = new Intent(getActivity(), BackgroundServiceManager.class);
         backgroundService.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
         backgroundService.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
         backgroundService.putExtra(JsonKeys.LOCATION, location);
         getActivity().startService(backgroundService);
+        */
+
+        Intent service = new Intent(getActivity(), BackgroundServiceManager.class);
+        if (!BackgroundServiceManager.IS_SERVICE_RUNNING) {
+            service.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
+            service.putExtra(JsonKeys.SERVICE_REFERENCE, this.service.getReference());
+            service.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
+            service.putExtra(JsonKeys.LOCATION, location);
+            service.setAction(Const.ACTION.STARTFOREGROUND_ACTION);
+            BackgroundServiceManager.IS_SERVICE_RUNNING = true;
+            getActivity().startService(service);
+        }
     }
 
     public void cancelAlarm() {
-        getActivity().stopService(new Intent(getActivity(), BackgroundServiceManager.class));
+        Intent service = new Intent(getActivity(), BackgroundServiceManager.class);
+        if (BackgroundServiceManager.IS_SERVICE_RUNNING) {
+            service.setAction(Const.ACTION.STOPFOREGROUND_ACTION);
+            BackgroundServiceManager.IS_SERVICE_RUNNING = false;
+            getActivity().startService(service);
+        } else {
+            getActivity().stopService(new Intent(getActivity(), BackgroundServiceManager.class));
+        }
     }
 
     /**

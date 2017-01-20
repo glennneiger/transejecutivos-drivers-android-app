@@ -86,6 +86,7 @@
     <!-- Fragment tracing -->
     <string name="prompt_tracing">Guardar</string>
     <string name="prompt_end_service">Finalizar Servicio</string>
+    <string name="prompt_end_foreground_service">Finalizar</string>
     <string name="success_tracing_message">Se ha guardado el seguimiento exitosamente</string>
     <string name="error_tracing_message">Ha ocurrido un error, por favor de nuevo</string>
     <string name="device_not_supported">El dispositivo no cuenta con google play services, por favor verifica que este instalado</string>
@@ -124,7 +125,7 @@
     <string name="prompt_start_time_service_value">Establecer</string>
     <string name="prompt_end_time_service_value">Establecer</string>
 
-    <string name="prompt_app_version">1.2.3</string>
+    <string name="prompt_app_version">1.2.4</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
     <string name="prompt_service_complete">Este servicio se encuentra completado, si deseas editarlo, presiona el botón rojo.</string>
     <string name="prompt_sms_passenger_service">Enviar SMS al pasajero</string>
@@ -143,6 +144,8 @@
     <string name="prompt_call_to_support">LLAMAR A TRANSPORTES EJECUTIVOS</string>
     <string name="cancel_permission_location">Esta aplicación necesita permiso para realizar llamadas telefónicas, al no aceptar la solicitud, no podrá usar esta funcionalidad.</string>
     <string name="title_activity_splash">Transportes Ejecutivos</string>
+    <string name="get_location_prompt">Enviando ubicación</string>
+    <string name="stop_location_prompt">El proceso de envío de ubicación ha finalizado</string>
 
     <!-- Service Completed-->
     <string name="bh1a_time">Botón de 1 hora antes: </string>
