@@ -30,12 +30,12 @@ public class Const {
     final static public String error404 = "Recurso no encontrado";
 
     public interface ACTION {
-        public static String MAIN_ACTION = "action.main";
-        public static String STARTFOREGROUND_ACTION = "action.startforeground";
-        public static String STOPFOREGROUND_ACTION = "action.stopforeground";
+        String MAIN_ACTION = "main";
+        String STARTFOREGROUND_ACTION = "startforeground";
+        String STOPFOREGROUND_ACTION = "stopforeground";
     }
 
     public interface NOTIFICATION_ID {
-        public static int FOREGROUND_SERVICE = 101;
+        int FOREGROUND_SERVICE = 101;
     }
 }
