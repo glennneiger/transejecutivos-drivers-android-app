@@ -31,7 +31,7 @@ public class BackgroundServiceManager extends Service{
     private Looper mServiceLooper;
     private ServiceHandler mServiceHandler;
     private int id;
-    private static final String LOG_TAG = "ForegroundService";
+    private static final String LOG_TAG = "LALA";
     public static boolean IS_SERVICE_RUNNING = false;
     private String ref;
 
@@ -74,12 +74,14 @@ public class BackgroundServiceManager extends Service{
         // main thread, which we don't want to block.  We also make it
         // background priority so CPU-intensive work will not disrupt our UI.
         super.onCreate();
+        /*
         HandlerThread thread = new HandlerThread("ServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND);
         thread.start();
 
         // Get the HandlerThread's Looper and use it for our Handler
         mServiceLooper = thread.getLooper();
         mServiceHandler = new ServiceHandler(mServiceLooper);
+        */
     }
 
     @Override
@@ -90,18 +92,20 @@ public class BackgroundServiceManager extends Service{
             if (bundle != null) {
                 // For each start request, send a message to start a job and deliver the
                 // start ID so we know which request we're stopping when we finish the job
+                /*
                 Message msg = mServiceHandler.obtainMessage();
                 msg.arg1 = startId;
                 msg.setData(bundle);
                 mServiceHandler.sendMessage(msg);
 
+                */
                 this.ref = bundle.getString(JsonKeys.SERVICE_REFERENCE);
 
                 if (intent.getAction().equals(Const.ACTION.STARTFOREGROUND_ACTION)) {
-                    Log.i(LOG_TAG, "Received Start Foreground Intent ");
+                    Log.d(LOG_TAG, "Received Start Foreground Intent ");
                     showNotification();
                 } else if (intent.getAction().equals(Const.ACTION.STOPFOREGROUND_ACTION)) {
-                    Log.i(LOG_TAG, "Received Stop Foreground Intent");
+                    Log.d(LOG_TAG, "Received Stop Foreground Intent");
                     stopForeground(true);
                     stopSelf();
                 }

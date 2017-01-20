@@ -76,13 +76,13 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
     }
 
     public void start() {
-        Log.d("LALA", "start");
+        //Log.d("LALA", "start");
         if (checkGooglePlayServices()) {
             createLocationRequest();
             buildGoogleApiClient();
             if (mGoogleApiClient != null) {
                 mGoogleApiClient.connect();
-                Log.d("LALA", "connect 1");
+                //Log.d("LALA", "connect 1");
             }
         } else {
 
@@ -99,14 +99,14 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
     }
 
     public synchronized void buildGoogleApiClient() {
-        Log.d("LALA", "buildGoogleApiClient");
+        //Log.d("LALA", "buildGoogleApiClient");
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this.context)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
-            Log.d("LALA", "mGoogleApiClient");
+            //Log.d("LALA", "mGoogleApiClient");
         }
     }
 
@@ -117,24 +117,24 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
         mLocationRequest.setFastestInterval(FATEST_INTERVAL);
         mLocationRequest.setNumUpdates(TOTAL_UPDATES);
         //mLocationRequest.setSmallestDisplacement(DISPLACEMENT_METERS);
-        Log.d("LALA", "mLocationRequest");
+        //Log.d("LALA", "mLocationRequest");
     }
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        Log.d("LALA", "onConnected");
+        //Log.d("LALA", "onConnected");
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             startLocationUpdates();
-            Log.d("LALA", "connected 1");
+            //Log.d("LALA", "connected 1");
         }
     }
 
     protected void startLocationUpdates() {
-        Log.d("LALA", "startLocationUpdates");
+        //Log.d("LALA", "startLocationUpdates");
         try {
             if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-                Log.d("LALA", "requestLocationUpdates");
+                //Log.d("LALA", "requestLocationUpdates");
             }
         }
         catch (SecurityException e) {
@@ -143,44 +143,43 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
     }
 
     public void stopLocationUpdates() {
-        Log.d("LALA", "stopLocationUpdates");
+        //Log.d("LALA", "stopLocationUpdates");
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            Log.d("LALA", "mGoogleApiClient");
+            //Log.d("LALA", "mGoogleApiClient");
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("LALA", "onLocationChanged");
+        //Log.d("LALA", "onLocationChanged");
         mLastLocation = location;
         process();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.d("LALA", "onConnectionSuspended");
+        //Log.d("LALA", "onConnectionSuspended");
         if (mGoogleApiClient != null) {
             mGoogleApiClient.reconnect();
-            Log.d("LALA", "reconnect");
+            //Log.d("LALA", "reconnect");
         }
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        Log.d("LALA", "OnConnectionFailed");
-
+        //Log.d("LALA", "OnConnectionFailed");
         if (!mGoogleApiClient.isConnecting() && !mGoogleApiClient.isConnected()) {
-            Log.d("LALA", "connect");
+            //Log.d("LALA", "connect");
             mGoogleApiClient.connect();
         }
     }
 
 
     public void disconnectFromGoogleApi() {
-        Log.d("LALA", "disconnectFromGoogleApi");
+        //Log.d("LALA", "disconnectFromGoogleApi");
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            Log.d("LALA", "disconnect");
+            //Log.d("LALA", "disconnect");
             mGoogleApiClient.disconnect();
         }
     }

@@ -239,8 +239,8 @@ public class FragmentBase extends Fragment {
         getActivity().startService(backgroundService);
         */
 
-        Intent service = new Intent(getActivity(), BackgroundServiceManager.class);
         if (!BackgroundServiceManager.IS_SERVICE_RUNNING) {
+            Intent service = new Intent(getActivity(), BackgroundServiceManager.class);
             service.putExtra(JsonKeys.SERVICE_ID, this.service.getIdService());
             service.putExtra(JsonKeys.SERVICE_REFERENCE, this.service.getReference());
             service.putExtra(JsonKeys.USER_APIKEY, this.user.getApikey());
@@ -252,8 +252,8 @@ public class FragmentBase extends Fragment {
     }
 
     public void cancelAlarm() {
-        Intent service = new Intent(getActivity(), BackgroundServiceManager.class);
         if (BackgroundServiceManager.IS_SERVICE_RUNNING) {
+            Intent service = new Intent(getActivity(), BackgroundServiceManager.class);
             service.setAction(Const.ACTION.STOPFOREGROUND_ACTION);
             BackgroundServiceManager.IS_SERVICE_RUNNING = false;
             getActivity().startService(service);
