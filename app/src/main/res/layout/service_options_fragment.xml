@@ -148,7 +148,6 @@
                     android:text="@string/prompt_finish_service"
                     android:background="@color/green"
                     android:textColor="@color/colorPrimaryTextLight" />
-
             </LinearLayout>
 
             <LinearLayout

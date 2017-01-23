@@ -6,6 +6,7 @@ import android.content.IntentSender;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.development.transejecutivosdrivers.adapters.Const;
@@ -233,32 +234,37 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
 
             RequestHandler requestHandler = new RequestHandler();
 
-            String response = requestHandler.makeServiceCall(getUrl(),requestHandler.POST, params, apikey);
+            String url = getUrl();
 
-            Log.d("LALA RES", response);
+            if (!TextUtils.isEmpty(url)) {
+                String response = requestHandler.makeServiceCall(url, requestHandler.POST, params, apikey);
 
-            if(response != null && response != ""){
-                try {
-                    JSONObject resObj = new JSONObject(response);
-                    error = (Boolean) resObj.get(JsonKeys.ERROR);
-                    String msg = resObj.getString(JsonKeys.MESSAGE);
-                    int ms = resObj.getInt(JsonKeys.MESSAGE);
-                    if (!error) {
-                        if (msg.equals("0") || ms == 0) {
-                            stopLocationUpdates();
-                            disconnectFromGoogleApi();
-                            serviceHandler.stop();
+                Log.d("LALA RES", response);
+
+                if(response != null && response != ""){
+                    try {
+                        JSONObject resObj = new JSONObject(response);
+                        error = (Boolean) resObj.get(JsonKeys.ERROR);
+                        String msg = resObj.getString(JsonKeys.MESSAGE);
+                        int ms = resObj.getInt(JsonKeys.MESSAGE);
+                        if (!error) {
+                            if (msg.equals("0") || ms == 0) {
+                                stopLocationUpdates();
+                                disconnectFromGoogleApi();
+                                serviceHandler.stop();
+                            }
                         }
                     }
-                }
-                catch (JSONException ex) {
-                    ex.printStackTrace();
-                }
+                    catch (JSONException ex) {
+                        ex.printStackTrace();
+                    }
 
-            }else{
-                errorBackground = true;
-                message = Const.CONST_MSG_ERROR_SERVER;
+                }else{
+                    errorBackground = true;
+                    message = Const.CONST_MSG_ERROR_SERVER;
+                }
             }
+
             return null;
         }
 
@@ -274,15 +280,16 @@ public class LocationManager implements GoogleApiClient.ConnectionCallbacks, Goo
 
         protected String getUrl() {
             String url = "";
-            if (location != null && location.equals(JsonKeys.PRELOCATION)) {
-                url = ApiConstants.URL_SET_PRELOCATION;
-            }
-            else if (location != null && location.equals(JsonKeys.ONSERVICE)) {
-                url = ApiConstants.URL_SET_LOCATION;
-            }
-            url = url + "/" + idService;
 
-            Log.d("LALA URL", url);
+            if (location != null) {
+                if (location.equals(JsonKeys.PRELOCATION)) {
+                    url = ApiConstants.URL_SET_PRELOCATION;
+                }
+                else if (location.equals(JsonKeys.ONSERVICE)) {
+                    url = ApiConstants.URL_SET_LOCATION;
+                }
+                url = url + "/" + idService;
+            }
 
             return  url;
         }

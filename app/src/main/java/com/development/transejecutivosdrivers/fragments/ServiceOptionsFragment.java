@@ -418,7 +418,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 reload();
             }
             else {
-                cancelAlarm();
+                //cancelAlarm();
                 setErrorSnackBar(msg);
             }
         }
