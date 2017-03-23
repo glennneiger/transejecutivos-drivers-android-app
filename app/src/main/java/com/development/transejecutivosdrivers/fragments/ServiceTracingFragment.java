@@ -448,8 +448,6 @@ public class ServiceTracingFragment extends FragmentBase  {
 
             String response = requestHandler.makeServiceCall(ApiConstants.URL_FINISH_SERVICE + "/" + service.getIdService(),requestHandler.POST, params, user.getApikey());
 
-            Log.d("LALA RES", response);
-
             if(response != null && response != ""){
                 this.validateResponse(response);
             } else {
