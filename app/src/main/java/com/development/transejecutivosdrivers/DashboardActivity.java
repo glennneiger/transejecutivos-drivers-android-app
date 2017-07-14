@@ -10,13 +10,9 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
-
 import com.development.transejecutivosdrivers.adapters.DashboardMenuAdapter;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
-import com.development.transejecutivosdrivers.background_services.BackgroundService;
-import com.development.transejecutivosdrivers.background_services.BackgroundServiceManager;
 import com.development.transejecutivosdrivers.misc.CacheManager;
 import com.development.transejecutivosdrivers.misc.DialogCreator;
 import com.development.transejecutivosdrivers.models.DashboardMenu;
