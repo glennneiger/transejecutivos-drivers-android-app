@@ -31,6 +31,7 @@ public class Service {
     String stTime;
     String traceObservations;
     int b1haStatus;
+    String licensePlate;
 
     public String getB1haTime() {
         return b1haTime;
@@ -248,5 +249,11 @@ public class Service {
         this.observations = observations;
     }
 
+    public String getLicensePlate() {
+        return licensePlate;
+    }
 
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
+    }
 }

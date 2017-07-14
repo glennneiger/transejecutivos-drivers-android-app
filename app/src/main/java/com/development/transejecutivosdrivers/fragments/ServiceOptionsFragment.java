@@ -2,10 +2,16 @@ package com.development.transejecutivosdrivers.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v13.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,12 +36,15 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.development.transejecutivosdrivers.DashboardActivity;
+import com.development.transejecutivosdrivers.Manifest;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.ServiceActivity;
 import com.development.transejecutivosdrivers.adapters.Const;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.misc.CacheManager;
+import com.development.transejecutivosdrivers.misc.DialogCreator;
 import com.development.transejecutivosdrivers.misc.RequestHandler;
 import com.development.transejecutivosdrivers.misc.VolleyErrorHandler;
 import com.development.transejecutivosdrivers.models.Passenger;
@@ -47,6 +56,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +67,8 @@ import java.util.concurrent.TimeUnit;
  * Created by william.montiel on 29/03/2016.
  */
 public class ServiceOptionsFragment extends FragmentBase  {
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
+
     View buttons_container;
     View finish_form;
     View progressBar;
@@ -404,9 +416,17 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
                 if (btn.equals("b1ha")) {
                     scheduleAlarm(JsonKeys.PRELOCATION);
+                    String message = getResources().getString(R.string.confirm_service_sms_message);
+                    message = message.replace("[ADDRESS]", this.service.getSource());
+                    sendSMS(message);
                 }
                 else if (btn.equals("bls")) {
                     cancelAlarm();
+                    String message = getResources().getString(R.string.on_source_service_sms_message);
+                    message = message.replace("[PASSENGER_NAME]", this.passenger.getName() + " " + this.passenger.getLastName());
+                    message = message.replace("[LICENSE_PLATE]", this.service.getLicensePlate());
+                    message = message.replace("[DRIVER_PHONE1]", this.user.getPhone1());
+                    sendSMS(message);
                 }
                 else if (btn.equals("pab")) {
                     scheduleAlarm(JsonKeys.ONSERVICE);
@@ -427,8 +447,81 @@ public class ServiceOptionsFragment extends FragmentBase  {
         }
     }
 
+    private void sendSMS(String message) {
+        int MyVersion = Build.VERSION.SDK_INT;
+        if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if(android.support.v4.app.ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                if (!TextUtils.isEmpty(this.passenger.getPhone())) {
+                    SmsManager smsManager = SmsManager.getDefault();
+
+                    message = Normalizer.normalize(message, Normalizer.Form.NFD)
+                            .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+
+                    message = Normalizer.normalize(message, Normalizer.Form.NFD);
+                    message = message.replaceAll("[^\\p{ASCII}]", "");
+
+                    smsManager.sendTextMessage(this.passenger.getPhone(), null, message, null, null);
+
+                    Toast.makeText(context, getResources().getString(R.string.sent_passenger_sms_message),Toast.LENGTH_LONG).show();
+                }
+            } else {
+                android.support.v4.app.ActivityCompat.requestPermissions(
+                        getActivity(),
+                        new String[]{android.Manifest.permission.SEND_SMS},
+                        MY_PERMISSIONS_REQUEST_SEND_SMS);
+            }
+        } else {
+            if (!TextUtils.isEmpty(this.passenger.getPhone())) {
+                SmsManager smsManager = SmsManager.getDefault();
+
+                message = Normalizer.normalize(message, Normalizer.Form.NFD)
+                        .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+
+                message = Normalizer.normalize(message, Normalizer.Form.NFD);
+                message = message.replaceAll("[^\\p{ASCII}]", "");
+
+                smsManager.sendTextMessage(this.passenger.getPhone(), null, message, null, null);
+
+                Toast.makeText(context, getResources().getString(R.string.sent_passenger_sms_message),Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_SEND_SMS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //finish();
+                    //startActivity(getIntent());
+                } else {
+                    DialogCreator dialogCreator = new DialogCreator(context);
+                    dialogCreator.createCustomDialog(getString(R.string.cancel_permission_sms), "ACEPTAR");
+                }
+                break;
+        }
+    }
+
     private void disableButtons() {
-        if (service!= null && (service != null && service.getOld() == 1) || TextUtils.isEmpty(service.getCd())) {
+        if (service == null) {
+            showServiceSummary();
+            btn_reset_service.setVisibility(View.VISIBLE);
+
+            btn_on_source.setEnabled(false);
+            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_onmyway.setEnabled(false);
+            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_start_service.setEnabled(false);
+            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_finish_service.setEnabled(false);
+            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+            btn_on_source.setVisibility(View.GONE);
+            btn_onmyway.setVisibility(View.GONE);
+            btn_start_service.setVisibility(View.GONE);
+            btn_finish_service.setVisibility(View.GONE);
+        }
+        else if (service.getOld() == 1 || TextUtils.isEmpty(service.getCd())) {
             btn_onmyway.setEnabled(false);
             btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_on_source.setEnabled(false);
@@ -438,7 +531,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_finish_service.setEnabled(false);
             btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
-        else if (service != null &&service.getB1haStatus() == 0) {
+        else if (service.getB1haStatus() == 0) {
             btn_on_source.setEnabled(false);
             btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_onmyway.setEnabled(false);
@@ -448,7 +541,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_finish_service.setEnabled(false);
             btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
-        else if (service != null && TextUtils.isEmpty(service.getB1ha()) && service.getB1haStatus() == 1) {
+        else if (TextUtils.isEmpty(service.getB1ha()) && service.getB1haStatus() == 1) {
             btn_on_source.setEnabled(false);
             btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_start_service.setEnabled(false);
@@ -456,7 +549,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_finish_service.setEnabled(false);
             btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
-        else if (service != null && TextUtils.isEmpty(service.getBls())) {
+        else if (TextUtils.isEmpty(service.getBls())) {
             btn_onmyway.setEnabled(false);
             btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_start_service.setEnabled(false);
@@ -464,7 +557,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_finish_service.setEnabled(false);
             btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
-        else if (service != null && TextUtils.isEmpty(service.getPab())) {
+        else if (TextUtils.isEmpty(service.getPab())) {
             btn_on_source.setEnabled(false);
             btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_onmyway.setEnabled(false);
@@ -472,7 +565,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
             btn_finish_service.setEnabled(false);
             btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
-        else if (service != null && TextUtils.isEmpty(service.getSt())) {
+        else if (TextUtils.isEmpty(service.getSt())) {
             btn_on_source.setEnabled(false);
             btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             btn_onmyway.setEnabled(false);

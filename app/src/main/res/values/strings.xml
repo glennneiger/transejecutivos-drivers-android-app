@@ -125,7 +125,7 @@
     <string name="prompt_start_time_service_value">Establecer</string>
     <string name="prompt_end_time_service_value">Establecer</string>
 
-    <string name="prompt_app_version">1.2.6</string>
+    <string name="prompt_app_version">1.2.7</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
     <string name="prompt_service_complete">Este servicio se encuentra completado, si deseas editarlo, presiona el botón rojo.</string>
     <string name="prompt_sms_passenger_service">Enviar SMS al pasajero</string>
@@ -174,4 +174,11 @@
     <string name="mah_android_upd_internet_update_error">Revisa tu conexión a internet</string>
     <!--new--> <string name="mah_android_upd_play_service_not_found">Por favor instala Google Play Services para actualizar la aplicación</string>
     <string name="mah_android_upd_info_popup_text">MAHAndroidUpdater library</string>
+
+    <!-- SMS messages -->
+    <string name="confirm_service_sms_message">Cordial saludo, ya voy en camino a "[ADDRESS]", por usted. Transportes Ejecutivos.</string>
+    <string name="on_source_service_sms_message">Sr(a) [PASSENGER_NAME], estoy en el sitio, mi placa es [LICENSE_PLATE], TEL: [DRIVER_PHONE1]. Transportes Ejecutivos.</string>
+    <string name="sent_passenger_sms_message">Se ha enviado una notificación SMS al pasajero.</string>
+    <string name="cancel_permission_sms">Esta aplicación necesita permiso para realizar envíos de SMS, al no aceptar la solicitud, no podrá usar esta funcionalidad.</string>
+
 </resources>

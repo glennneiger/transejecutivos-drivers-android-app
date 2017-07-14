@@ -6,6 +6,10 @@ import org.json.JSONObject;
 public class DeserializerValidator {
     public String validateString(String key, JSONObject jsonObject) {
         try {
+            if (!jsonObject.has(key)) {
+                return "";
+            }
+
             String value = jsonObject.getString(key).trim();
             if (!value.isEmpty() && value != null && value != "null" && value != "" && value != "null") {
                 return value;
