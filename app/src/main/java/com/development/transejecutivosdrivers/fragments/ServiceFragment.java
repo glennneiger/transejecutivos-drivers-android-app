@@ -80,19 +80,16 @@ public class ServiceFragment extends FragmentBase {
         button_sms_passenger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] tels = passenger.getPhone().split(",");
-                String tel1 = tels[0];
+                if (passenger != null && !TextUtils.isEmpty(passenger.getPhone())) {
+                    String[] tels = passenger.getPhone().split(",");
+                    String tel1 = tels[0];
 
-                if (!TextUtils.isEmpty(tel1)) {
-                    /*
-                    Intent smsIntent = new Intent(Intent.ACTION_VIEW);
-                    smsIntent.setType("vnd.android-dir/mms-sms");
-                    smsIntent.putExtra("address", tel1);
-                    startActivity(smsIntent);
-                    */
-                    Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + tel1));
-                    //intent.putExtra("sms_body", "");
-                    startActivity(intent);
+                    if (!TextUtils.isEmpty(tel1)) {
+                        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + tel1));
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.passenger_phone_empty_message), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -100,13 +97,17 @@ public class ServiceFragment extends FragmentBase {
         button_call_passenger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] tels = passenger.getPhone().split(",");
-                String tel1 = tels[0];
+                if (passenger != null && !TextUtils.isEmpty(passenger.getPhone())) {
+                    String[] tels = passenger.getPhone().split(",");
+                    String tel1 = tels[0];
 
-                if (!TextUtils.isEmpty(tel1)) {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:" + tel1));
-                    startActivity(callIntent);
+                    if (!TextUtils.isEmpty(tel1)) {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" + tel1));
+                        startActivity(callIntent);
+                    }
+                } else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.passenger_phone_empty_message), Toast.LENGTH_SHORT).show();
                 }
             }
         });

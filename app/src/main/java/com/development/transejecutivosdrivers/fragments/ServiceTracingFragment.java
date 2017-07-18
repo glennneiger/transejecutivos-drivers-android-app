@@ -211,7 +211,11 @@ public class ServiceTracingFragment extends FragmentBase  {
             }
         });
 
-        if ((this.service.getIdTrace() == 0 || TextUtils.isEmpty(this.service.getStartTime()) || TextUtils.isEmpty(this.service.getEndTime())) && this.service.getOld() == 1) {
+        if (this.service == null) {
+            Intent i = new Intent(getActivity(), MainActivity.class);
+            startActivity(i);
+        }
+        else if ((this.service.getIdTrace() == 0 || TextUtils.isEmpty(this.service.getStartTime()) || TextUtils.isEmpty(this.service.getEndTime())) && this.service.getOld() == 1) {
             button_finish_tracing.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

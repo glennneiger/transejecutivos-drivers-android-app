@@ -125,7 +125,7 @@
     <string name="prompt_start_time_service_value">Establecer</string>
     <string name="prompt_end_time_service_value">Establecer</string>
 
-    <string name="prompt_app_version">1.2.7</string>
+    <string name="prompt_app_version">1.2.8</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
     <string name="prompt_service_complete">Este servicio se encuentra completado, si deseas editarlo, presiona el botón rojo.</string>
     <string name="prompt_sms_passenger_service">Enviar SMS al pasajero</string>
@@ -146,6 +146,7 @@
     <string name="title_activity_splash">Transportes Ejecutivos</string>
     <string name="get_location_prompt">Enviando ubicación</string>
     <string name="stop_location_prompt">El proceso de envío de ubicación ha finalizado</string>
+    <string name="passenger_phone_empty_message">El pasajero no tiene un número de teléfono registrado.</string>
 
     <!-- Service Completed-->
     <string name="bh1a_time">Botón de 1 hora antes: </string>
@@ -176,7 +177,7 @@
     <string name="mah_android_upd_info_popup_text">MAHAndroidUpdater library</string>
 
     <!-- SMS messages -->
-    <string name="confirm_service_sms_message">Cordial saludo, ya voy en camino a "[ADDRESS]", por usted. Transportes Ejecutivos.</string>
+    <string name="confirm_service_sms_message">Cordial saludo, ya voy en camino hacia "[ADDRESS]", para recogerlo. Transportes Ejecutivos.</string>
     <string name="on_source_service_sms_message">Sr(a) [PASSENGER_NAME], estoy en el sitio, mi placa es [LICENSE_PLATE], TEL: [DRIVER_PHONE1]. Transportes Ejecutivos.</string>
     <string name="sent_passenger_sms_message">Se ha enviado una notificación SMS al pasajero.</string>
     <string name="cancel_permission_sms">Esta aplicación necesita permiso para realizar envíos de SMS, al no aceptar la solicitud, no podrá usar esta funcionalidad.</string>

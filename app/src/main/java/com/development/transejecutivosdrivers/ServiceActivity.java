@@ -176,8 +176,7 @@ public class ServiceActivity extends ActivityBase {
             Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
             if (!error) {
                 String res = "" + resObj.get(JsonKeys.SERVICE);
-
-                if (!res.isEmpty() && !res.equals("null")) {
+                if (!res.isEmpty() && !res.equals("null") && !res.equals("[]")) {
                     JSONObject data = (JSONObject) resObj.get(JsonKeys.SERVICE);
                     int idService = (int) data.get(JsonKeys.SERVICE_ID);
                     if (idService != 0) {
