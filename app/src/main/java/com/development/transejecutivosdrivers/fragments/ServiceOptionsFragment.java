@@ -504,83 +504,40 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
     private void disableButtons() {
         if (service == null) {
-            showServiceSummary();
-            btn_reset_service.setVisibility(View.VISIBLE);
-
-            btn_on_source.setEnabled(false);
-            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_onmyway.setEnabled(false);
-            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_start_service.setEnabled(false);
-            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_finish_service.setEnabled(false);
-            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-
-            btn_on_source.setVisibility(View.GONE);
-            btn_onmyway.setVisibility(View.GONE);
-            btn_start_service.setVisibility(View.GONE);
-            btn_finish_service.setVisibility(View.GONE);
+            hideAllButtons();
         }
-        else if (service.getOld() == 1 || TextUtils.isEmpty(service.getCd())) {
-            btn_onmyway.setEnabled(false);
-            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_on_source.setEnabled(false);
-            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_start_service.setEnabled(false);
-            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_finish_service.setEnabled(false);
-            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        else if (service.getOld() == 1 || TextUtils.isEmpty(service.getCd()) || service.getB1haStatus() == 0) {
+
         }
         else if (TextUtils.isEmpty(service.getB1ha()) && service.getB1haStatus() == 1) {
-            btn_on_source.setEnabled(false);
-            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_start_service.setEnabled(false);
-            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_finish_service.setEnabled(false);
-            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_onmyway.setEnabled(true);
+            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
         else if (TextUtils.isEmpty(service.getBls())) {
-            btn_onmyway.setEnabled(false);
-            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_start_service.setEnabled(false);
-            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_finish_service.setEnabled(false);
-            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_on_source.setEnabled(true);
+            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
         else if (TextUtils.isEmpty(service.getPab())) {
-            btn_on_source.setEnabled(false);
-            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_onmyway.setEnabled(false);
-            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_finish_service.setEnabled(false);
-            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_start_service.setEnabled(true);
+            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
         else if (TextUtils.isEmpty(service.getSt())) {
-            btn_on_source.setEnabled(false);
-            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_onmyway.setEnabled(false);
-            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_start_service.setEnabled(false);
-            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn_finish_service.setEnabled(true);
+            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.green));
         }
         else {
-            showServiceSummary();
-            btn_reset_service.setVisibility(View.VISIBLE);
-
-            btn_on_source.setEnabled(false);
-            btn_on_source.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_onmyway.setEnabled(false);
-            btn_onmyway.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_start_service.setEnabled(false);
-            btn_start_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-            btn_finish_service.setEnabled(false);
-            btn_finish_service.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-
-            btn_on_source.setVisibility(View.GONE);
-            btn_onmyway.setVisibility(View.GONE);
-            btn_start_service.setVisibility(View.GONE);
-            btn_finish_service.setVisibility(View.GONE);
+            hideAllButtons();
         }
+    }
+
+    private void hideAllButtons() {
+        showServiceSummary();
+        btn_reset_service.setVisibility(View.VISIBLE);
+
+        btn_on_source.setVisibility(View.GONE);
+        btn_onmyway.setVisibility(View.GONE);
+        btn_start_service.setVisibility(View.GONE);
+        btn_finish_service.setVisibility(View.GONE);
     }
 
     private void showServiceSummary() {

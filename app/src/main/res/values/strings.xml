@@ -125,7 +125,7 @@
     <string name="prompt_start_time_service_value">Establecer</string>
     <string name="prompt_end_time_service_value">Establecer</string>
 
-    <string name="prompt_app_version">1.2.8</string>
+    <string name="prompt_app_version">1.2.9</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
     <string name="prompt_service_complete">Este servicio se encuentra completado, si deseas editarlo, presiona el botón rojo.</string>
     <string name="prompt_sms_passenger_service">Enviar SMS al pasajero</string>
@@ -151,8 +151,8 @@
     <!-- Service Completed-->
     <string name="bh1a_time">Botón de 1 hora antes: </string>
     <string name="bls_time">llegó al sitio: </string>
-    <string name="pab_time">Hora de incio: </string>
-    <string name="st_time">Hora de fin: </string>
+    <string name="pab_time">Inicio: </string>
+    <string name="st_time">Fin: </string>
 
     <!-- Updater -->
     <string name="mah_android_upd_dlg_title">Información</string>
