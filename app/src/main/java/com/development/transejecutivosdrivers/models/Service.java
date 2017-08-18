@@ -8,13 +8,17 @@ public class Service {
     public String reference;
     public String date;
     public String startDate;
+    public String startDateNice;
     public String startTime;
+    public String serviceStartTime;
     public String endTime;
     public int paxCant;
     public String pax;
     public String source;
     public String destiny;
     public String status;
+
+
     public String observations;
     public String cd;
     public int old;
@@ -32,6 +36,40 @@ public class Service {
     String traceObservations;
     int b1haStatus;
     String licensePlate;
+    String event;
+    String company;
+
+    public String getServiceStartTime() {
+        return serviceStartTime;
+    }
+
+    public void setServiceStartTime(String serviceStartTime) {
+        this.serviceStartTime = serviceStartTime;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getEvent() {
+        return event;
+    }
+
+    public void setEvent(String event) {
+        this.event = event;
+    }
+
+    public String getStartDateNice() {
+        return startDateNice;
+    }
+
+    public void setStartDateNice(String startDateNice) {
+        this.startDateNice = startDateNice;
+    }
 
     public String getB1haTime() {
         return b1haTime;

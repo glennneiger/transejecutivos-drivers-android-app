@@ -19,13 +19,16 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
     public Service service;
 
     TextView txtview_start_date;
+    TextView txtview_service_start_time;
     TextView txtview_reference;
     TextView txtview_source;
     TextView txtview_destiny;
+    TextView txtview_company;
+    TextView txtview_event;
     TextView txtview_pax_cant;
-    TextView txtview_pax;
-    TextView txtview_status;
+    View txtview_pax_cant_container;
     TextView txtview_observations;
+    View txtview_observations_container;
 
     public View card_view_services_list;
 
@@ -37,13 +40,16 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
         card_view_services_list = itemView.findViewById(R.id.card_view_services_list);
 
         txtview_start_date = (TextView) itemView.findViewById(R.id.txtview_start_date);
+        txtview_service_start_time = (TextView) itemView.findViewById(R.id.txtview_service_start_time);
         txtview_reference = (TextView) itemView.findViewById(R.id.txtview_reference);
         txtview_destiny = (TextView) itemView.findViewById(R.id.txtview_destiny);
         txtview_source = (TextView) itemView.findViewById(R.id.txtview_source);
+        txtview_company = (TextView) itemView.findViewById(R.id.txtview_company);
+        txtview_event = (TextView) itemView.findViewById(R.id.txtview_event);
         txtview_pax_cant = (TextView) itemView.findViewById(R.id.txtview_pax_cant);
-        txtview_pax = (TextView) itemView.findViewById(R.id.txtview_pax);
-        txtview_status = (TextView) itemView.findViewById(R.id.txtview_status);
+        txtview_pax_cant_container = itemView.findViewById(R.id.txtview_pax_cant_container);
         txtview_observations = (TextView) itemView.findViewById(R.id.txtview_observations);
+        txtview_observations_container = itemView.findViewById(R.id.txtview_observations_container);
 
         this.context = context;
     }
@@ -54,22 +60,28 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
      */
     public void setService(Service service) {
         this.service = service;
-        txtview_start_date.setText(service.getStartDate());
+        txtview_start_date.setText(service.getStartDateNice());
+        txtview_service_start_time.setText(service.getServiceStartTime());
         txtview_reference.setText(service.getReference());
-        txtview_destiny.setText("Destino: " + service.getDestiny());
-        txtview_source.setText("Origen: " + service.getSource());
-        txtview_pax_cant.setText(service.getPaxCant() + " Pasajero(s)");
+        txtview_destiny.setText(" " + service.getDestiny());
+        txtview_source.setText(" " + service.getSource());
+        txtview_company.setText(service.getCompany());
+        txtview_event.setText(service.getEvent());
 
-        txtview_pax_cant.setVisibility(View.GONE);
+        if (TextUtils.isEmpty(service.getEvent())) {
+            txtview_event.setVisibility(View.GONE);
+        }
+
+        txtview_pax_cant_container.setVisibility(View.GONE);
         if (service.getPaxCant() > 1) {
-            txtview_pax_cant.setVisibility(View.VISIBLE);
+            txtview_pax_cant_container.setVisibility(View.VISIBLE);
             txtview_pax_cant.setText(service.getPaxCant() + " Pasajeros");
         }
 
-        txtview_observations.setVisibility(View.GONE);
+        txtview_observations_container.setVisibility(View.GONE);
         if (!TextUtils.isEmpty(service.getObservations())) {
-            txtview_observations.setVisibility(View.VISIBLE);
-            txtview_observations.setText("Observaciones: " + service.getObservations());
+            txtview_observations_container.setVisibility(View.VISIBLE);
+            txtview_observations.setText(" " + service.getObservations());
         }
     }
 

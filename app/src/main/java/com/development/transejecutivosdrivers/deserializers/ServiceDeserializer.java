@@ -24,7 +24,9 @@ public class ServiceDeserializer extends DeserializerValidator{
             String reference = validateString(JsonKeys.SERVICE_REFERENCE, jsonObject);
             String createDate = validateString(JsonKeys.SERVICE_CREATE_DATE, jsonObject);
             String startDate = validateString(JsonKeys.SERVICE_START_DATE, jsonObject);
+            String startDateNice = validateString(JsonKeys.SERVICE_START_DATE_NICE, jsonObject);
             String startTime = validateString(JsonKeys.SERVICE_START_TIME, jsonObject);
+            String serviceStartTime = validateString(JsonKeys.SERVICE_SERVICE_START_TIME, jsonObject);
             String endTime = validateString(JsonKeys.SERVICE_END_TIME, jsonObject);
 
             String paxCant = validateString(JsonKeys.SERVICE_PAX_CANT, jsonObject);
@@ -50,6 +52,8 @@ public class ServiceDeserializer extends DeserializerValidator{
             String tObs = validateString(JsonKeys.SERVICE_TRACE_OBSERVATIONS, jsonObject);
 
             String licensePlate = validateString(JsonKeys.SERVICE_LICENSE_PLATE, jsonObject);
+            String company = validateString(JsonKeys.SERVICE_COMPANY, jsonObject);
+            String event = validateString(JsonKeys.SERVICE_EVENT, jsonObject);
 
             int b1haStatus = validateInt(JsonKeys.SERVICE_B1HA_STATUS, jsonObject);
 
@@ -72,8 +76,9 @@ public class ServiceDeserializer extends DeserializerValidator{
             this.service.setStatus(status);
             this.service.setCd(cd);
             this.service.setStartDate(startDate);
-
+            this.service.setStartDateNice(startDateNice);
             this.service.setStartTime(startTime);
+            this.service.setServiceStartTime(serviceStartTime);
             this.service.setEndTime(endTime);
 
             this.service.setFly(fly);
@@ -92,6 +97,9 @@ public class ServiceDeserializer extends DeserializerValidator{
             this.service.setStTime(stTime);
             this.service.setTraceObservations(tObs);
             this.service.setLicensePlate(licensePlate);
+
+            this.service.setEvent(event);
+            this.service.setCompany(company);
         }
     }
 

@@ -2,8 +2,9 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/colorPrimaryTextLight"
+    android:orientation="vertical"
+    android:background="@color/shadow"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
@@ -15,65 +16,207 @@
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="1dp"
         android:layout_margin="5dp"
-        android:padding="10dp"
         card_view:cardBackgroundColor="@color/colorPrimaryTextLight">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="6dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtview_start_date"
-                android:textColor="@color/colorPrimaryText"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:textSize="18sp" />
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/car_view_padding"
+                android:paddingLeft="@dimen/car_view_padding"
+                android:paddingRight="@dimen/car_view_padding"
+                android:paddingTop="@dimen/car_view_padding">
 
-            <TextView
-                android:id="@+id/txtview_reference"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/txtview_start_date"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Ago 10/2017"
+                    android:textSize="20sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:src="@android:drawable/ic_lock_idle_alarm"/>
+
+                <TextView
+                    android:id="@+id/txtview_service_start_time"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="right"
+                    android:text="20:00"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"/>
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/car_view_padding"
+                android:paddingLeft="@dimen/car_view_padding"
+                android:paddingRight="@dimen/car_view_padding">
 
-            <TextView
-                android:id="@+id/txtview_source"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/txtview_reference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="U456456-1"
+                    android:textColor="@color/colorPrimary"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorSecondaryText"/>
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/car_view_padding"
+                android:paddingLeft="@dimen/car_view_padding"
+                android:paddingRight="@dimen/car_view_padding">
 
-            <TextView
-                android:id="@+id/txtview_destiny"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp"
+                    android:text="@string/prompt_source"/>
+
+                <TextView
+                    android:id="@+id/txtview_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:text="Jjjjjjjjjjjjjjjj jjjjjjjjjjjj jjjj "
+                    android:textColor="@color/colorSecondaryText"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorSecondaryText"/>
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/car_view_padding"
+                android:paddingLeft="@dimen/car_view_padding"
+                android:paddingRight="@dimen/car_view_padding">
 
-            <TextView
-                android:id="@+id/txtview_pax_cant"
-                android:textColor="@color/orange"
-                android:textSize="18dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp"
+                    android:text="@string/prompt_destiny"/>
 
-            <TextView
-                android:id="@+id/txtview_pax"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/txtview_destiny"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:text="Xxxxxxxxxxxxxxxx xxxxxxxxxxx cxxxxxxxxxxxx "
+                    android:textColor="@color/colorSecondaryText"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorSecondaryText"/>
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/car_view_padding"
+                android:paddingLeft="@dimen/car_view_padding"
+                android:paddingRight="@dimen/car_view_padding">
 
-            <TextView
-                android:id="@+id/txtview_observations"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorError"/>
+                <TextView
+                    android:id="@+id/txtview_company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:text="My Company"
+                    android:textColor="@color/green"/>
 
-            <TextView
-                android:id="@+id/txtview_status"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/txtview_event"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="(Event)"
+                    android:textColor="@color/orange"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/txtview_pax_cant_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorError" />
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:paddingBottom="@dimen/car_view_padding"
+                android:paddingLeft="@dimen/car_view_padding"
+                android:paddingRight="@dimen/car_view_padding">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:tint="@color/orange"
+                    android:src="@android:drawable/ic_dialog_alert"/>
+
+                <TextView
+                    android:id="@+id/txtview_pax_cant"
+                    android:textColor="@color/orange"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2 pasajeros"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <LinearLayout
+                android:id="@+id/txtview_observations_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorErrorLight"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/car_view_padding"
+                android:paddingBottom="@dimen/car_view_padding"
+                android:paddingLeft="@dimen/car_view_padding"
+                android:paddingRight="@dimen/car_view_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="14dp"
+                    android:text="@string/prompt_observations"/>
+
+                <TextView
+                    android:id="@+id/txtview_observations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:text="Xxxxxxxxxxxxxx"
+                    android:textColor="@color/colorError"/>
+            </LinearLayout>
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

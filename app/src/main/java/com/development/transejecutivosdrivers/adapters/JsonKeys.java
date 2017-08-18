@@ -45,6 +45,8 @@ public class JsonKeys {
     public static final String SERVICE_CREATE_DATE = "date";
     public static final String SERVICE_START_DATE = "start_date";
     public static final String SERVICE_START_TIME = "start_time";
+    public static final String SERVICE_SERVICE_START_TIME = "service_start_time";
+    public static final String SERVICE_START_DATE_NICE = "start_date_nice";
     public static final String SERVICE_END_TIME = "end_time";
     public static final String SERVICE_PAX_CANT = "pax_cant";
     public static final String SERVICE_PAX = "pax";
@@ -68,6 +70,8 @@ public class JsonKeys {
     public static final String SERVICE_B1HA_STATUS = "b1haStatus";
     public static final String SERVICE_TRACE_OBSERVATIONS = "tobservations";
     public static final String SERVICE_LICENSE_PLATE = "license_plate";
+    public static final String SERVICE_EVENT = "event";
+    public static final String SERVICE_COMPANY = "company";
 
 
     /**

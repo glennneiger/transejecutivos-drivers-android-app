@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:layout_gravity="center"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/car_view_padding"
+    android:paddingLeft="@dimen/car_view_padding"
+    android:paddingRight="@dimen/car_view_padding"
+    android:paddingTop="@dimen/car_view_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <ProgressBar
@@ -47,7 +47,6 @@
                     android:id="@+id/btn_call_passenger"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:elevation="10dp"
                     android:text="@string/prompt_call_passenger"
                     android:background="@color/colorPrimaryDark"

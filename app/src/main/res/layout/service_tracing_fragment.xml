@@ -118,6 +118,12 @@
             <LinearLayout
                 android:id="@+id/service_complete_container"
                 android:visibility="gone"
+                android:background="@color/shadow"
+                android:paddingBottom="@dimen/car_view_padding"
+                android:paddingLeft="@dimen/car_view_padding"
+                android:paddingRight="@dimen/car_view_padding"
+                android:paddingTop="@dimen/car_view_padding"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

@@ -25,19 +25,23 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
     Passenger passenger;
 
     TextView txtview_start_date;
+    TextView txtview_service_start_time;
     TextView txtview_reference;
     TextView txtview_source;
     TextView txtview_destiny;
     TextView txtview_pax_cant;
+    View txtview_pax_cant_container;
     TextView txtview_pax;
-    TextView txtview_status;
+    View txtview_fly_container;
     TextView txtview_fly;
     TextView txtview_observations;
+    View txtview_observations_container;
 
     TextView txtview_passenger_name;
     TextView txtview_passenger_phone;
     TextView txtview_passenger_email;
     TextView txtview_passenger_company;
+    TextView txtview_event;
 
     Button button_accept;
     Button button_decline;
@@ -47,19 +51,23 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
     public ServiceHolder(View itemView, Context context) {
         super(itemView);
         txtview_start_date = (TextView) itemView.findViewById(R.id.txtview_start_date);
+        txtview_service_start_time = (TextView) itemView.findViewById(R.id.txtview_service_start_time);
         txtview_reference = (TextView) itemView.findViewById(R.id.txtview_reference);
         txtview_destiny = (TextView) itemView.findViewById(R.id.txtview_destiny);
         txtview_source = (TextView) itemView.findViewById(R.id.txtview_source);
         txtview_pax_cant = (TextView) itemView.findViewById(R.id.txtview_pax_cant);
+        txtview_pax_cant_container = itemView.findViewById(R.id.txtview_pax_cant_container);
         txtview_pax = (TextView) itemView.findViewById(R.id.txtview_pax);
-        txtview_status = (TextView) itemView.findViewById(R.id.txtview_status);
         txtview_observations = (TextView) itemView.findViewById(R.id.txtview_observations);
+        txtview_observations_container = itemView.findViewById(R.id.txtview_observations_container);
 
         txtview_passenger_name = (TextView) itemView.findViewById(R.id.txtview_passenger_name);
         txtview_passenger_company = (TextView) itemView.findViewById(R.id.txtview_passenger_company);
+        txtview_event = (TextView) itemView.findViewById(R.id.txtview_event);
         txtview_passenger_phone = (TextView) itemView.findViewById(R.id.txtview_passenger_phone);
         txtview_passenger_email = (TextView) itemView.findViewById(R.id.txtview_passenger_email);
         txtview_fly = (TextView) itemView.findViewById(R.id.txtview_fly);
+        txtview_fly_container = itemView.findViewById(R.id.txtview_fly_container);
 
         button_accept = (Button) itemView.findViewById(R.id.button_accept);
         button_decline = (Button) itemView.findViewById(R.id.button_decline);
@@ -69,17 +77,23 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
 
     public void setService(Service service) {
         this.service = service;
-        if (!TextUtils.isEmpty(service.getStartDate()) || service.getStartDate() != null) {
-            txtview_start_date.setText(service.getStartDate());
+        if (!TextUtils.isEmpty(service.getStartDateNice()) || service.getStartDateNice() != null) {
+            txtview_start_date.setText(service.getStartDateNice());
+            txtview_service_start_time.setText(service.getServiceStartTime());
         }
 
         txtview_reference.setText(service.getReference());
-        txtview_destiny.setText("Destino: " + service.getDestiny());
-        txtview_source.setText("Origen: " + service.getSource());
+        txtview_destiny.setText(" " + service.getDestiny());
+        txtview_source.setText(" " + service.getSource());
+        txtview_event.setText(service.getEvent());
 
-        txtview_pax_cant.setVisibility(View.GONE);
+        if (TextUtils.isEmpty(service.getEvent())) {
+            txtview_event.setVisibility(View.GONE);
+        }
+
+        txtview_pax_cant_container.setVisibility(View.GONE);
         if (service.getPaxCant() > 1) {
-            txtview_pax_cant.setVisibility(View.VISIBLE);
+            txtview_pax_cant_container.setVisibility(View.VISIBLE);
             txtview_pax_cant.setText(service.getPaxCant() + " Pasajeros");
         }
 
@@ -87,16 +101,16 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
             txtview_pax.setText("Pasajeros: " + service.getPax());
         }
 
-        txtview_fly.setVisibility(View.GONE);
+        txtview_fly_container.setVisibility(View.GONE);
         if (!TextUtils.isEmpty(service.getFly()) && !TextUtils.isEmpty(service.getAeroline())) {
-            txtview_fly.setVisibility(View.VISIBLE);
+            txtview_fly_container.setVisibility(View.VISIBLE);
             txtview_fly.setText(Html.fromHtml("Vuelo: <a href=\"" + this.context.getResources().getString(R.string.url_fly) + service.getFly() + "\">" + service.getFly() + ", " + service.getAeroline() + "</a>"));
         }
 
-        txtview_observations.setVisibility(View.GONE);
+        txtview_observations_container.setVisibility(View.GONE);
         if (!TextUtils.isEmpty(service.getObservations())) {
-            txtview_observations.setVisibility(View.VISIBLE);
-            txtview_observations.setText("Observaciones: " + service.getObservations());
+            txtview_observations_container.setVisibility(View.VISIBLE);
+            txtview_observations.setText(" " + service.getObservations());
         }
     }
 
