@@ -5,32 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/car_view_padding"
+    android:paddingLeft="@dimen/car_view_padding"
+    android:paddingRight="@dimen/car_view_padding"
+    android:paddingTop="@dimen/car_view_padding"
     android:background="@color/colorBackground"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.development.transejecutivosdrivers.DashboardActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="507dp"
-        android:gravity="center"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin">
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="180dp"
-                android:layout_height="124dp"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/loginImage"
                 android:src="@drawable/vertical_logo" />
@@ -49,7 +44,7 @@
             <GridView
                 android:id="@+id/gridView_menu"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="300dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
@@ -63,23 +58,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_horizontal_margin">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
                 android:text="@string/prompt_app_version" />
 
         </LinearLayout>
+
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
