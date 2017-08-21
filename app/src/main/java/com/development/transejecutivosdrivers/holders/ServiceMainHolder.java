@@ -18,17 +18,16 @@ import com.development.transejecutivosdrivers.models.Service;
 public class ServiceMainHolder extends RecyclerView.ViewHolder {
     public Service service;
 
-    TextView txtview_start_date;
     TextView txtview_service_start_time;
     TextView txtview_reference;
     TextView txtview_source;
-    TextView txtview_destiny;
     TextView txtview_company;
     TextView txtview_event;
     TextView txtview_pax_cant;
     View txtview_pax_cant_container;
     TextView txtview_observations;
     View txtview_observations_container;
+    View event_container;
 
     public View card_view_services_list;
 
@@ -39,10 +38,8 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
 
         card_view_services_list = itemView.findViewById(R.id.card_view_services_list);
 
-        txtview_start_date = (TextView) itemView.findViewById(R.id.txtview_start_date);
         txtview_service_start_time = (TextView) itemView.findViewById(R.id.txtview_service_start_time);
         txtview_reference = (TextView) itemView.findViewById(R.id.txtview_reference);
-        txtview_destiny = (TextView) itemView.findViewById(R.id.txtview_destiny);
         txtview_source = (TextView) itemView.findViewById(R.id.txtview_source);
         txtview_company = (TextView) itemView.findViewById(R.id.txtview_company);
         txtview_event = (TextView) itemView.findViewById(R.id.txtview_event);
@@ -50,6 +47,7 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
         txtview_pax_cant_container = itemView.findViewById(R.id.txtview_pax_cant_container);
         txtview_observations = (TextView) itemView.findViewById(R.id.txtview_observations);
         txtview_observations_container = itemView.findViewById(R.id.txtview_observations_container);
+        event_container = itemView.findViewById(R.id.event_container);
 
         this.context = context;
     }
@@ -60,16 +58,14 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
      */
     public void setService(Service service) {
         this.service = service;
-        txtview_start_date.setText(service.getStartDateNice());
         txtview_service_start_time.setText(service.getServiceStartTime());
         txtview_reference.setText(service.getReference());
-        txtview_destiny.setText(" " + service.getDestiny());
         txtview_source.setText(" " + service.getSource());
         txtview_company.setText(service.getCompany());
         txtview_event.setText(service.getEvent());
 
         if (TextUtils.isEmpty(service.getEvent())) {
-            txtview_event.setVisibility(View.GONE);
+            event_container.setVisibility(View.GONE);
         }
 
         txtview_pax_cant_container.setVisibility(View.GONE);

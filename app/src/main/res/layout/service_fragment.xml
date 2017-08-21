@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:layout_gravity="center"
-    android:paddingBottom="@dimen/car_view_padding"
-    android:paddingLeft="@dimen/car_view_padding"
-    android:paddingRight="@dimen/car_view_padding"
-    android:paddingTop="@dimen/car_view_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <ProgressBar
@@ -23,11 +19,10 @@
 
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:fillViewport="true"
-        android:scrollbars = "vertical"
-        android:scrollbarStyle="insideInset">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay">
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,10 +32,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/car_view_padding">
+
+                <TextView
+                    android:id="@+id/txtview_reference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:text="U456456-1"
+                    android:textColor="@color/colorPrimary"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:fitsSystemWindows="true"
+                android:id="@+id/accept_container"
+                android:background="@color/shadow"
+                android:padding="@dimen/car_view_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -61,13 +80,12 @@
                     android:layout_below="@+id/button_accept"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
                     android:elevation="10dp"
                     android:text="@string/prompt_decline_service"
                     android:background="@color/colorError"
                     android:textColor="@color/colorPrimaryTextLight" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -80,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/car_view_padding">
+                    android:padding="@dimen/car_view_padding">
 
                     <TextView
                         android:id="@+id/txtview_start_date"
@@ -89,7 +107,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:text="Ago 10/2017"
-                        android:textSize="20sp" />
+                        android:textSize="22dp" />
 
                     <View
                         android:layout_width="0dp"
@@ -99,7 +117,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="6dp"
                         android:src="@android:drawable/ic_lock_idle_alarm"/>
 
                     <TextView
@@ -110,23 +128,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_gravity="right"
                         android:text="20:00"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/car_view_padding">
-
-                    <TextView
-                        android:id="@+id/txtview_reference"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="U456456-1"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textSize="22dp" />
 
                 </LinearLayout>
 
@@ -139,44 +141,48 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="@dimen/car_view_padding">
+                    android:paddingTop="@dimen/car_view_padding"
+                    android:paddingLeft="@dimen/car_view_padding"
+                    android:paddingRight="@dimen/car_view_padding">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp"
-                        android:text="@string/prompt_source"/>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_margin="5dp"
+                        android:tint="@color/green"
+                        android:src="@drawable/ic_call_made_black_48dp"/>
 
                     <TextView
                         android:id="@+id/txtview_source"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
+                        android:textSize="24dp"
                         android:text="Jjjjjjjjjjjjjjjj jjjjjjjjjjjj jjjj "
-                        android:textColor="@color/colorSecondaryText"/>
+                        android:textColor="@color/green"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/car_view_padding">
+                    android:paddingBottom="@dimen/car_view_padding"
+                    android:paddingLeft="@dimen/car_view_padding"
+                    android:paddingRight="@dimen/car_view_padding">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp"
-                        android:text="@string/prompt_destiny"/>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_margin="5dp"
+                        android:tint="@color/blue"
+                        android:src="@drawable/ic_call_received_black_48dp"/>
 
                     <TextView
                         android:id="@+id/txtview_destiny"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
+                        android:textSize="24dp"
                         android:text="Xxxxxxxxxxxxxxxx xxxxxxxxxxx cxxxxxxxxxxxx "
-                        android:textColor="@color/colorSecondaryText"/>
+                        android:textColor="@color/blue"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -185,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/car_view_padding">
+                    android:padding="@dimen/car_view_padding">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -210,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_horizontal"
-                    android:paddingBottom="@dimen/car_view_padding">
+                    android:padding="@dimen/car_view_padding">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -236,15 +242,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="@dimen/car_view_padding"
-                    android:paddingBottom="@dimen/car_view_padding">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="14dp"
-                        android:text="@string/prompt_observations"/>
+                    android:padding="@dimen/car_view_padding">
 
                     <TextView
                         android:id="@+id/txtview_observations"
@@ -254,6 +252,11 @@
                         android:text="Xxxxxxxxxxxxxx"
                         android:textColor="@color/colorError"/>
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider"/>
             </LinearLayout>
 
             <LinearLayout
@@ -285,13 +288,32 @@
                     android:textSize="20dp"
                     android:text="My Company"/>
 
-                <TextView
-                    android:id="@+id/txtview_event"
-                    android:textColor="@color/orange"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/event_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:text="Event"/>
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
+                        android:tint="@color/colorError"
+                        android:src="@drawable/ic_event_black_48dp"/>
+
+                    <TextView
+                        android:id="@+id/txtview_event"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:textSize="16dp"
+                        android:text="(Event)"
+                        android:textColor="@color/colorError"/>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/txtview_passenger_phone"

@@ -36,6 +36,8 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
     TextView txtview_fly;
     TextView txtview_observations;
     View txtview_observations_container;
+    View event_container;
+    View accept_container;
 
     TextView txtview_passenger_name;
     TextView txtview_passenger_phone;
@@ -60,6 +62,7 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
         txtview_pax = (TextView) itemView.findViewById(R.id.txtview_pax);
         txtview_observations = (TextView) itemView.findViewById(R.id.txtview_observations);
         txtview_observations_container = itemView.findViewById(R.id.txtview_observations_container);
+        event_container = itemView.findViewById(R.id.event_container);
 
         txtview_passenger_name = (TextView) itemView.findViewById(R.id.txtview_passenger_name);
         txtview_passenger_company = (TextView) itemView.findViewById(R.id.txtview_passenger_company);
@@ -69,6 +72,7 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
         txtview_fly = (TextView) itemView.findViewById(R.id.txtview_fly);
         txtview_fly_container = itemView.findViewById(R.id.txtview_fly_container);
 
+        accept_container = itemView.findViewById(R.id.accept_container);
         button_accept = (Button) itemView.findViewById(R.id.button_accept);
         button_decline = (Button) itemView.findViewById(R.id.button_decline);
 
@@ -88,7 +92,7 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
         txtview_event.setText(service.getEvent());
 
         if (TextUtils.isEmpty(service.getEvent())) {
-            txtview_event.setVisibility(View.GONE);
+            event_container.setVisibility(View.GONE);
         }
 
         txtview_pax_cant_container.setVisibility(View.GONE);
@@ -126,13 +130,11 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
 
     public void hideElements() {
         if (service.getOld() == 1) {
-            button_accept.setVisibility(View.GONE);
-            button_decline.setVisibility(View.GONE);
+            accept_container.setVisibility(View.GONE);
         }
 
         if (!TextUtils.isEmpty(service.getCd())) {
-            button_accept.setVisibility(View.GONE);
-            button_decline.setVisibility(View.GONE);
+            accept_container.setVisibility(View.GONE);
         }
     }
 }

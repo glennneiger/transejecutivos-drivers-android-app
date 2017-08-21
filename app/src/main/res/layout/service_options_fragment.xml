@@ -70,6 +70,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
                             android:textSize="20dp"
+                            android:text="Start"
                             android:layout_weight="1"
                             android:textColor="@color/blue" />
 
@@ -82,6 +83,7 @@
 
                         <TextView
                             android:id="@+id/txt_service_end"
+                            android:text="End"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"

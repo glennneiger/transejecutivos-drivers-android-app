@@ -9,7 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by william.montiel on 29/03/2016.
@@ -58,6 +60,7 @@ public class Deserializer extends DeserializerValidator {
         try {
             for (int i = 0; i < this.datesJsonArray.length(); i++) {
                 String d = (String) this.datesJsonArray.get(i);
+                //String df = DateFormat.getDateInstance(DateFormat.MEDIUM).format(d);
                 Date date = new Date(d);
                 this.datesArrayList.add(date);
 

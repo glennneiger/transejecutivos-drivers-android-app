@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/shadow"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -33,12 +33,12 @@
                 android:paddingTop="@dimen/car_view_padding">
 
                 <TextView
-                    android:id="@+id/txtview_start_date"
-                    android:textColor="@color/colorPrimaryText"
+                    android:id="@+id/txtview_reference"
+                    android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:text="Ago 10/2017"
+                    android:text="U456456-1"
                     android:textSize="20sp" />
 
                 <View
@@ -54,30 +54,13 @@
 
                 <TextView
                     android:id="@+id/txtview_service_start_time"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="right"
                     android:text="20:00"
                     android:textSize="20sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/car_view_padding"
-                android:paddingLeft="@dimen/car_view_padding"
-                android:paddingRight="@dimen/car_view_padding">
-
-                <TextView
-                    android:id="@+id/txtview_reference"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="U456456-1"
-                    android:textColor="@color/colorPrimary"/>
 
             </LinearLayout>
 
@@ -91,25 +74,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/car_view_padding"
+                android:paddingBottom="@dimen/car_view_padding"
                 android:paddingLeft="@dimen/car_view_padding"
                 android:paddingRight="@dimen/car_view_padding">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="14dp"
-                    android:text="@string/prompt_source"/>
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/ic_call_made_black_48dp"/>
 
                 <TextView
                     android:id="@+id/txtview_source"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
+                    android:textSize="22dp"
                     android:text="Jjjjjjjjjjjjjjjj jjjjjjjjjjjj jjjj "
                     android:textColor="@color/colorSecondaryText"/>
             </LinearLayout>
-
+<!--
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,11 +116,12 @@
                     android:text="Xxxxxxxxxxxxxxxx xxxxxxxxxxx cxxxxxxxxxxxx "
                     android:textColor="@color/colorSecondaryText"/>
             </LinearLayout>
-
+-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:paddingTop="@dimen/car_view_padding"
                 android:paddingBottom="@dimen/car_view_padding"
                 android:paddingLeft="@dimen/car_view_padding"
                 android:paddingRight="@dimen/car_view_padding">
@@ -146,17 +130,36 @@
                     android:id="@+id/txtview_company"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="22dp"
+                    android:textSize="20dp"
                     android:text="My Company"
                     android:textColor="@color/green"/>
 
-                <TextView
-                    android:id="@+id/txtview_event"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/event_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:text="(Event)"
-                    android:textColor="@color/orange"/>
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
+                        android:tint="@color/colorError"
+                        android:src="@drawable/ic_event_black_48dp"/>
+
+                    <TextView
+                        android:id="@+id/txtview_event"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:textSize="16dp"
+                        android:text="(Event)"
+                        android:textColor="@color/colorError"/>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -165,6 +168,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal"
+                android:paddingTop="@dimen/car_view_padding"
                 android:paddingBottom="@dimen/car_view_padding"
                 android:paddingLeft="@dimen/car_view_padding"
                 android:paddingRight="@dimen/car_view_padding">
@@ -201,14 +205,6 @@
                 android:paddingBottom="@dimen/car_view_padding"
                 android:paddingLeft="@dimen/car_view_padding"
                 android:paddingRight="@dimen/car_view_padding">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="14dp"
-                    android:text="@string/prompt_observations"/>
-
                 <TextView
                     android:id="@+id/txtview_observations"
                     android:layout_width="wrap_content"

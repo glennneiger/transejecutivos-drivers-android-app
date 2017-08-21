@@ -48,6 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elevation="10dp"
+                    android:layout_marginBottom="16dp"
                     android:text="@string/prompt_call_passenger"
                     android:background="@color/colorPrimaryDark"
                     android:textColor="@color/colorPrimaryTextLight" />
@@ -56,11 +57,19 @@
                     android:id="@+id/btn_no_show"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:elevation="10dp"
+                    android:layout_marginBottom="16dp"
                     android:text="@string/prompt_no_show_service"
                     android:background="@color/colorError"
+                    android:textColor="@color/colorPrimaryTextLight" />
+
+                <Button
+                    android:id="@+id/button_change_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:elevation="10dp"
+                    android:text="@string/prompt_change_time"
+                    android:background="@color/colorPrimary"
                     android:textColor="@color/colorPrimaryTextLight" />
             </LinearLayout>
 
