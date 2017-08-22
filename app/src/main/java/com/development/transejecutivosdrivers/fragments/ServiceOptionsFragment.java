@@ -423,6 +423,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 else if (btn.equals("bls")) {
                     cancelAlarm();
                     String message = getResources().getString(R.string.on_source_service_sms_message);
+                    message = message.replace("[DRIVER_NAME]", this.user.getName() + " " + this.user.getLastName());
                     message = message.replace("[PASSENGER_NAME]", this.passenger.getName() + " " + this.passenger.getLastName());
                     message = message.replace("[LICENSE_PLATE]", this.service.getLicensePlate());
                     message = message.replace("[DRIVER_PHONE1]", this.user.getPhone1());
@@ -541,8 +542,8 @@ public class ServiceOptionsFragment extends FragmentBase  {
     }
 
     private void showServiceSummary() {
-        txt_service_start.setText(getResources().getString(R.string.pab_time) + " " + service.getStartTime());
-        txt_service_end.setText(getResources().getString(R.string.st_time) + " " + service.getEndTime());
+        txt_service_start.setText(service.getStartTime());
+        txt_service_end.setText(service.getEndTime());
         txt_service_trace_observations.setText(service.getTraceObservations());
 
         String durl = ApiConstants.URL_IMAGE_MAP + service.getReference() + ".png";

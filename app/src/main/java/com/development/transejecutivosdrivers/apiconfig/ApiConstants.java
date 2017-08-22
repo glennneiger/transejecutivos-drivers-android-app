@@ -25,12 +25,14 @@ public class ApiConstants {
     public static final String SUPPORT_PHONE = "getsupportphones";
     public static final String APPLICATION_VERSION = "appversion";
     public static final String MAP = "maps";
+    public static final String CHANGE_TIME = "changetime";
 
     public static final String URL_LOGIN = URL_BASE + "/" + API + "/" + API_VERSION + "/" + LOGIN;
     public static final String URL_SERVICES_GROUPED = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SERVICES_GROUPED;
     public static final String URL_RECOVER_PASSWORD = URL_BASE + "/" + API + "/" + API_VERSION_1 + "/" + RECOVERPASS;
     public static final String URL_UPDATE_PROFILE = URL_BASE + "/" + API + "/" + API_VERSION_1 + "/" + UPDATE_PROFILE;
     public static final String URL_SEARCH_PENDING_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SEARCH_PENDING_SERVICE;
+    public static final String URL_CHANGE_TIME = URL_BASE + "/" + API + "/" + API_VERSION + "/" + CHANGE_TIME;
     public static final String URL_GET_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + GET_SERVICE;
     public static final String URL_ACCEPT_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + ACCEPT_SERVICE;
     public static final String URL_TRACE_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + TRACE_SERVICE;

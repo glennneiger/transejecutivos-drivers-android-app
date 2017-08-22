@@ -305,4 +305,16 @@ public class FragmentBase extends Fragment {
             }
         }
     }
+
+    public String formatTime(int number) {
+        String h;
+        if (number < 10) {
+            h = "0" + number;
+        }
+        else {
+            h = "" + number;
+        }
+
+        return h;
+    }
 }

@@ -243,18 +243,6 @@ public class ServiceTracingFragment extends FragmentBase  {
         });
     }
 
-    private String formatTime(int number) {
-        String h;
-        if (number < 10) {
-            h = "0" + number;
-        }
-        else {
-            h = "" + number;
-        }
-
-        return h;
-    }
-
     private void showTakePhotoButton() {
         if (!txtview_start_time.getText().equals("Establecer") && !txtview_end_time.getText().equals("Establecer")) {
             set_time_instructions.setVisibility(View.GONE);

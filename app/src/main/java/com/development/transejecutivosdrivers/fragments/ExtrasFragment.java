@@ -1,6 +1,7 @@
 package com.development.transejecutivosdrivers.fragments;
 
 import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.Cache;
@@ -44,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -55,11 +58,15 @@ public class ExtrasFragment extends FragmentBase {
     View service_option_progress;
     LinearLayout extra_options_container;
     View no_show_form;
+    View extra_buttons_container;
     Button btn_call_passenger;
     Button btn_no_show;
+    Button button_change_time;
     Button button_take_photo;
     TextInputLayout inputLayoutObservations;
     EditText txtview_observations;
+
+    String newTime;
 
     public ExtrasFragment() {
 
@@ -84,8 +91,10 @@ public class ExtrasFragment extends FragmentBase {
         service_option_progress = view.findViewById(R.id.extra_service_progress);
         extra_options_container = (LinearLayout) view.findViewById(R.id.extra_options_container);
         no_show_form = view.findViewById(R.id.no_show_form);
+        extra_buttons_container = view.findViewById(R.id.extra_buttons_container);
         btn_call_passenger = (Button) view.findViewById(R.id.btn_call_passenger);
         btn_no_show = (Button) view.findViewById(R.id.btn_no_show);
+        button_change_time = (Button) view.findViewById(R.id.button_change_time);
         button_take_photo = (Button) view.findViewById(R.id.button_take_photo);
         button_finish_tracing = (Button) view.findViewById(R.id.button_finish_no_show);
         inputLayoutObservations  = (TextInputLayout) view.findViewById(R.id.txt_input_layout_observations);
@@ -126,9 +135,31 @@ public class ExtrasFragment extends FragmentBase {
             }
         });
 
+        final FragmentBase f = this;
+        button_change_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                int mHour = c.get(Calendar.HOUR_OF_DAY);
+                int mMinute = c.get(Calendar.MINUTE);
+
+                TimePickerDialog tpd = new TimePickerDialog(f.getActivity(), 2,  new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        newTime = formatTime(hourOfDay) + ":" + formatTime(minute);
+                        changeTime();
+                    }
+                }, mHour, mMinute, true);
+
+                tpd.show();
+            }
+        });
+
         if (!TextUtils.isEmpty(service.getB1ha()) && !TextUtils.isEmpty(service.getBls()) && !TextUtils.isEmpty(service.getPab()) && !TextUtils.isEmpty(service.getSt())) {
             btn_no_show.setEnabled(false);
             btn_no_show.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            button_change_time.setEnabled(false);
+            button_change_time.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
     }
 
@@ -334,6 +365,84 @@ public class ExtrasFragment extends FragmentBase {
         }
         catch (JSONException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void changeTime() {
+        showProgress(true, extra_buttons_container, service_option_progress);
+
+        if (TextUtils.isEmpty(newTime)) {
+            showProgress(false, extra_buttons_container, service_option_progress);
+            setErrorSnackBar(getResources().getString(R.string.error_empty_new_time));
+        } else {
+            Cache cache = new DiskBasedCache(getActivity().getCacheDir(), 1024 * 1024);
+            Network network = new BasicNetwork(new HurlStack());
+            RequestQueue mRequestQueue = new RequestQueue(cache, network);
+            mRequestQueue.start();
+
+            StringRequest stringRequest = new StringRequest(
+                    Request.Method.PUT,
+                    ApiConstants.URL_CHANGE_TIME + "/" + this.service.getIdService(),
+                    new com.android.volley.Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            showProgress(false, extra_buttons_container, service_option_progress);
+                            try {
+                                JSONObject resObj = new JSONObject(response);
+                                Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
+                                String msg = resObj.getString(JsonKeys.MESSAGE);
+                                if (!error) {
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.service_time_update), Toast.LENGTH_SHORT).show();
+                                    reload();
+                                }
+                                else {
+                                    setErrorSnackBar(msg);
+                                }
+                            }
+                            catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    },
+                    new com.android.volley.Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (isAdded()) {
+                                VolleyErrorHandler voleyErrorHandler = new VolleyErrorHandler();
+                                voleyErrorHandler.setVolleyError(error);
+                                voleyErrorHandler.process();
+                                String msg = voleyErrorHandler.getMessage();
+                                String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
+
+                                setErrorSnackBar(message);
+                                showProgress(false, extra_buttons_container, service_option_progress);
+                            }
+                        }
+                    }) {
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String,String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/x-www-form-urlencoded");
+                    headers.put("Authorization", user.getApikey());
+                    return headers;
+                }
+
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    params.put(JsonKeys.SERVICE_START_TIME, newTime);
+
+                    return params;
+                }
+            };
+
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            mRequestQueue.add(stringRequest);
         }
     }
 

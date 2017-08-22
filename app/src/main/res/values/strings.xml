@@ -177,13 +177,15 @@
     <string name="mah_android_upd_info_popup_text">MAHAndroidUpdater library</string>
 
     <!-- SMS messages -->
-    <string name="confirm_service_sms_message">Cordial saludo, ya voy en camino hacia "[ADDRESS]", para recogerlo. Transportes Ejecutivos.</string>
-    <string name="on_source_service_sms_message">Sr(a) [PASSENGER_NAME], estoy en el sitio, mi placa es [LICENSE_PLATE], TEL: [DRIVER_PHONE1]. Transportes Ejecutivos.</string>
+    <string name="confirm_service_sms_message">Cordial saludo, ya voy en camino hacia "[ADDRESS]", para recogerlo. [DRIVER_NAME] - Transportes Ejecutivos.</string>
+    <string name="on_source_service_sms_message">Sr(a) [PASSENGER_NAME], estoy en el sitio, mi placa es [LICENSE_PLATE], TEL: [DRIVER_PHONE1]. [DRIVER_NAME] - Transportes Ejecutivos.</string>
     <string name="sent_passenger_sms_message">Se ha enviado una notificación SMS al pasajero.</string>
     <string name="cancel_permission_sms">Esta aplicación necesita permiso para realizar envíos de SMS, al no aceptar la solicitud, no podrá usar esta funcionalidad.</string>
     <string name="prompt_source">Origen: </string>
     <string name="prompt_destiny">Destino:</string>
     <string name="prompt_observations">Observaciones:</string>
     <string name="prompt_change_time">Cambiar hora del servicio</string>
+    <string name="error_empty_new_time">Debes ingresar la nueva hora</string>
+    <string name="service_time_update">Se ha cambiado la hora del servicio exitosamente</string>
 
 </resources>
