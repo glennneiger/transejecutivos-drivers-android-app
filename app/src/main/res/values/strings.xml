@@ -114,7 +114,8 @@
     <string name="prompt_take_photo">Tomar Foto</string>
 
     <string name="service_send_sms_message">¿Desea notificar al pasajero por medio de un SMS?</string>
-    <string name="button_send_sms_service_modal_prompt">Enviar</string>
+    <string name="button_not_send_sms_service_modal_prompt">No</string>
+    <string name="button_send_sms_service_modal_prompt">Si</string>
 
     <string name="prompt_set_time_instructions">1. Una vez hayas establecido la hora de inicio, de fin o ambas, deberas tomar la foto y presionar el botón guardar.</string>
     <string name="prompt_service_instruction1">1. Escribe tus observaciones encima de la línea, puedes dejar el campo en blanco si no tienes ninguna.</string>

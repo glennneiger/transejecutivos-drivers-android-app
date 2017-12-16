@@ -418,13 +418,13 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
                 if (btn.equals("b1ha")) {
                     scheduleAlarm(JsonKeys.PRELOCATION);
-
                     String message = getResources().getString(R.string.confirm_service_sms_message);
                     message = message.replace("[ADDRESS]", this.service.getSource());
                     this.askForSendSMS(message);
                 }
                 else if (btn.equals("bls")) {
                     cancelAlarm();
+
                     String message = getResources().getString(R.string.on_source_service_sms_message);
                     message = message.replace("[DRIVER_NAME]", this.user.getName() + " " + this.user.getLastName());
                     message = message.replace("[PASSENGER_NAME]", this.passenger.getName() + " " + this.passenger.getLastName());
@@ -435,12 +435,12 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 }
                 else if (btn.equals("pab")) {
                     scheduleAlarm(JsonKeys.ONSERVICE);
+                    reload();
                 }
                 else if (btn.equals("st")) {
                     cancelAlarm();
+                    reload();
                 }
-
-                reload();
             }
             else {
                 //cancelAlarm();
@@ -460,8 +460,17 @@ public class ServiceOptionsFragment extends FragmentBase  {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             sendSMS(message);
+            reload();
             }
         });
+        dialog.setNegativeButton(getResources().getString(R.string.button_not_send_sms_service_modal_prompt),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                        reload();
+                    }
+                }
+        );
         AlertDialog alert = dialog.create();
         alert.show();
     }
