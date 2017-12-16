@@ -113,7 +113,7 @@
     <string name="prompt_set_end_time">Establecer hora de fin</string>
     <string name="prompt_take_photo">Tomar Foto</string>
 
-    <string name="service_send_sms_message">¿Desea notificar al pasajero por medio de un SMS?</string>
+    <string name="service_send_sms_message">¿Desea notificar al pasajero por medio de un mensaje de texto?</string>
     <string name="button_not_send_sms_service_modal_prompt">No</string>
     <string name="button_send_sms_service_modal_prompt">Si</string>
 
