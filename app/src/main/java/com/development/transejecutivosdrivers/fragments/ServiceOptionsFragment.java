@@ -1,6 +1,8 @@
 package com.development.transejecutivosdrivers.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -416,9 +418,10 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
                 if (btn.equals("b1ha")) {
                     scheduleAlarm(JsonKeys.PRELOCATION);
+
                     String message = getResources().getString(R.string.confirm_service_sms_message);
                     message = message.replace("[ADDRESS]", this.service.getSource());
-                    sendSMS(message);
+                    this.askForSendSMS(message);
                 }
                 else if (btn.equals("bls")) {
                     cancelAlarm();
@@ -427,7 +430,8 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     message = message.replace("[PASSENGER_NAME]", this.passenger.getName() + " " + this.passenger.getLastName());
                     message = message.replace("[LICENSE_PLATE]", this.service.getLicensePlate());
                     message = message.replace("[DRIVER_PHONE1]", this.user.getPhone1());
-                    sendSMS(message);
+
+                    this.askForSendSMS(message);
                 }
                 else if (btn.equals("pab")) {
                     scheduleAlarm(JsonKeys.ONSERVICE);
@@ -446,6 +450,20 @@ public class ServiceOptionsFragment extends FragmentBase  {
         catch (JSONException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void askForSendSMS(final String message) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setMessage(getResources().getString(R.string.service_send_sms_message));
+        dialog.setPositiveButton(getResources().getString(R.string.button_send_sms_service_modal_prompt), new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            sendSMS(message);
+            }
+        });
+        AlertDialog alert = dialog.create();
+        alert.show();
     }
 
     private void sendSMS(String message) {

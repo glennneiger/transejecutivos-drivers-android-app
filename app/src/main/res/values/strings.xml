@@ -113,6 +113,9 @@
     <string name="prompt_set_end_time">Establecer hora de fin</string>
     <string name="prompt_take_photo">Tomar Foto</string>
 
+    <string name="service_send_sms_message">¿Desea notificar al pasajero por medio de un SMS?</string>
+    <string name="button_send_sms_service_modal_prompt">Enviar</string>
+
     <string name="prompt_set_time_instructions">1. Una vez hayas establecido la hora de inicio, de fin o ambas, deberas tomar la foto y presionar el botón guardar.</string>
     <string name="prompt_service_instruction1">1. Escribe tus observaciones encima de la línea, puedes dejar el campo en blanco si no tienes ninguna.</string>
     <string name="prompt_service_instruction2">2. Debes tomar la foto del servicio para poder continuar. </string>

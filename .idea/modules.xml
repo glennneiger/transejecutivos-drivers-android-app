@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/transejecutivos-drivers.iml" filepath="$PROJECT_DIR$/transejecutivos-drivers.iml" />
+      <module fileurl="file://C:\Users\will\Documents\Projects\TransportesEjecutivos\Mobile\transejecutivos-drivers-android-app\transejecutivos-drivers.iml" filepath="C:\Users\will\Documents\Projects\TransportesEjecutivos\Mobile\transejecutivos-drivers-android-app\transejecutivos-drivers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/transejecutivos-drivers-android-app.iml" filepath="$PROJECT_DIR$/transejecutivos-drivers-android-app.iml" />
     </modules>
   </component>
 </project>
