@@ -4,7 +4,7 @@
     <!-- Strings related to login -->
     <string name="title_activity_login">Iniciar Sesión</string>
     <string name="loginImage">Conductores Transejecutivos</string>
-    <string name="prompt_username">Nombre de usuario</string>
+    <string name="prompt_username">Email</string>
     <string name="prompt_password">Contraseña</string>
     <string name="prompt_login_button">Iniciar Sesión</string>
     <string name="prompt_login_button_short">Iniciar Sesión</string>
@@ -129,7 +129,7 @@
     <string name="prompt_start_time_service_value">Establecer</string>
     <string name="prompt_end_time_service_value">Establecer</string>
 
-    <string name="prompt_app_version">1.3.2</string>
+    <string name="prompt_app_version">1.3.3 Beta</string>
     <string name="prompt_service_refence">Servicio Indefinido</string>
     <string name="prompt_service_complete">Este servicio se encuentra completado, si deseas editarlo, presiona el botón rojo.</string>
     <string name="prompt_sms_passenger_service">Enviar SMS al pasajero</string>

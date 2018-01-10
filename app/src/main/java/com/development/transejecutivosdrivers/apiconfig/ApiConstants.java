@@ -1,13 +1,12 @@
 package com.development.transejecutivosdrivers.apiconfig;
 
 public class ApiConstants {
-    public static final String URL_BASE = "http://www.transportesejecutivos.com";
-    public static final String API = "api";
-    public static final String API_VERSION_1 = "v1";
-    public static final String API_VERSION = "v2";
-    public static final String LOGIN = "login";
+    public static final String URL_BASE = "http://app.transportesejecutivos.com";
+    public static final String API = "api/driverapp";
+    public static final String API_VERSION = "v1";
+    public static final String LOGIN = "session/apilogin";
     public static final String SERVICES_GROUPED = "servicesgrouped";
-    public static final String RECOVERPASS = "recoverpassword";
+    public static final String RECOVERPASS = "session/apirecoverpassword";
     public static final String UPDATE_PROFILE = "updateprofile";
     public static final String SEARCH_PENDING_SERVICE = "searchpendingservice";
     public static final String GET_SERVICE = "getservice";
@@ -19,18 +18,18 @@ public class ApiConstants {
     public static final String SET_LOCATION = "setlocation";
     public static final String FINISH_SERVICE = "finishservice";
     public static final String SET_PRELOCATION = "setprelocation";
-    public static final String RESET_PASSWORD = "resetpassword";
+    public static final String RESET_PASSWORD = "apiresetpassword";
     public static final String SEARCH_SERVICE = "searchservice";
-    public static final String RESET_SERVICE = "resetservice";
+    public static final String RESET_SERVICE = "session/apiresetservice";
     public static final String SUPPORT_PHONE = "getsupportphones";
     public static final String APPLICATION_VERSION = "appversion";
     public static final String MAP = "maps";
     public static final String CHANGE_TIME = "changetime";
 
-    public static final String URL_LOGIN = URL_BASE + "/" + API + "/" + API_VERSION + "/" + LOGIN;
+    public static final String URL_LOGIN = URL_BASE + "/" + LOGIN;
     public static final String URL_SERVICES_GROUPED = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SERVICES_GROUPED;
-    public static final String URL_RECOVER_PASSWORD = URL_BASE + "/" + API + "/" + API_VERSION_1 + "/" + RECOVERPASS;
-    public static final String URL_UPDATE_PROFILE = URL_BASE + "/" + API + "/" + API_VERSION_1 + "/" + UPDATE_PROFILE;
+    public static final String URL_RECOVER_PASSWORD = URL_BASE + "/" + RECOVERPASS;
+    public static final String URL_UPDATE_PROFILE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + UPDATE_PROFILE;
     public static final String URL_SEARCH_PENDING_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SEARCH_PENDING_SERVICE;
     public static final String URL_CHANGE_TIME = URL_BASE + "/" + API + "/" + API_VERSION + "/" + CHANGE_TIME;
     public static final String URL_GET_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + GET_SERVICE;
@@ -42,7 +41,7 @@ public class ApiConstants {
     public static final String URL_SET_LOCATION = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SET_LOCATION;
     public static final String URL_FINISH_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + FINISH_SERVICE;
     public static final String URL_SET_PRELOCATION = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SET_PRELOCATION;
-    public static final String URL_RESET_PASSWORD = URL_BASE + "/" + API + "/" + API_VERSION_1 + "/" + RESET_PASSWORD;
+    public static final String URL_RESET_PASSWORD = URL_BASE  + "/" + RESET_PASSWORD;
     public static final String URL_SEARCH_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SEARCH_SERVICE;
     public static final String URL_RESET_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + RESET_SERVICE;
     public static final String URL_SUPPORT_PHONE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SUPPORT_PHONE;
