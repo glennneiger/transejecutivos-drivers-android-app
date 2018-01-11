@@ -355,7 +355,9 @@ public class ServiceTracingFragment extends FragmentBase  {
                             String message = (TextUtils.isEmpty(msg) ? getResources().getString(R.string.server_error) : msg);
 
                             setErrorSnackBar(message);
-                            showProgress(false, layout, progressBar);
+                            if (layout != null) {
+                                showProgress(false, layout, progressBar);
+                            }
                         }
                     }
                 }) {

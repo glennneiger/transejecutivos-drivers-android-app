@@ -18,9 +18,9 @@ public class ApiConstants {
     public static final String SET_LOCATION = "setlocation";
     public static final String FINISH_SERVICE = "finishservice";
     public static final String SET_PRELOCATION = "setprelocation";
-    public static final String RESET_PASSWORD = "apiresetpassword";
+    public static final String RESET_PASSWORD = "session/apiresetpassword";
     public static final String SEARCH_SERVICE = "searchservice";
-    public static final String RESET_SERVICE = "session/apiresetservice";
+    public static final String RESET_SERVICE = "resetservice";
     public static final String SUPPORT_PHONE = "getsupportphones";
     public static final String APPLICATION_VERSION = "appversion";
     public static final String MAP = "maps";

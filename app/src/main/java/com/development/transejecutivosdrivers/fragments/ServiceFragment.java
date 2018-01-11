@@ -158,7 +158,7 @@ public class ServiceFragment extends FragmentBase {
             RequestQueue mRequestQueue = new RequestQueue(cache, network);
             mRequestQueue.start();
             StringRequest stringRequest = new StringRequest(
-                    Request.Method.PUT,
+                    Request.Method.POST,
                     ApiConstants.URL_ACCEPT_SERVICE + "/" + idService,
                     new com.android.volley.Response.Listener<String>() {
                         @Override
