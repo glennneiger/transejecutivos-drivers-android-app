@@ -369,7 +369,7 @@ public class LoginActivity extends ActivityBase implements LoaderCallbacks<Curso
             mRequestQueue.start();
 
             StringRequest stringRequest = new StringRequest(
-                    Request.Method.PUT,
+                    Request.Method.POST,
                     ApiConstants.URL_UPDATE_PROFILE,
                     new com.android.volley.Response.Listener<String>() {
                         @Override

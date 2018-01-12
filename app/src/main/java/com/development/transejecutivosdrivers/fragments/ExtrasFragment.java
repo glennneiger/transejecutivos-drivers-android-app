@@ -381,7 +381,7 @@ public class ExtrasFragment extends FragmentBase {
             mRequestQueue.start();
 
             StringRequest stringRequest = new StringRequest(
-                    Request.Method.PUT,
+                    Request.Method.POST,
                     ApiConstants.URL_CHANGE_TIME + "/" + this.service.getIdService(),
                     new com.android.volley.Response.Listener<String>() {
                         @Override

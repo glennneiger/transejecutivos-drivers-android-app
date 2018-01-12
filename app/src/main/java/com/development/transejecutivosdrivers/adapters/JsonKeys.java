@@ -72,6 +72,7 @@ public class JsonKeys {
     public static final String SERVICE_LICENSE_PLATE = "license_plate";
     public static final String SERVICE_EVENT = "event";
     public static final String SERVICE_COMPANY = "company";
+    public static final String SERVICE_URL_MAP = "urlMap";
 
 
     /**

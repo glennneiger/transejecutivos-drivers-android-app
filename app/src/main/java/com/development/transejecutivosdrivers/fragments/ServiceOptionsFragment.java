@@ -573,7 +573,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
         txt_service_end.setText(service.getEndTime());
         txt_service_trace_observations.setText(service.getTraceObservations());
 
-        String durl = ApiConstants.URL_IMAGE_MAP + service.getReference() + ".png";
+        String durl = service.getUrlMap();
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 

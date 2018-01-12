@@ -23,7 +23,6 @@ public class ApiConstants {
     public static final String RESET_SERVICE = "resetservice";
     public static final String SUPPORT_PHONE = "getsupportphones";
     public static final String APPLICATION_VERSION = "appversion";
-    public static final String MAP = "maps";
     public static final String CHANGE_TIME = "changetime";
 
     public static final String URL_LOGIN = URL_BASE + "/" + LOGIN;
@@ -46,8 +45,4 @@ public class ApiConstants {
     public static final String URL_RESET_SERVICE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + RESET_SERVICE;
     public static final String URL_SUPPORT_PHONE = URL_BASE + "/" + API + "/" + API_VERSION + "/" + SUPPORT_PHONE;
     public static final String URL_APP_VERSION= URL_BASE + "/" + API + "/" + API_VERSION + "/" + APPLICATION_VERSION;
-
-    public static final String URL_TEST = URL_BASE + "/" + API + "/" + API_VERSION + "/lala";
-
-    public static final String URL_IMAGE_MAP = URL_BASE + "/" + MAP + "/";
 }

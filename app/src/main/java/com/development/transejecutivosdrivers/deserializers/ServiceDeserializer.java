@@ -54,6 +54,7 @@ public class ServiceDeserializer extends DeserializerValidator{
             String licensePlate = validateString(JsonKeys.SERVICE_LICENSE_PLATE, jsonObject);
             String company = validateString(JsonKeys.SERVICE_COMPANY, jsonObject);
             String event = validateString(JsonKeys.SERVICE_EVENT, jsonObject);
+            String urlMap = validateString(JsonKeys.SERVICE_URL_MAP, jsonObject);
 
             int b1haStatus = validateInt(JsonKeys.SERVICE_B1HA_STATUS, jsonObject);
 
@@ -100,6 +101,7 @@ public class ServiceDeserializer extends DeserializerValidator{
 
             this.service.setEvent(event);
             this.service.setCompany(company);
+            this.service.setUrlMap(urlMap);
         }
     }
 
