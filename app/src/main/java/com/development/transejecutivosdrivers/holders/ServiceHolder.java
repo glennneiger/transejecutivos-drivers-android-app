@@ -102,6 +102,8 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
             txtview_observations_container.setVisibility(View.VISIBLE);
             txtview_observations.setText(" " + service.getObservations());
         }
+
+        hideElements();
     }
 
     public void hideElements() {
