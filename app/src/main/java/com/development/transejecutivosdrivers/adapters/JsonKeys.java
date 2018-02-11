@@ -29,6 +29,7 @@ public class JsonKeys {
      * General Json Keys
      */
     public static final String MESSAGE = "message";
+    public static final String DATA = "data";
     public static final String ERROR = "error";
     public static final String DATE = "date";
     public static final String APP_VERSION = "version";

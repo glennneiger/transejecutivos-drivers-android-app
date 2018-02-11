@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -277,7 +278,7 @@ public class ProfileActivity extends ActivityBase implements LoaderManager.Loade
                     params.put(JsonKeys.USER_PHONE1, phone1);
                     params.put(JsonKeys.USER_PHONE2, phone2);
                     params.put(JsonKeys.PASSWORD, password);
-                    params.put(JsonKeys.USER_TOKEN, "");
+                    params.put(JsonKeys.USER_TOKEN, user.getApikey());
                     params.put(JsonKeys.USER_NOTIFICATIONS, "1");
 
                     return params;
@@ -298,21 +299,23 @@ public class ProfileActivity extends ActivityBase implements LoaderManager.Loade
 
         protected void validateResponse(String response) {
             try {
+                Log.d("LALA", response);
                 JSONObject resObj = new JSONObject(response);
                 Boolean error = (Boolean) resObj.get(JsonKeys.ERROR);
                 if (!error) {
+                    JSONObject usertObj = resObj.getJSONObject(JsonKeys.DATA);
+
                     User user = new User();
-                    int idUser = (int) resObj.get(JsonKeys.USER_ID);
+                    int idUser = (int) usertObj.get(JsonKeys.USER_ID);
                     user.setIdUser(idUser);
-                    user.setUsername(resObj.getString(JsonKeys.USER_USERNAME));
-                    user.setName(resObj.getString(JsonKeys.USER_NAME));
-                    user.setLastName(resObj.getString(JsonKeys.USER_LASTNAME));
-                    user.setEmail1(resObj.getString(JsonKeys.USER_EMAIL1));
-                    user.setEmail2(resObj.getString(JsonKeys.USER_EMAIL2));
-                    user.setPhone1(resObj.getString(JsonKeys.USER_PHONE1));
-                    user.setPhone2(resObj.getString(JsonKeys.USER_PHONE2));
-                    user.setApikey(resObj.getString(JsonKeys.USER_APIKEY));
-                    user.setCode(resObj.getString(JsonKeys.USER_CODE));
+                    user.setUsername(usertObj.getString(JsonKeys.USER_USERNAME));
+                    user.setName(usertObj.getString(JsonKeys.USER_NAME));
+                    user.setLastName(usertObj.getString(JsonKeys.USER_LASTNAME));
+                    user.setEmail1(usertObj.getString(JsonKeys.USER_EMAIL1));
+                    user.setEmail2(usertObj.getString(JsonKeys.USER_EMAIL2));
+                    user.setPhone1(usertObj.getString(JsonKeys.USER_PHONE1));
+                    user.setPhone2(usertObj.getString(JsonKeys.USER_PHONE2));
+                    user.setApikey(usertObj.getString(JsonKeys.USER_APIKEY));
 
                     session.createUserLoginSession(user);
 
