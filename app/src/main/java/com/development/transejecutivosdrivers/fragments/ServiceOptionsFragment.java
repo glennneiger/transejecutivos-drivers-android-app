@@ -39,6 +39,7 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.development.transejecutivosdrivers.DashboardActivity;
+import com.development.transejecutivosdrivers.MainActivity;
 import com.development.transejecutivosdrivers.Manifest;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.ServiceActivity;
@@ -409,6 +410,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                         String message = getResources().getString(R.string.confirm_service_sms_message);
                         Source source = passenger.getSource();
                         message = message.replace("[ADDRESS]", source.getAddress());
+                        message = message.replace("[DRIVER_NAME]", this.user.getName() + " " + this.user.getLastName());
                         this.askForSendSMS(message, passenger);
                     }
                 }
@@ -421,7 +423,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                         Passenger passenger = this.passengers.get(i);
 
                         message = message.replace("[DRIVER_NAME]", this.user.getName() + " " + this.user.getLastName());
-                        message = message.replace("[PASSENGER_NAME]", this.passenger.getName() + " " + passenger.getLastname());
+                        message = message.replace("[PASSENGER_NAME]", passenger.getName() + " " + passenger.getLastname());
                         message = message.replace("[LICENSE_PLATE]", this.service.getLicensePlate());
                         message = message.replace("[DRIVER_PHONE1]", this.user.getPhone1());
 
@@ -434,6 +436,9 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 }
                 else if (btn.equals("st")) {
                     cancelAlarm();
+                    reload();
+                }
+                else if (btn.equals("reset")) {
                     reload();
                 }
             }
@@ -564,30 +569,35 @@ public class ServiceOptionsFragment extends FragmentBase  {
     }
 
     private void showServiceSummary() {
-        txt_service_start.setText(service.getStartTime());
-        txt_service_end.setText(service.getEndTime());
-        txt_service_trace_observations.setText(service.getTraceObservations());
+        if (service == null) {
+            Intent i = new Intent(getActivity(), MainActivity.class);
+            startActivity(i);
+        } else {
+            txt_service_start.setText(service.getStartTime());
+            txt_service_end.setText(service.getEndTime());
+            txt_service_trace_observations.setText(service.getTraceObservations());
 
-        String durl = service.getUrlMap();
+            String durl = service.getUrlMap();
 
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-        ImageRequest drequest = new ImageRequest(durl,
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        imgview_service_map.setImageBitmap(bitmap);
-                    }
-                }, 0, 0, null,
-                new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                        imgview_service_map.setImageResource(R.drawable.image_not_found);
-                    }
-                });
+            ImageRequest drequest = new ImageRequest(durl,
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap bitmap) {
+                            imgview_service_map.setImageBitmap(bitmap);
+                        }
+                    }, 0, 0, null,
+                    new Response.ErrorListener() {
+                        public void onErrorResponse(VolleyError error) {
+                            imgview_service_map.setImageResource(R.drawable.image_not_found);
+                        }
+                    });
 
-        requestQueue.add(drequest);
+            requestQueue.add(drequest);
 
-        service_complete_container.setVisibility(View.VISIBLE);
+            service_complete_container.setVisibility(View.VISIBLE);
+        }
     }
 
     private class FinishService extends AsyncTask<String, Void, Void> {
