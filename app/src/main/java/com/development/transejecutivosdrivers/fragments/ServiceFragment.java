@@ -3,6 +3,8 @@ package com.development.transejecutivosdrivers.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +29,7 @@ import com.development.transejecutivosdrivers.MainActivity;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.ServiceActivity;
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
+import com.development.transejecutivosdrivers.adapters.PassengerAdapter;
 import com.development.transejecutivosdrivers.apiconfig.ApiConstants;
 import com.development.transejecutivosdrivers.deserializers.Deserializer;
 import com.development.transejecutivosdrivers.holders.ServiceHolder;
@@ -38,6 +41,7 @@ import com.development.transejecutivosdrivers.models.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadFactory;
@@ -50,18 +54,20 @@ public class ServiceFragment extends FragmentBase {
     View fragmentContainer;
     View progressBar;
     boolean for_search = false;
-    Button button_call_passenger;
-    Button button_sms_passenger;
+
+    private RecyclerView passengerRecyclerView;
+    private RecyclerView.Adapter passengerAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     public ServiceFragment() {
 
     }
 
-    public static ServiceFragment newInstance(User user, Service service, Passenger passenger) {
+    public static ServiceFragment newInstance(User user, Service service, ArrayList<Passenger> passengers) {
         ServiceFragment fragment = new ServiceFragment();
         fragment.setUser(user);
         fragment.setService(service);
-        fragment.setPassenger(passenger);
+        fragment.setPassengers(passengers);
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -74,43 +80,7 @@ public class ServiceFragment extends FragmentBase {
 
         fragmentContainer = view.findViewById(R.id.service_container);
         progressBar = view.findViewById(R.id.service_progress);
-        button_call_passenger = (Button) view.findViewById(R.id.button_call_passenger);
-        button_sms_passenger = (Button) view.findViewById(R.id.button_sms_passenger);
 
-        button_sms_passenger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (passenger != null && !TextUtils.isEmpty(passenger.getPhone())) {
-                    String[] tels = passenger.getPhone().split(",");
-                    String tel1 = tels[0];
-
-                    if (!TextUtils.isEmpty(tel1)) {
-                        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + tel1));
-                        startActivity(intent);
-                    }
-                } else {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.passenger_phone_empty_message), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        button_call_passenger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (passenger != null && !TextUtils.isEmpty(passenger.getPhone())) {
-                    String[] tels = passenger.getPhone().split(",");
-                    String tel1 = tels[0];
-
-                    if (!TextUtils.isEmpty(tel1)) {
-                        Intent callIntent = new Intent(Intent.ACTION_CALL);
-                        callIntent.setData(Uri.parse("tel:" + tel1));
-                        startActivity(callIntent);
-                    }
-                } else {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.passenger_phone_empty_message), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         Button button_accept = (Button) view.findViewById(R.id.button_accept);
         button_accept.setOnClickListener(new View.OnClickListener() {
@@ -141,10 +111,18 @@ public class ServiceFragment extends FragmentBase {
             setService(serviceActivity.getServiceData());
         }
 
-        if (service != null && passenger != null) {
+        if (service != null && passengers.size() > 0) {
             ServiceHolder serviceHolder = new ServiceHolder(view, getActivity());
             serviceHolder.setService(service);
-            serviceHolder.setPassenger(passenger);
+
+            passengerRecyclerView = (RecyclerView) view.findViewById(R.id.passenger_recycler_view);
+            passengerRecyclerView.setHasFixedSize(true);
+
+            mLayoutManager = new LinearLayoutManager(getActivity());
+            passengerRecyclerView.setLayoutManager(mLayoutManager);
+
+            passengerAdapter = new PassengerAdapter(getActivity(), passengers);
+            passengerRecyclerView.setAdapter(passengerAdapter);
         }
 
     }

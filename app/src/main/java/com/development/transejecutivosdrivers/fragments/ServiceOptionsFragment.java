@@ -51,6 +51,7 @@ import com.development.transejecutivosdrivers.misc.RequestHandler;
 import com.development.transejecutivosdrivers.misc.VolleyErrorHandler;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
+import com.development.transejecutivosdrivers.models.Source;
 import com.development.transejecutivosdrivers.models.User;
 
 import org.apache.http.NameValuePair;
@@ -74,7 +75,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
     View buttons_container;
     View finish_form;
     View progressBar;
-    Button btn_call_passenger;
     Button btn_onmyway;
     Button btn_on_source;
     Button btn_start_service;
@@ -100,11 +100,11 @@ public class ServiceOptionsFragment extends FragmentBase  {
         this.context = context;
     }
 
-    public static ServiceOptionsFragment newInstance(User user, Service service, Passenger passenger, Context context) {
+    public static ServiceOptionsFragment newInstance(User user, Service service, ArrayList<Passenger> passengers, Context context) {
         ServiceOptionsFragment fragment = new ServiceOptionsFragment();
         fragment.setUser(user);
         fragment.setService(service);
-        fragment.setPassenger(passenger);
+        fragment.setPassengers(passengers);
         fragment.setContext(context);
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -119,8 +119,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
         progressBar = view.findViewById(R.id.service_option_progress);
         buttons_container = view.findViewById(R.id.options_container);
         finish_form = view.findViewById(R.id.finish_form);
-
-        btn_call_passenger = (Button) view.findViewById(R.id.btn_call_passenger);
 
         service_complete_container = view.findViewById(R.id.service_complete_container);
         txt_service_start = (TextView) view.findViewById(R.id.txt_service_start);
@@ -151,20 +149,6 @@ public class ServiceOptionsFragment extends FragmentBase  {
     }
 
     private void setOnClickListeners() {
-        btn_call_passenger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String[] tels = passenger.getPhone().split(",");
-                String tel1 = tels[0];
-
-                if (!TextUtils.isEmpty(tel1)) {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:" + tel1));
-                    startActivity(callIntent);
-                }
-            }
-        });
-
         btn_onmyway.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -418,20 +402,31 @@ public class ServiceOptionsFragment extends FragmentBase  {
 
                 if (btn.equals("b1ha")) {
                     scheduleAlarm(JsonKeys.PRELOCATION);
-                    String message = getResources().getString(R.string.confirm_service_sms_message);
-                    message = message.replace("[ADDRESS]", this.service.getSource());
-                    this.askForSendSMS(message);
+
+                    for (int i = 0; i < this.passengers.size(); i++) {
+                        Passenger passenger = this.passengers.get(i);
+
+                        String message = getResources().getString(R.string.confirm_service_sms_message);
+                        Source source = passenger.getSource();
+                        message = message.replace("[ADDRESS]", source.getAddress());
+                        this.askForSendSMS(message, passenger);
+                    }
                 }
                 else if (btn.equals("bls")) {
                     cancelAlarm();
 
                     String message = getResources().getString(R.string.on_source_service_sms_message);
-                    message = message.replace("[DRIVER_NAME]", this.user.getName() + " " + this.user.getLastName());
-                    message = message.replace("[PASSENGER_NAME]", this.passenger.getName() + " " + this.passenger.getLastName());
-                    message = message.replace("[LICENSE_PLATE]", this.service.getLicensePlate());
-                    message = message.replace("[DRIVER_PHONE1]", this.user.getPhone1());
 
-                    this.askForSendSMS(message);
+                    for (int i = 0; i < this.passengers.size(); i++) {
+                        Passenger passenger = this.passengers.get(i);
+
+                        message = message.replace("[DRIVER_NAME]", this.user.getName() + " " + this.user.getLastName());
+                        message = message.replace("[PASSENGER_NAME]", this.passenger.getName() + " " + passenger.getLastname());
+                        message = message.replace("[LICENSE_PLATE]", this.service.getLicensePlate());
+                        message = message.replace("[DRIVER_PHONE1]", this.user.getPhone1());
+
+                        this.askForSendSMS(message, passenger);
+                    }
                 }
                 else if (btn.equals("pab")) {
                     scheduleAlarm(JsonKeys.ONSERVICE);
@@ -452,14 +447,14 @@ public class ServiceOptionsFragment extends FragmentBase  {
         }
     }
 
-    private void askForSendSMS(final String message) {
+    private void askForSendSMS(final String message, final Passenger passenger) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setMessage(getResources().getString(R.string.service_send_sms_message));
         dialog.setPositiveButton(getResources().getString(R.string.button_send_sms_service_modal_prompt), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-            sendSMS(message);
+            sendSMS(message, passenger);
             reload();
             }
         });
@@ -475,11 +470,11 @@ public class ServiceOptionsFragment extends FragmentBase  {
         alert.show();
     }
 
-    private void sendSMS(String message) {
+    private void sendSMS(String message, Passenger passenger) {
         int MyVersion = Build.VERSION.SDK_INT;
         if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
             if(android.support.v4.app.ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
-                if (!TextUtils.isEmpty(this.passenger.getPhone())) {
+                if (!TextUtils.isEmpty(passenger.getPhone1())) {
                     SmsManager smsManager = SmsManager.getDefault();
 
                     message = Normalizer.normalize(message, Normalizer.Form.NFD)
@@ -488,7 +483,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                     message = Normalizer.normalize(message, Normalizer.Form.NFD);
                     message = message.replaceAll("[^\\p{ASCII}]", "");
 
-                    smsManager.sendTextMessage(this.passenger.getPhone(), null, message, null, null);
+                    smsManager.sendTextMessage(passenger.getPhone1(), null, message, null, null);
 
                     Toast.makeText(context, getResources().getString(R.string.sent_passenger_sms_message),Toast.LENGTH_LONG).show();
                 }
@@ -499,7 +494,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                         MY_PERMISSIONS_REQUEST_SEND_SMS);
             }
         } else {
-            if (!TextUtils.isEmpty(this.passenger.getPhone())) {
+            if (!TextUtils.isEmpty(passenger.getPhone1())) {
                 SmsManager smsManager = SmsManager.getDefault();
 
                 message = Normalizer.normalize(message, Normalizer.Form.NFD)
@@ -508,7 +503,7 @@ public class ServiceOptionsFragment extends FragmentBase  {
                 message = Normalizer.normalize(message, Normalizer.Form.NFD);
                 message = message.replaceAll("[^\\p{ASCII}]", "");
 
-                smsManager.sendTextMessage(this.passenger.getPhone(), null, message, null, null);
+                smsManager.sendTextMessage(passenger.getPhone1(), null, message, null, null);
 
                 Toast.makeText(context, getResources().getString(R.string.sent_passenger_sms_message),Toast.LENGTH_LONG).show();
             }

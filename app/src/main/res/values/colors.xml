@@ -12,7 +12,7 @@
     <color name="colorBackground">#c6c9cc</color>
     <color name="colorError">#8F4430</color>
     <color name="colorErrorLight">#fff4f2</color>
-    <color name="shadow">#ddd</color>
+    <color name="shadow">#dddddd</color>
     <color name="green">#B2B072</color>
     <color name="blue">#2C7699</color>
     <color name="orange">#CC7E06</color>

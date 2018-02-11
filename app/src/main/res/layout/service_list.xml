@@ -82,7 +82,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_margin="5dp"
-                    android:src="@drawable/ic_call_made_black_48dp"/>
+                    android:src="@drawable/ic_flag"/>
 
                 <TextView
                     android:id="@+id/txtview_source"
@@ -201,10 +201,10 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorErrorLight"
                 android:orientation="horizontal"
-                android:paddingTop="@dimen/car_view_padding"
-                android:paddingBottom="@dimen/car_view_padding"
-                android:paddingLeft="@dimen/car_view_padding"
-                android:paddingRight="@dimen/car_view_padding">
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
                 <TextView
                     android:id="@+id/txtview_observations"
                     android:layout_width="wrap_content"

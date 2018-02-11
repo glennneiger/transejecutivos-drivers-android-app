@@ -38,6 +38,7 @@ public class JsonKeys {
      * Services Json Keys
      */
     public static final String SERVICES = "services";
+    public static final String PASSENGERS = "passengers";
     public static final String SERVICE = "service";
     public static final String DATES = "dates";
     public static final String SERVICE_ID = "service_id";
@@ -78,13 +79,30 @@ public class JsonKeys {
     /**
      * Passenger Json Keys
      */
-    public static final String PASSENGER_ID = "passenger_id";
-    public static final String PASSENGER_CODE = "passenger_code";
-    public static final String PASSENGER_NAME = "passenger_name";
-    public static final String PASSENGER_LASTNAME = "passenger_lastname";
-    public static final String PASSENGER_COMPANY = "company";
-    public static final String PASSENGER_PHONE = "phone";
-    public static final String PASSENGER_EMAIL = "email";
+    public static final String PASSENGER_ID = "idPassenger";
+    public static final String PASSENGER_NAME = "name";
+    public static final String PASSENGER_LASTNAME = "lastname";
+    public static final String PASSENGER_PHONE1 = "phone1";
+    public static final String PASSENGER_PHONE2 = "phone2";
+    public static final String PASSENGER_EMAIL1 = "email";
+    public static final String PASSENGER_EMAIL2 = "email2";
+    public static final String PASSENGER_SOURCE = "source";
+
+    /**
+     * Source
+     */
+    public static final String SOURCE_ID = "idServiceSource";
+    public static final String SOURCE_LATITUDE = "latitude";
+    public static final String SOURCE_LONGITUDE = "longitude";
+    public static final String SOURCE_PLACEID = "placeId";
+    public static final String SOURCE_ADDRESS = "address";
+    public static final String SOURCE_CITY = "city";
+
+    /**
+     * City
+     */
+    public static final String CITY_ID = "idCity";
+    public static final String CITY_NAME = "name";
 
     /**
      * Date Json Keys

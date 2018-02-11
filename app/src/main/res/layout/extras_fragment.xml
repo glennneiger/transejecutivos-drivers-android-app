@@ -45,16 +45,6 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btn_call_passenger"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:elevation="10dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/prompt_call_passenger"
-                    android:background="@color/colorPrimaryDark"
-                    android:textColor="@color/colorPrimaryTextLight" />
-
-                <Button
                     android:id="@+id/btn_no_show"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

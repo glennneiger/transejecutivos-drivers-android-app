@@ -40,6 +40,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.attr.button;
@@ -65,6 +66,7 @@ public class FragmentBase extends Fragment {
     User user;
     Service service;
     Passenger passenger;
+    ArrayList<Passenger> passengers = new ArrayList<Passenger>();
     Context context;
 
     //Take picture var
@@ -83,6 +85,8 @@ public class FragmentBase extends Fragment {
     public void setService(Service service) {
         this.service = service;
     }
+
+    public void setPassengers(ArrayList<Passenger> passengers) {this.passengers = passengers;}
 
     public void setPassenger(Passenger passenger) {
         this.passenger = passenger;

@@ -2,6 +2,7 @@ package com.development.transejecutivosdrivers.deserializers;
 
 import android.util.Log;
 
+import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.models.Date;
 import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
@@ -24,8 +25,10 @@ public class Deserializer extends DeserializerValidator {
 
 
     public JSONArray servicesJsonArray;
+    public JSONArray passengersJsonArray;
     public JSONArray datesJsonArray;
     public ArrayList<ArrayList<Service>> services = new ArrayList<ArrayList<Service>>();
+    ArrayList<Passenger> passengers = new ArrayList<Passenger>();
     public ArrayList<Date> datesArrayList = new ArrayList<>();
 
     public void setResponseJsonArray(JSONArray responseJsonArray) {
@@ -42,6 +45,29 @@ public class Deserializer extends DeserializerValidator {
 
     public void setServicesJsonArray(JSONArray services) {
         this.servicesJsonArray = services;
+    }
+
+    public void deserializeMultiplePassengerAndService() {
+        ServiceDeserializer serviceDeserializer = new ServiceDeserializer();
+        serviceDeserializer.setJsonObject(this.responseJSONObject);
+        serviceDeserializer.deserialize();
+        this.service = serviceDeserializer.getService();
+
+        try {
+            this.passengersJsonArray = this.responseJSONObject.getJSONArray(JsonKeys.PASSENGERS);
+
+            for (int i = 0; i < this.passengersJsonArray.length(); i++) {
+                JSONObject jsonPassengerObject = (JSONObject) this.passengersJsonArray.get(i);
+
+                PassengerDeserializer passengerDeserializer = new PassengerDeserializer();
+                passengerDeserializer.setJsonObject(jsonPassengerObject);
+                passengerDeserializer.deserialize();
+                this.passengers.add(passengerDeserializer.getPassenger());
+            }
+        }
+        catch (JSONException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void deserializeOnePassengerAndService() {
@@ -94,6 +120,10 @@ public class Deserializer extends DeserializerValidator {
 
     public ArrayList<Date> getDatesArray() {
         return datesArrayList;
+    }
+
+    public ArrayList<Passenger> getPassengers() {
+        return this.passengers;
     }
 
     public Service getService() {

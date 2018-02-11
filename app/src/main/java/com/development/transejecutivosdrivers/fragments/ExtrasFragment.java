@@ -46,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +60,6 @@ public class ExtrasFragment extends FragmentBase {
     LinearLayout extra_options_container;
     View no_show_form;
     View extra_buttons_container;
-    Button btn_call_passenger;
     Button btn_no_show;
     Button button_change_time;
     Button button_take_photo;
@@ -72,11 +72,11 @@ public class ExtrasFragment extends FragmentBase {
 
     }
 
-    public static ExtrasFragment newInstance(User user, Service service, Passenger passenger) {
+    public static ExtrasFragment newInstance(User user, Service service, ArrayList<Passenger> passengers) {
         ExtrasFragment fragment = new ExtrasFragment();
         fragment.setUser(user);
         fragment.setService(service);
-        fragment.setPassenger(passenger);
+        fragment.setPassengers(passengers);
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -92,7 +92,6 @@ public class ExtrasFragment extends FragmentBase {
         extra_options_container = (LinearLayout) view.findViewById(R.id.extra_options_container);
         no_show_form = view.findViewById(R.id.no_show_form);
         extra_buttons_container = view.findViewById(R.id.extra_buttons_container);
-        btn_call_passenger = (Button) view.findViewById(R.id.btn_call_passenger);
         btn_no_show = (Button) view.findViewById(R.id.btn_no_show);
         button_change_time = (Button) view.findViewById(R.id.button_change_time);
         button_take_photo = (Button) view.findViewById(R.id.button_take_photo);
@@ -113,25 +112,11 @@ public class ExtrasFragment extends FragmentBase {
     }
 
     public void setOnClickListeners() {
-        btn_call_passenger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String[] tels = passenger.getPhone().split(",");
-                String tel1 = tels[0];
-
-                if (!TextUtils.isEmpty(tel1)) {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:" + tel1));
-                    startActivity(callIntent);
-                }
-            }
-        });
-
         btn_no_show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createAlertDialog();
-                //showNoShowForm();
+                showNoShowForm();
             }
         });
 

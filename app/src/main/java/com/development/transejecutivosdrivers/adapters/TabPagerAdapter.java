@@ -14,6 +14,8 @@ import com.development.transejecutivosdrivers.models.Passenger;
 import com.development.transejecutivosdrivers.models.Service;
 import com.development.transejecutivosdrivers.models.User;
 
+import java.util.ArrayList;
+
 /**
  * Created by william.montiel on 29/03/2016.
  */
@@ -24,14 +26,15 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     User user;
     Service service;
     Passenger passenger;
+    ArrayList<Passenger> passengers = new ArrayList<Passenger>();
 
-    public TabPagerAdapter(FragmentManager fm, int numberOfTabs, Context context, User user, Service service, Passenger passenger) {
+    public TabPagerAdapter(FragmentManager fm, int numberOfTabs, Context context, User user, Service service, ArrayList<Passenger> passengers) {
         super(fm);
         this.tabCount = numberOfTabs;
         this.context = context;
         this.user = user;
         this.service = service;
-        this.passenger = passenger;
+        this.passengers = passengers;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                ServiceFragment serviceFragment = ServiceFragment.newInstance(this.user, this.service, this.passenger);
+                ServiceFragment serviceFragment = ServiceFragment.newInstance(this.user, this.service, this.passengers);
                 return serviceFragment;
             case 1:
                 if (this.service.getOld() == 1) {
@@ -47,12 +50,12 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
                     return fragment;
                 }
                 else {
-                    ServiceOptionsFragment fragment = ServiceOptionsFragment.newInstance(this.user, this.service, this.passenger, this.context);
+                    ServiceOptionsFragment fragment = ServiceOptionsFragment.newInstance(this.user, this.service, this.passengers, this.context);
                     return fragment;
                 }
 
             case 2:
-                ExtrasFragment extrasFragment = ExtrasFragment.newInstance(this.user, this.service, this.passenger);
+                ExtrasFragment extrasFragment = ExtrasFragment.newInstance(this.user, this.service, this.passengers);
                 return extrasFragment;
 
             default:

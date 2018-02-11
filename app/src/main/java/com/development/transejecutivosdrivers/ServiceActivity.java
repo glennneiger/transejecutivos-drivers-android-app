@@ -40,6 +40,7 @@ import com.mobapphome.mahandroidupdater.tools.MAHUpdaterController;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,7 @@ public class ServiceActivity extends ActivityBase {
     String idService = "0";
     Service service;
     Passenger passenger;
+    ArrayList<Passenger> passengers = new ArrayList<Passenger>();
     View main_pager;
     View progressBar;
     View service_activity_layout;
@@ -182,10 +184,10 @@ public class ServiceActivity extends ActivityBase {
                     if (idService != 0) {
                         Deserializer deserializer = new Deserializer();
                         deserializer.setResponseJSONObject(data);
-                        deserializer.deserializeOnePassengerAndService();
+                        deserializer.deserializeMultiplePassengerAndService();
 
                         service = deserializer.getService();
-                        passenger = deserializer.getPassenger();
+                        passengers = deserializer.getPassengers();
                         if (refresh) {
                             setTabs();
                         }
@@ -219,7 +221,7 @@ public class ServiceActivity extends ActivityBase {
         mainTabs.addTab(mainTabs.newTab().setText(getResources().getString(R.string.extras_tabs)));
 
         viewPager = (ViewPager) findViewById(R.id.main_pager);
-        adapter = new TabPagerAdapter(getFragmentManager(),mainTabs.getTabCount(), getApplicationContext(), user, service, passenger);
+        adapter = new TabPagerAdapter(getFragmentManager(),mainTabs.getTabCount(), getApplicationContext(), user, service, passengers);
 
         viewPager.setAdapter(adapter);
 

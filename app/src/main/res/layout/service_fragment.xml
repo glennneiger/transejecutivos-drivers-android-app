@@ -149,16 +149,15 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_margin="5dp"
-                        android:tint="@color/green"
-                        android:src="@drawable/ic_call_made_black_48dp"/>
+                        android:tint="@color/blue"
+                        android:src="@drawable/ic_flag"/>
 
                     <TextView
                         android:id="@+id/txtview_source"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="24dp"
-                        android:text="Jjjjjjjjjjjjjjjj jjjjjjjjjjjj jjjj "
-                        android:textColor="@color/green"/>
+                        android:textColor="@color/blue"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -173,16 +172,15 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_margin="5dp"
-                        android:tint="@color/blue"
-                        android:src="@drawable/ic_call_received_black_48dp"/>
+                        android:tint="@color/green"
+                        android:src="@drawable/ic_marker"/>
 
                     <TextView
                         android:id="@+id/txtview_destiny"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="24dp"
-                        android:text="Xxxxxxxxxxxxxxxx xxxxxxxxxxx cxxxxxxxxxxxx "
-                        android:textColor="@color/blue"/>
+                        android:textColor="@color/green"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -238,11 +236,39 @@
                     android:background="@color/divider"/>
 
                 <LinearLayout
+                    android:id="@+id/event_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="15dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
+                        android:tint="@color/colorError"
+                        android:src="@drawable/ic_event_black_48dp"/>
+
+                    <TextView
+                        android:id="@+id/txtview_event"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:textSize="16dp"
+                        android:text="(Event)"
+                        android:textColor="@color/colorError"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/txtview_observations_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/car_view_padding">
+                    android:padding="15dp">
 
                     <TextView
                         android:id="@+id/txtview_observations"
@@ -272,86 +298,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/txtview_passenger_name"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="22dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pepito Prez"/>
-
-                <TextView
-                    android:id="@+id/txtview_passenger_company"
-                    android:textColor="@color/green"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:text="My Company"/>
-
-                <LinearLayout
-                    android:id="@+id/event_container"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/passenger_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginRight="5dp"
-                        android:tint="@color/colorError"
-                        android:src="@drawable/ic_event_black_48dp"/>
-
-                    <TextView
-                        android:id="@+id/txtview_event"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:textSize="16dp"
-                        android:text="(Event)"
-                        android:textColor="@color/colorError"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/txtview_passenger_phone"
-                    android:textColor="@color/blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:text="12333333"/>
-
-                <TextView
-                    android:id="@+id/txtview_passenger_email"
-                    android:layout_below="@+id/txtview_passenger_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:text="Email"/>
-
-                <Button
-                    android:id="@+id/button_call_passenger"
-                    android:layout_below="@+id/txtview_passenger_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="15dp"
-                    android:elevation="10dp"
-                    android:text="@string/prompt_call_passenger"
-                    android:background="@color/green"
-                    android:textColor="@color/colorPrimaryTextLight" />
-
-                <Button
-                    android:id="@+id/button_sms_passenger"
-                    android:layout_below="@+id/button_call_passenger"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:elevation="10dp"
-                    android:text="@string/prompt_sms_passenger_service"
-                    android:background="@color/orange"
-                    android:textColor="@color/colorPrimaryTextLight" />
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
