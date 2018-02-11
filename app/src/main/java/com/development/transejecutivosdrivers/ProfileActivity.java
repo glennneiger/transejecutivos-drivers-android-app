@@ -278,7 +278,7 @@ public class ProfileActivity extends ActivityBase implements LoaderManager.Loade
                     params.put(JsonKeys.USER_PHONE1, phone1);
                     params.put(JsonKeys.USER_PHONE2, phone2);
                     params.put(JsonKeys.PASSWORD, password);
-                    params.put(JsonKeys.USER_TOKEN, user.getApikey());
+                    params.put(JsonKeys.USER_TOKEN, "");
                     params.put(JsonKeys.USER_NOTIFICATIONS, "1");
 
                     return params;
