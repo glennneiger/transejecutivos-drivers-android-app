@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,8 @@ public class PassengerAdapter extends RecyclerView.Adapter<PassengerAdapter.View
             public void onClick(View v) {
                 if (passenger != null && !TextUtils.isEmpty(passenger.getPhone1())) {
                     String phone = passenger.getPhone1();
-                    if (!TextUtils.isEmpty(phone)) {
+
+                    if (TextUtils.isEmpty(phone)) {
                         phone = passenger.getPhone2();
                     }
 
@@ -106,17 +108,18 @@ public class PassengerAdapter extends RecyclerView.Adapter<PassengerAdapter.View
             public void onClick(View v) {
                 if (passenger != null && !TextUtils.isEmpty(passenger.getPhone1())) {
                     String phone = passenger.getPhone1();
-                    if (!TextUtils.isEmpty(phone)) {
+
+                    if (TextUtils.isEmpty(phone)) {
                         phone = passenger.getPhone2();
                     }
 
                     if (!TextUtils.isEmpty(phone)) {
                         try {
-
-                        } catch (SecurityException ex) {
                             Intent callIntent = new Intent(Intent.ACTION_CALL);
                             callIntent.setData(Uri.parse("tel:" + phone));
                             context.startActivity(callIntent);
+                        } catch (SecurityException ex) {
+
                         }
                     }
                 } else {

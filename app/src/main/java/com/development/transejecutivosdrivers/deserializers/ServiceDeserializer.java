@@ -2,7 +2,9 @@ package com.development.transejecutivosdrivers.deserializers;
 
 import com.development.transejecutivosdrivers.adapters.JsonKeys;
 import com.development.transejecutivosdrivers.models.Service;
+import com.development.transejecutivosdrivers.models.Subcompany;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -21,45 +23,10 @@ public class ServiceDeserializer extends DeserializerValidator{
         int idService = validateInt(JsonKeys.SERVICE_ID, jsonObject);
 
         if (idService != 0) {
-            String reference = validateString(JsonKeys.SERVICE_REFERENCE, jsonObject);
-            String createDate = validateString(JsonKeys.SERVICE_CREATE_DATE, jsonObject);
-            String startDate = validateString(JsonKeys.SERVICE_START_DATE, jsonObject);
-            String startDateNice = validateString(JsonKeys.SERVICE_START_DATE_NICE, jsonObject);
-            String startTime = validateString(JsonKeys.SERVICE_START_TIME, jsonObject);
-            String serviceStartTime = validateString(JsonKeys.SERVICE_SERVICE_START_TIME, jsonObject);
-            String endTime = validateString(JsonKeys.SERVICE_END_TIME, jsonObject);
-
             String paxCant = validateString(JsonKeys.SERVICE_PAX_CANT, jsonObject);
-            String pax = validateString(JsonKeys.SERVICE_PAX, jsonObject);
-            String source = validateString(JsonKeys.SERVICE_SOURCE, jsonObject);
-            String destiny = validateString(JsonKeys.SERVICE_DESTINY, jsonObject);
-            String observations = validateString(JsonKeys.SERVICE_OBSERVATIONS, jsonObject);
-            String status = validateString(JsonKeys.SERVICE_STATUS, jsonObject);
-            String cd = validateString(JsonKeys.SERVICE_CD, jsonObject);
-            int old = validateInt(JsonKeys.SERVICE_OLD, jsonObject);
-            String fly = validateString(JsonKeys.SERVICE_FLY, jsonObject);
-            String aeroline = validateString(JsonKeys.SERVICE_AEROLINE, jsonObject);
-            int idTrace = validateInt(JsonKeys.SERVICE_TRACE_ID, jsonObject);
-            String b1ha = validateString(JsonKeys.SERVICE_B1HA, jsonObject);
-            String bls = validateString(JsonKeys.SERVICE_BLS, jsonObject);
-            String pab = validateString(JsonKeys.SERVICE_PAB, jsonObject);
-            String st = validateString(JsonKeys.SERVICE_ST, jsonObject);
-
-            String b1haTime = validateString(JsonKeys.SERVICE_B1HA_TIME, jsonObject);
-            String blsTime = validateString(JsonKeys.SERVICE_BLS_TIME, jsonObject);
-            String pabTime = validateString(JsonKeys.SERVICE_PAB_TIME, jsonObject);
-            String stTime = validateString(JsonKeys.SERVICE_ST_TIME, jsonObject);
-            String tObs = validateString(JsonKeys.SERVICE_TRACE_OBSERVATIONS, jsonObject);
-
-            String licensePlate = validateString(JsonKeys.SERVICE_LICENSE_PLATE, jsonObject);
-            String company = validateString(JsonKeys.SERVICE_COMPANY, jsonObject);
-            String event = validateString(JsonKeys.SERVICE_EVENT, jsonObject);
-            String urlMap = validateString(JsonKeys.SERVICE_URL_MAP, jsonObject);
-
-            int b1haStatus = validateInt(JsonKeys.SERVICE_B1HA_STATUS, jsonObject);
 
             this.service.setIdService(idService);
-            this.service.setReference(reference);
+            this.service.setReference(validateString(JsonKeys.SERVICE_REFERENCE, jsonObject));
             int pax_cant;
 
             if (paxCant.equals("")) {
@@ -69,39 +36,52 @@ public class ServiceDeserializer extends DeserializerValidator{
             }
 
             this.service.setPaxCant(pax_cant);
-            this.service.setPax(pax);
-            this.service.setSource(source);
-            this.service.setDestiny(destiny);
-            this.service.setDate(createDate);
-            this.service.setObservations(observations);
-            this.service.setStatus(status);
-            this.service.setCd(cd);
-            this.service.setStartDate(startDate);
-            this.service.setStartDateNice(startDateNice);
-            this.service.setStartTime(startTime);
-            this.service.setServiceStartTime(serviceStartTime);
-            this.service.setEndTime(endTime);
+            this.service.setPax(validateString(JsonKeys.SERVICE_PAX, jsonObject));
+            this.service.setSource(validateString(JsonKeys.SERVICE_SOURCE, jsonObject));
+            this.service.setDestiny(validateString(JsonKeys.SERVICE_DESTINY, jsonObject));
+            this.service.setDate(validateString(JsonKeys.SERVICE_CREATE_DATE, jsonObject));
+            this.service.setObservations(validateString(JsonKeys.SERVICE_OBSERVATIONS, jsonObject));
+            this.service.setStatus(validateString(JsonKeys.SERVICE_STATUS, jsonObject));
+            this.service.setCd(validateString(JsonKeys.SERVICE_CD, jsonObject));
+            this.service.setStartDate(validateString(JsonKeys.SERVICE_START_DATE, jsonObject));
+            this.service.setStartDateNice(validateString(JsonKeys.SERVICE_START_DATE_NICE, jsonObject));
+            this.service.setStartTime(validateString(JsonKeys.SERVICE_START_TIME, jsonObject));
+            this.service.setServiceStartTime(validateString(JsonKeys.SERVICE_SERVICE_START_TIME, jsonObject));
+            this.service.setEndTime(validateString(JsonKeys.SERVICE_END_TIME, jsonObject));
 
-            this.service.setFly(fly);
-            this.service.setAeroline(aeroline);
-            this.service.setOld(old);
-            this.service.setIdTrace(idTrace);
-            this.service.setB1ha(b1ha);
-            this.service.setBls(bls);
-            this.service.setPab(pab);
-            this.service.setSt(st);
-            this.service.setB1haStatus(b1haStatus);
+            this.service.setFly(validateString(JsonKeys.SERVICE_FLY, jsonObject));
+            this.service.setAeroline(validateString(JsonKeys.SERVICE_AEROLINE, jsonObject));
+            this.service.setOld(validateInt(JsonKeys.SERVICE_OLD, jsonObject));
+            this.service.setIdTrace(validateInt(JsonKeys.SERVICE_TRACE_ID, jsonObject));
+            this.service.setB1ha(validateString(JsonKeys.SERVICE_B1HA, jsonObject));
+            this.service.setBls(validateString(JsonKeys.SERVICE_BLS, jsonObject));
+            this.service.setPab(validateString(JsonKeys.SERVICE_PAB, jsonObject));
+            this.service.setSt(validateString(JsonKeys.SERVICE_ST, jsonObject));
+            this.service.setB1haStatus(validateInt(JsonKeys.SERVICE_B1HA_STATUS, jsonObject));
 
-            this.service.setB1haTime(b1haTime);
-            this.service.setBlsTime(blsTime);
-            this.service.setPabTime(pabTime);
-            this.service.setStTime(stTime);
-            this.service.setTraceObservations(tObs);
-            this.service.setLicensePlate(licensePlate);
+            this.service.setB1haTime(validateString(JsonKeys.SERVICE_B1HA_TIME, jsonObject));
+            this.service.setBlsTime(validateString(JsonKeys.SERVICE_BLS_TIME, jsonObject));
+            this.service.setPabTime(validateString(JsonKeys.SERVICE_PAB_TIME, jsonObject));
+            this.service.setStTime(validateString(JsonKeys.SERVICE_ST_TIME, jsonObject));
+            this.service.setTraceObservations(validateString(JsonKeys.SERVICE_TRACE_OBSERVATIONS, jsonObject));
+            this.service.setLicensePlate(validateString(JsonKeys.SERVICE_LICENSE_PLATE, jsonObject));
 
-            this.service.setEvent(event);
-            this.service.setCompany(company);
-            this.service.setUrlMap(urlMap);
+            this.service.setEvent(validateString(JsonKeys.SERVICE_EVENT, jsonObject));
+            this.service.setCompany(validateString(JsonKeys.SERVICE_COMPANY, jsonObject));
+            this.service.setUrlMap(validateString(JsonKeys.SERVICE_URL_MAP, jsonObject));
+
+            try {
+                JSONObject subcompanyJsonObj = jsonObject.getJSONObject(JsonKeys.SUBCOMPANY);
+
+                Subcompany subcompany = new Subcompany();
+                subcompany.setIdSubcompany(validateInt(JsonKeys.SUBCOMPANY_COMPANY_ID, subcompanyJsonObj));
+                subcompany.setName(validateString(JsonKeys.SUBCOMPANY_NAME, subcompanyJsonObj));
+
+                this.service.setSubcompany(subcompany);
+            }
+            catch(JSONException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

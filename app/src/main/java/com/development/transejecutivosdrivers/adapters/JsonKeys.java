@@ -76,6 +76,15 @@ public class JsonKeys {
     public static final String SERVICE_COMPANY = "company";
     public static final String SERVICE_URL_MAP = "urlMap";
 
+    /**
+     * Subcompany
+     */
+    public static final String SUBCOMPANY = "subcompany";
+    public static final String SUBCOMPANY_COMPANY_ID = "idCompany";
+    public static final String SUBCOMPANY_NAME = "name";
+    public static final String SUBCOMPANY_EMAIL1 = "email1";
+    public static final String SUBCOMPANY_EMAIL2 = "email2";
+
 
     /**
      * Passenger Json Keys

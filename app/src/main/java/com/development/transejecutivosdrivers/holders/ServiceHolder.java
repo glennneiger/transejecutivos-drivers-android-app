@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.models.Service;
+import com.development.transejecutivosdrivers.models.Subcompany;
 
 /**
  * Created by william.montiel on 28/03/2016.
@@ -16,6 +17,7 @@ import com.development.transejecutivosdrivers.models.Service;
 public class ServiceHolder extends RecyclerView.ViewHolder {
     Service service;
 
+    TextView txtview_company;
     TextView txtview_start_date;
     TextView txtview_service_start_time;
     TextView txtview_reference;
@@ -31,6 +33,9 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
     View event_container;
     View accept_container;
 
+    View subcompany_container;
+    TextView txtview_subcompany;
+
     TextView txtview_event;
 
     Button button_accept;
@@ -40,6 +45,8 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
 
     public ServiceHolder(View itemView, Context context) {
         super(itemView);
+        txtview_company = (TextView) itemView.findViewById(R.id.txtview_company);
+
         txtview_start_date = (TextView) itemView.findViewById(R.id.txtview_start_date);
         txtview_service_start_time = (TextView) itemView.findViewById(R.id.txtview_service_start_time);
         txtview_reference = (TextView) itemView.findViewById(R.id.txtview_reference);
@@ -60,6 +67,9 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
         button_accept = (Button) itemView.findViewById(R.id.button_accept);
         button_decline = (Button) itemView.findViewById(R.id.button_decline);
 
+        subcompany_container = itemView.findViewById(R.id.subcompany_container);
+        txtview_subcompany = (TextView) itemView.findViewById(R.id.txtview_subcompany);
+
         this.context = context;
     }
 
@@ -70,6 +80,8 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
             txtview_service_start_time.setText(service.getServiceStartTime());
         }
 
+        txtview_company.setText(service.getCompany());
+
         txtview_reference.setText(service.getReference());
         txtview_destiny.setText(" " + service.getDestiny());
         txtview_source.setText(" " + service.getSource());
@@ -77,6 +89,12 @@ public class ServiceHolder extends RecyclerView.ViewHolder {
 
         if (TextUtils.isEmpty(service.getEvent())) {
             event_container.setVisibility(View.GONE);
+        }
+
+        if (service.getSubcompany() != null) {
+            Subcompany subcompany = service.getSubcompany();
+            txtview_subcompany.setText(subcompany.getName());
+            subcompany_container.setVisibility(View.VISIBLE);
         }
 
         txtview_pax_cant_container.setVisibility(View.GONE);

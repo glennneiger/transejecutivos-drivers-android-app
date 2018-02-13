@@ -11,6 +11,7 @@ import com.development.transejecutivosdrivers.MainActivity;
 import com.development.transejecutivosdrivers.R;
 import com.development.transejecutivosdrivers.RecoverpassActivity;
 import com.development.transejecutivosdrivers.models.Service;
+import com.development.transejecutivosdrivers.models.Subcompany;
 
 /**
  * Created by william.montiel on 28/03/2016.
@@ -22,12 +23,15 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
     TextView txtview_reference;
     TextView txtview_source;
     TextView txtview_company;
-    TextView txtview_event;
     TextView txtview_pax_cant;
     View txtview_pax_cant_container;
     TextView txtview_observations;
     View txtview_observations_container;
     View event_container;
+    TextView txtview_event;
+
+    View subcompany_container;
+    TextView txtview_subcompany;
 
     public View card_view_services_list;
 
@@ -48,6 +52,8 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
         txtview_observations = (TextView) itemView.findViewById(R.id.txtview_observations);
         txtview_observations_container = itemView.findViewById(R.id.txtview_observations_container);
         event_container = itemView.findViewById(R.id.event_container);
+        subcompany_container = itemView.findViewById(R.id.subcompany_container);
+        txtview_subcompany = (TextView) itemView.findViewById(R.id.txtview_subcompany);
 
         this.context = context;
     }
@@ -67,6 +73,13 @@ public class ServiceMainHolder extends RecyclerView.ViewHolder {
         if (TextUtils.isEmpty(service.getEvent())) {
             event_container.setVisibility(View.GONE);
         }
+
+        if (service.getSubcompany() != null) {
+            Subcompany subcompany = service.getSubcompany();
+            txtview_subcompany.setText(subcompany.getName());
+            subcompany_container.setVisibility(View.VISIBLE);
+        }
+
 
         txtview_pax_cant_container.setVisibility(View.GONE);
         if (service.getPaxCant() > 1) {

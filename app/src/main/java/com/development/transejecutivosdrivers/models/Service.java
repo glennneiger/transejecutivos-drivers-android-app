@@ -17,7 +17,7 @@ public class Service {
     public String source;
     public String destiny;
     public String status;
-
+    public Subcompany subcompany;
 
     public String observations;
     public String cd;
@@ -90,6 +90,14 @@ public class Service {
 
     public void setTraceObservations(String traceObservations) {
         this.traceObservations = traceObservations;
+    }
+
+    public Subcompany getSubcompany() {
+        return subcompany;
+    }
+
+    public void setSubcompany(Subcompany subcompany) {
+        this.subcompany = subcompany;
     }
 
     public void setB1haTime(String b1haTime) {
